@@ -6,29 +6,45 @@ import { RevealText } from '../components/ui/RevealText'
 import { Badge } from '../components/ui/Badge'
 import { projects } from '../data/projects'
 
-// Real Unsplash images — relevant to each project type
+/**
+ * Dribbble-style UI mockup images — landscape, design-focused
+ * Portfolio — clean design workspace / UI screens
+ * Business — laptop showing a professional website
+ * Growth    — analytics / dashboard / growth chart
+ */
 const PROJECT_IMAGES = {
-  'Portfolio Website': 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&q=80&auto=format&fit=crop',
-  'Business Website':  'https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&q=80&auto=format&fit=crop',
-  'Growth Website':    'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&q=80&auto=format&fit=crop',
+  'Portfolio Website': {
+    src: 'https://images.unsplash.com/photo-1545235617-9465d2a55698?w=900&q=85&auto=format&fit=crop',
+    position: 'object-center',
+  },
+  'Business Website': {
+    src: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=900&q=85&auto=format&fit=crop',
+    position: 'object-center',
+  },
+  'Growth Website': {
+    src: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=900&q=85&auto=format&fit=crop',
+    position: 'object-center',
+  },
 }
 
 const OVERLAY = {
-  'Portfolio Website': 'bg-brand-black/20',
-  'Business Website':  'bg-brand-black/30',
-  'Growth Website':    'bg-brand-black/25',
+  'Portfolio Website': 'bg-brand-black/10',
+  'Business Website':  'bg-brand-black/20',
+  'Growth Website':    'bg-brand-black/15',
 }
 
-function ProjectImage({ type, className = '' }) {
+function ProjectImage({ type, featured = false }) {
+  const img = PROJECT_IMAGES[type] ?? PROJECT_IMAGES['Business Website']
+  const height = featured ? 'h-[360px] lg:h-full lg:min-h-[380px]' : 'h-[240px]'
   return (
-    <div className={`relative w-full h-full overflow-hidden ${className}`}>
+    <div className={`relative w-full overflow-hidden ${height}`}>
       <img
-        src={PROJECT_IMAGES[type] ?? PROJECT_IMAGES['Business Website']}
+        src={img.src}
         alt={type}
-        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+        className={`w-full h-full object-cover ${img.position} transition-transform duration-700 ease-out group-hover:scale-[1.04]`}
         loading="lazy"
       />
-      <div className={`absolute inset-0 ${OVERLAY[type] ?? 'bg-brand-black/20'}`} />
+      <div className={`absolute inset-0 ${OVERLAY[type] ?? 'bg-brand-black/10'}`} />
     </div>
   )
 }
@@ -61,7 +77,7 @@ export default function WorkSection() {
           </Reveal>
         </div>
 
-        {/* Featured */}
+        {/* Featured card */}
         <Reveal delay={80}>
           <motion.div
             whileHover={{ y: -5, boxShadow: '0 16px 48px -8px rgba(0,0,0,0.12)' }}
@@ -69,8 +85,8 @@ export default function WorkSection() {
             className="card-base overflow-hidden mb-5 group"
           >
             <div className="grid grid-cols-1 lg:grid-cols-2">
-              <div className="relative h-[300px] lg:h-auto min-h-[300px]">
-                <ProjectImage type={featured.type} className="h-full" />
+              <div className="relative">
+                <ProjectImage type={featured.type} featured />
                 <div className="absolute top-4 left-4 z-10">
                   <span className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-white/90 backdrop-blur-sm text-[11px] font-semibold text-brand-black rounded-full border border-brand-gray-200">
                     &#9733; Featured
@@ -100,7 +116,7 @@ export default function WorkSection() {
           </motion.div>
         </Reveal>
 
-        {/* Rest */}
+        {/* Other cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
           {rest.map((project, i) => (
             <Reveal key={project.id} delay={120 + i * 90}>
@@ -109,9 +125,7 @@ export default function WorkSection() {
                 transition={{ type: 'spring', stiffness: 260, damping: 22 }}
                 className="card-base overflow-hidden group"
               >
-                <div className="h-[220px]">
-                  <ProjectImage type={project.type} className="h-[220px]" />
-                </div>
+                <ProjectImage type={project.type} />
                 <div className="p-6">
                   <div className="flex flex-wrap gap-1.5 mb-3"><Badge>{project.type}</Badge></div>
                   <h3 className="text-[16px] font-bold text-brand-black mb-1.5 leading-snug">{project.title}</h3>
