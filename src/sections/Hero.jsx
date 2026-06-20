@@ -52,22 +52,12 @@ export default function Hero() {
               </div>
             </motion.div>
 
-            {/* Headline */}
+            {/* Headline — underline removed */}
             <motion.h1
               {...fadeUp(0.08)}
               className="text-[clamp(2.6rem,6vw,5.25rem)] font-extrabold leading-[1.04] tracking-[-0.03em] text-brand-black mb-6"
             >
-              We build websites that help businesses{' '}
-              <span className="relative inline-block">
-                get clients.
-                <motion.span
-                  initial={{ scaleX: 0 }}
-                  animate={{ scaleX: 1 }}
-                  transition={{ duration: 0.6, delay: 0.55, ease: [0.22, 1, 0.36, 1] }}
-                  style={{ originX: 0 }}
-                  className="absolute -bottom-1 left-0 right-0 h-[3px] bg-brand-black rounded-full block"
-                />
-              </span>
+              We build websites that help businesses get clients.
             </motion.h1>
 
             {/* Subheadline */}

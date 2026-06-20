@@ -6,24 +6,38 @@ import { RevealText } from '../components/ui/RevealText'
 import { Badge } from '../components/ui/Badge'
 import { projects } from '../data/projects'
 
+// Real Unsplash images — relevant to each project type
+const PROJECT_IMAGES = {
+  'Portfolio Website': 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&q=80&auto=format&fit=crop',
+  'Business Website':  'https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&q=80&auto=format&fit=crop',
+  'Growth Website':    'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&q=80&auto=format&fit=crop',
+}
+
+const OVERLAY = {
+  'Portfolio Website': 'bg-brand-black/20',
+  'Business Website':  'bg-brand-black/30',
+  'Growth Website':    'bg-brand-black/25',
+}
+
+function ProjectImage({ type, className = '' }) {
+  return (
+    <div className={`relative w-full h-full overflow-hidden ${className}`}>
+      <img
+        src={PROJECT_IMAGES[type] ?? PROJECT_IMAGES['Business Website']}
+        alt={type}
+        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+        loading="lazy"
+      />
+      <div className={`absolute inset-0 ${OVERLAY[type] ?? 'bg-brand-black/20'}`} />
+    </div>
+  )
+}
+
 function MetricPill({ label, value }) {
   return (
     <div className="flex flex-col">
       <span className="text-[1.6rem] font-extrabold text-brand-black leading-none tracking-tight">{value}</span>
       <span className="text-[11px] text-brand-gray-500 mt-0.5 uppercase tracking-wide">{label}</span>
-    </div>
-  )
-}
-
-function ProjectPlaceholder({ type }) {
-  const colors = {
-    'Portfolio Website': 'from-brand-gray-100 to-brand-gray-200',
-    'Business Website':  'from-brand-gray-800 to-brand-black',
-    'Growth Website':    'from-brand-gray-700 to-brand-gray-900',
-  }
-  return (
-    <div className={`w-full h-full bg-gradient-to-br ${colors[type] ?? 'from-brand-gray-100 to-brand-gray-200'} flex items-center justify-center`}>
-      <p className="text-xs font-medium uppercase tracking-widest opacity-30 text-brand-gray-500">{type}</p>
     </div>
   )
 }
@@ -47,17 +61,20 @@ export default function WorkSection() {
           </Reveal>
         </div>
 
+        {/* Featured */}
         <Reveal delay={80}>
           <motion.div
             whileHover={{ y: -5, boxShadow: '0 16px 48px -8px rgba(0,0,0,0.12)' }}
             transition={{ type: 'spring', stiffness: 260, damping: 22 }}
-            className="card-base overflow-hidden mb-5"
+            className="card-base overflow-hidden mb-5 group"
           >
             <div className="grid grid-cols-1 lg:grid-cols-2">
-              <div className="relative h-[280px] lg:h-auto min-h-[280px] overflow-hidden">
-                <ProjectPlaceholder type={featured.type} />
-                <div className="absolute top-4 left-4">
-                  <span className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-white/90 backdrop-blur-sm text-[11px] font-semibold text-brand-black rounded-full border border-brand-gray-200">★ Featured</span>
+              <div className="relative h-[300px] lg:h-auto min-h-[300px]">
+                <ProjectImage type={featured.type} className="h-full" />
+                <div className="absolute top-4 left-4 z-10">
+                  <span className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-white/90 backdrop-blur-sm text-[11px] font-semibold text-brand-black rounded-full border border-brand-gray-200">
+                    &#9733; Featured
+                  </span>
                 </div>
               </div>
               <div className="p-8 lg:p-10 flex flex-col justify-between">
@@ -74,8 +91,8 @@ export default function WorkSection() {
                   <div className="flex gap-8 mt-7 pt-7 border-t border-brand-gray-100 mb-6">
                     {featured.metrics.map((m) => <MetricPill key={m.label} {...m} />)}
                   </div>
-                  <Link to="/work" className="group inline-flex items-center gap-1.5 text-sm font-semibold text-brand-black">
-                    Read the case study <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform duration-200" />
+                  <Link to="/work" className="group/link inline-flex items-center gap-1.5 text-sm font-semibold text-brand-black">
+                    Read the case study <ArrowRight size={14} className="group-hover/link:translate-x-1 transition-transform duration-200" />
                   </Link>
                 </div>
               </div>
@@ -83,15 +100,18 @@ export default function WorkSection() {
           </motion.div>
         </Reveal>
 
+        {/* Rest */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
           {rest.map((project, i) => (
             <Reveal key={project.id} delay={120 + i * 90}>
               <motion.div
                 whileHover={{ y: -5, boxShadow: '0 12px 36px -6px rgba(0,0,0,0.10)' }}
                 transition={{ type: 'spring', stiffness: 260, damping: 22 }}
-                className="card-base overflow-hidden"
+                className="card-base overflow-hidden group"
               >
-                <div className="h-[200px] overflow-hidden"><ProjectPlaceholder type={project.type} /></div>
+                <div className="h-[220px]">
+                  <ProjectImage type={project.type} className="h-[220px]" />
+                </div>
                 <div className="p-6">
                   <div className="flex flex-wrap gap-1.5 mb-3"><Badge>{project.type}</Badge></div>
                   <h3 className="text-[16px] font-bold text-brand-black mb-1.5 leading-snug">{project.title}</h3>
@@ -104,8 +124,8 @@ export default function WorkSection() {
                       </div>
                     ))}
                   </div>
-                  <Link to="/work" className="group inline-flex items-center gap-1.5 text-sm font-semibold text-brand-black">
-                    View project <ArrowUpRight size={14} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform duration-200" />
+                  <Link to="/work" className="group/link inline-flex items-center gap-1.5 text-sm font-semibold text-brand-black">
+                    View project <ArrowUpRight size={14} className="group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5 transition-transform duration-200" />
                   </Link>
                 </div>
               </motion.div>
