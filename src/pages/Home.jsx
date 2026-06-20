@@ -3,6 +3,9 @@ import Hero from '../sections/Hero'
 import Marquee from '../sections/Marquee'
 import ServicesSection from '../sections/Services'
 import WorkSection from '../sections/Work'
+import ProcessSection from '../sections/Process'
+import PricingSection from '../sections/Pricing'
+import TestimonialsSection from '../sections/Testimonials'
 
 export default function Home() {
   return (
@@ -20,10 +23,13 @@ export default function Home() {
       <Marquee />
       <ServicesSection />
       <WorkSection />
+      <ProcessSection />
+      <PricingSection />
+      <TestimonialsSection />
 
-      {/* Remaining sections — Rounds 4–7 */}
+      {/* Remaining — Round 5: FAQ + Contact CTA */}
       <div className="container-content py-16">
-        <p className="text-brand-gray-300 text-sm">Process, Pricing, Testimonials, FAQ, Contact — coming in Rounds 4–7.</p>
+        <p className="text-brand-gray-300 text-sm">FAQ + Contact CTA — coming in Round 5.</p>
       </div>
     </>
   )
