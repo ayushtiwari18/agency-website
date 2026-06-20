@@ -1,8 +1,8 @@
 import { motion } from 'framer-motion'
 
 /**
- * Splits text into words and staggers each word up into view.
- * Used for hero headlines.
+ * Splits text into words and staggers each word upward.
+ * NO rotateX — pure Y + opacity. Eliminates perspective glitch.
  */
 export function AnimatedWord({ text, className = '', delay = 0 }) {
   const words = text.split(' ')
@@ -11,19 +11,21 @@ export function AnimatedWord({ text, className = '', delay = 0 }) {
     hidden: {},
     show: {
       transition: {
-        staggerChildren: 0.08,
+        staggerChildren: 0.07,
         delayChildren: delay,
       },
     },
   }
 
   const word = {
-    hidden: { opacity: 0, y: 48, rotateX: -20 },
+    hidden: { opacity: 0, y: 32 },
     show: {
       opacity: 1,
       y: 0,
-      rotateX: 0,
-      transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1] },
+      transition: {
+        duration: 0.65,
+        ease: [0.25, 0.46, 0.45, 0.94],
+      },
     },
   }
 
@@ -33,12 +35,13 @@ export function AnimatedWord({ text, className = '', delay = 0 }) {
       initial="hidden"
       animate="show"
       className={`inline-flex flex-wrap gap-x-[0.28em] ${className}`}
-      style={{ perspective: 800 }}
     >
       {words.map((w, i) => (
-        <motion.span key={i} variants={word} style={{ display: 'inline-block' }}>
-          {w}
-        </motion.span>
+        <span key={i} style={{ overflow: 'hidden', display: 'inline-block' }}>
+          <motion.span variants={word} style={{ display: 'inline-block' }}>
+            {w}
+          </motion.span>
+        </span>
       ))}
     </motion.span>
   )

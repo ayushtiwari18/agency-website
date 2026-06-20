@@ -7,20 +7,10 @@ import { services } from '../data/services'
 
 const ICONS = { User, Briefcase, TrendingUp }
 
-const cardVariants = {
-  hidden: { opacity: 0, y: 40 },
-  show: (i) => ({
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.65, delay: i * 0.12, ease: [0.22, 1, 0.36, 1] },
-  }),
-}
-
 export default function ServicesSection() {
   return (
     <section className="section-pad bg-white">
       <div className="container-content">
-
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-14">
           <div>
             <FadeIn><p className="eyebrow mb-4">Capabilities</p></FadeIn>
@@ -30,60 +20,54 @@ export default function ServicesSection() {
               </h2>
             </FadeIn>
           </div>
-          <FadeIn delay={0.14} direction="left">
+          <FadeIn delay={0.12} direction="left">
             <p className="text-sm text-brand-gray-500 max-w-[280px] leading-relaxed">
               We don&apos;t sell hours. We take ownership of measurable business results.
             </p>
           </FadeIn>
         </div>
 
-        <motion.div
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, amount: 0.1 }}
-          className="grid grid-cols-1 md:grid-cols-3 gap-5"
-        >
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
           {services.map((svc, i) => {
             const Icon = ICONS[svc.icon]
             return (
-              <motion.div
-                key={svc.id}
-                custom={i}
-                variants={cardVariants}
-                whileHover={{ y: -6, boxShadow: '0 12px 40px -8px rgba(0,0,0,0.10)' }}
-                transition={{ type: 'spring', stiffness: 300, damping: 20 }}
-                className="card-base p-7 flex flex-col h-full cursor-default"
-              >
-                <div className="flex items-start justify-between mb-6">
-                  <div className="w-11 h-11 bg-brand-gray-100 rounded-xl flex items-center justify-center">
-                    {Icon && <Icon size={18} className="text-brand-gray-700" />}
+              <FadeIn key={svc.id} delay={i * 0.1}>
+                <motion.div
+                  whileHover={{ y: -6 }}
+                  transition={{ type: 'spring', stiffness: 320, damping: 24 }}
+                  className="card-base p-7 flex flex-col h-full"
+                >
+                  <div className="flex items-start justify-between mb-6">
+                    <div className="w-11 h-11 bg-brand-gray-100 rounded-xl flex items-center justify-center">
+                      {Icon && <Icon size={18} className="text-brand-gray-700" />}
+                    </div>
+                    <span className="text-xs font-semibold text-brand-gray-300 tracking-widest">{svc.number}</span>
                   </div>
-                  <span className="text-xs font-semibold text-brand-gray-300 tracking-widest">{svc.number}</span>
-                </div>
-                <h3 className="text-[18px] font-bold text-brand-black mb-2 leading-snug">{svc.title}</h3>
-                <p className="text-xs text-brand-gray-500 mb-3">{svc.forWho}</p>
-                <p className="text-sm text-brand-gray-600 leading-relaxed mb-5 flex-1">{svc.outcome}</p>
-                <ul className="space-y-1.5 mb-6">
-                  {svc.deliverables.map((d) => (
-                    <li key={d} className="flex items-center gap-2 text-sm text-brand-gray-600">
-                      <span className="w-1 h-1 rounded-full bg-brand-gray-400 flex-shrink-0" />{d}
-                    </li>
-                  ))}
-                </ul>
-                <div className="flex flex-wrap gap-1.5 mb-6">
-                  {svc.tags.map((t) => <Badge key={t}>{t}</Badge>)}
-                </div>
-                <Link to="/services"
-                  className="group inline-flex items-center gap-1.5 text-sm font-semibold text-brand-black">
-                  Explore
-                  <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform duration-200" />
-                </Link>
-              </motion.div>
+                  <h3 className="text-[18px] font-bold text-brand-black mb-2 leading-snug">{svc.title}</h3>
+                  <p className="text-xs text-brand-gray-500 mb-3">{svc.forWho}</p>
+                  <p className="text-sm text-brand-gray-600 leading-relaxed mb-5 flex-1">{svc.outcome}</p>
+                  <ul className="space-y-1.5 mb-6">
+                    {svc.deliverables.map((d) => (
+                      <li key={d} className="flex items-center gap-2 text-sm text-brand-gray-600">
+                        <span className="w-1 h-1 rounded-full bg-brand-gray-400 flex-shrink-0" />{d}
+                      </li>
+                    ))}
+                  </ul>
+                  <div className="flex flex-wrap gap-1.5 mb-6">
+                    {svc.tags.map((t) => <Badge key={t}>{t}</Badge>)}
+                  </div>
+                  <Link to="/services"
+                    className="group inline-flex items-center gap-1.5 text-sm font-semibold text-brand-black">
+                    Explore
+                    <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform duration-200" />
+                  </Link>
+                </motion.div>
+              </FadeIn>
             )
           })}
-        </motion.div>
+        </div>
 
-        <FadeIn delay={0.3}>
+        <FadeIn delay={0.2}>
           <div className="mt-10 rounded-2xl bg-brand-black px-8 py-7 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
             <div>
               <p className="text-white font-semibold text-[16px]">Not sure which fits your project?</p>
