@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import { ArrowRight, ArrowUpRight } from 'lucide-react'
+import { motion } from 'framer-motion'
 import { FadeIn } from '../components/ui/FadeIn'
 import { Badge } from '../components/ui/Badge'
 import { projects } from '../data/projects'
@@ -19,17 +20,9 @@ function ProjectPlaceholder({ type }) {
     'Business Website':  'from-brand-gray-800 to-brand-black',
     'Growth Website':    'from-brand-gray-700 to-brand-gray-900',
   }
-  const textColors = {
-    'Portfolio Website': 'text-brand-gray-400',
-    'Business Website':  'text-brand-gray-600',
-    'Growth Website':    'text-brand-gray-500',
-  }
   return (
     <div className={`w-full h-full bg-gradient-to-br ${colors[type] ?? 'from-brand-gray-100 to-brand-gray-200'} flex items-center justify-center`}>
-      <div className="text-center px-6">
-        <div className="w-12 h-12 mx-auto mb-3 border-2 border-current rounded-xl opacity-20" />
-        <p className={`text-xs font-medium uppercase tracking-widest opacity-40 ${textColors[type] ?? 'text-brand-gray-400'}`}>{type}</p>
-      </div>
+      <p className="text-xs font-medium uppercase tracking-widest opacity-30 text-brand-gray-500">{type}</p>
     </div>
   )
 }
@@ -41,12 +34,9 @@ export default function WorkSection() {
     <section className="section-pad bg-brand-gray-50">
       <div className="container-content">
 
-        {/* Header */}
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-12">
           <div>
-            <FadeIn>
-              <p className="eyebrow mb-4">Selected Work</p>
-            </FadeIn>
+            <FadeIn><p className="eyebrow mb-4">Selected Work</p></FadeIn>
             <FadeIn delay={0.08}>
               <h2 className="text-display-lg font-extrabold text-brand-black tracking-tight">
                 Case studies, not screenshots.
@@ -54,22 +44,23 @@ export default function WorkSection() {
             </FadeIn>
           </div>
           <FadeIn delay={0.14} direction="left">
-            <Link
-              to="/work"
-              className="inline-flex items-center gap-1.5 text-sm font-semibold text-brand-black hover:gap-3 transition-all duration-200"
-            >
-              All case studies <ArrowRight size={14} />
+            <Link to="/work"
+              className="group inline-flex items-center gap-1.5 text-sm font-semibold text-brand-black">
+              All case studies
+              <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform duration-200" />
             </Link>
           </FadeIn>
         </div>
 
         {/* Featured card */}
         <FadeIn delay={0.1}>
-          <div className="group card-base overflow-hidden mb-5 hover:shadow-[0_8px_40px_-8px_rgba(0,0,0,0.12)] hover:-translate-y-1 transition-all duration-300">
+          <motion.div
+            whileHover={{ y: -5, boxShadow: '0 16px 48px -8px rgba(0,0,0,0.12)' }}
+            transition={{ type: 'spring', stiffness: 260, damping: 22 }}
+            className="card-base overflow-hidden mb-5"
+          >
             <div className="grid grid-cols-1 lg:grid-cols-2">
-
-              {/* Image */}
-              <div className="relative h-[280px] lg:h-auto min-h-[280px] overflow-hidden bg-brand-gray-100">
+              <div className="relative h-[280px] lg:h-auto min-h-[280px] overflow-hidden">
                 <ProjectPlaceholder type={featured.type} />
                 <div className="absolute top-4 left-4">
                   <span className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-white/90 backdrop-blur-sm text-[11px] font-semibold text-brand-black rounded-full border border-brand-gray-200">
@@ -77,70 +68,53 @@ export default function WorkSection() {
                   </span>
                 </div>
               </div>
-
-              {/* Content */}
               <div className="p-8 lg:p-10 flex flex-col justify-between">
                 <div>
-                  {/* Tags */}
                   <div className="flex flex-wrap gap-1.5 mb-5">
                     <Badge>{featured.type}</Badge>
                     {featured.tags.slice(0,2).map(t => <Badge key={t}>{t}</Badge>)}
                   </div>
-
-                  <h3 className="text-[1.5rem] font-extrabold text-brand-black leading-snug tracking-tight mb-3">
-                    {featured.title}
-                  </h3>
-                  <p className="text-sm text-brand-gray-500 leading-relaxed mb-4">
+                  <h3 className="text-[1.5rem] font-extrabold text-brand-black leading-snug tracking-tight mb-3">{featured.title}</h3>
+                  <p className="text-sm text-brand-gray-500 leading-relaxed mb-2">
                     <strong className="text-brand-gray-700">Problem:</strong> {featured.problem}
                   </p>
                   <p className="text-sm text-brand-gray-600 leading-relaxed">
                     <strong className="text-brand-gray-700">Result:</strong> {featured.result}
                   </p>
                 </div>
-
-                {/* Metrics + CTA */}
                 <div>
                   <div className="flex gap-8 mt-7 pt-7 border-t border-brand-gray-100 mb-6">
-                    {featured.metrics.map((m) => (
-                      <MetricPill key={m.label} {...m} />
-                    ))}
+                    {featured.metrics.map((m) => <MetricPill key={m.label} {...m} />)}
                   </div>
-                  <Link
-                    to="/work"
-                    className="inline-flex items-center gap-1.5 text-sm font-semibold text-brand-black group-hover:gap-2.5 transition-all duration-200"
-                  >
-                    Read the case study <ArrowRight size={14} />
+                  <Link to="/work"
+                    className="group inline-flex items-center gap-1.5 text-sm font-semibold text-brand-black">
+                    Read the case study
+                    <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform duration-200" />
                   </Link>
                 </div>
               </div>
             </div>
-          </div>
+          </motion.div>
         </FadeIn>
 
         {/* Two smaller cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
           {rest.map((project, i) => (
             <FadeIn key={project.id} delay={0.15 + i * 0.1}>
-              <div className="group card-base overflow-hidden hover:shadow-[0_4px_24px_-4px_rgba(0,0,0,0.10)] hover:-translate-y-1 transition-all duration-300">
-
-                {/* Image */}
+              <motion.div
+                whileHover={{ y: -5, boxShadow: '0 12px 36px -6px rgba(0,0,0,0.10)' }}
+                transition={{ type: 'spring', stiffness: 260, damping: 22 }}
+                className="card-base overflow-hidden"
+              >
                 <div className="h-[200px] overflow-hidden">
                   <ProjectPlaceholder type={project.type} />
                 </div>
-
-                {/* Content */}
                 <div className="p-6">
                   <div className="flex flex-wrap gap-1.5 mb-3">
                     <Badge>{project.type}</Badge>
                   </div>
-                  <h3 className="text-[16px] font-bold text-brand-black mb-1.5 leading-snug">
-                    {project.title}
-                  </h3>
-                  <p className="text-sm text-brand-gray-500 leading-relaxed mb-4">
-                    {project.problem}
-                  </p>
-
-                  {/* Metrics */}
+                  <h3 className="text-[16px] font-bold text-brand-black mb-1.5 leading-snug">{project.title}</h3>
+                  <p className="text-sm text-brand-gray-500 leading-relaxed mb-4">{project.problem}</p>
                   <div className="flex gap-6 pt-4 border-t border-brand-gray-100 mb-4">
                     {project.metrics.map((m) => (
                       <div key={m.label} className="flex flex-col">
@@ -149,15 +123,13 @@ export default function WorkSection() {
                       </div>
                     ))}
                   </div>
-
-                  <Link
-                    to="/work"
-                    className="inline-flex items-center gap-1.5 text-sm font-semibold text-brand-black group-hover:gap-2.5 transition-all duration-200"
-                  >
-                    View project <ArrowUpRight size={14} />
+                  <Link to="/work"
+                    className="group inline-flex items-center gap-1.5 text-sm font-semibold text-brand-black">
+                    View project
+                    <ArrowUpRight size={14} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform duration-200" />
                   </Link>
                 </div>
-              </div>
+              </motion.div>
             </FadeIn>
           ))}
         </div>

@@ -1,0 +1,73 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ---- Base ---- */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    @apply text-brand-black bg-white;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    overflow-x: hidden;
+  }
+
+  /* Focus ring */
+  :focus-visible {
+    outline: 2px solid #000;
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+}
+
+/* ---- Component tokens ---- */
+@layer components {
+  .container-content {
+    @apply mx-auto w-full max-w-[1120px] px-5 sm:px-8 lg:px-10;
+  }
+
+  .section-pad {
+    @apply py-20 md:py-28;
+  }
+
+  .section-pad-sm {
+    @apply py-12 md:py-16;
+  }
+
+  .card-base {
+    @apply rounded-2xl border border-brand-gray-200 bg-white;
+  }
+
+  .rounded-card {
+    border-radius: 1rem;
+  }
+
+  .eyebrow {
+    @apply text-[11px] font-semibold uppercase tracking-[0.2em] text-brand-gray-500;
+  }
+
+  /* Typography scale */
+  .text-display-xl { font-size: clamp(2.6rem, 6vw, 5.25rem); line-height: 1.03; }
+  .text-display-lg { font-size: clamp(2rem, 4vw, 3.2rem);  line-height: 1.08; }
+  .text-display-md { font-size: clamp(1.6rem, 3vw, 2.4rem);  line-height: 1.12; }
+}
+
+/* ---- Utilities ---- */
+@layer utilities {
+  .tabular-nums { font-variant-numeric: tabular-nums; }
+
+  /* Hardware-accelerated transform base for all animated cards */
+  .card-base {
+    will-change: transform;
+    transform: translateZ(0);
+  }
+}
