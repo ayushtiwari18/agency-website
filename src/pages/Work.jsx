@@ -1,7 +1,9 @@
 import { Helmet } from 'react-helmet-async'
 import { Link } from 'react-router-dom'
 import { ArrowRight, ExternalLink, Github } from 'lucide-react'
-import { FadeIn } from '../components/ui/FadeIn'
+import { motion } from 'framer-motion'
+import { Reveal } from '../components/ui/Reveal'
+import { RevealText } from '../components/ui/RevealText'
 import { Badge } from '../components/ui/Badge'
 import { projects } from '../data/projects'
 import ContactCTA from '../sections/ContactCTA'
@@ -23,19 +25,22 @@ const workItemListSchema = {
   })),
 }
 
-function ProjectPlaceholder({ type, alt }) {
-  const styles = {
-    'Portfolio Website': 'from-brand-gray-100 to-brand-gray-200',
-    'Business Website':  'from-brand-gray-800 to-brand-black',
-    'Growth Website':    'from-brand-gray-700 to-brand-gray-900',
-  }
+const PROJECT_IMAGES = {
+  'Portfolio Website': 'https://images.unsplash.com/photo-1545235617-9465d2a55698?w=900&q=85&auto=format&fit=crop',
+  'Business Website':  'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=900&q=85&auto=format&fit=crop',
+  'Growth Website':    'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=900&q=85&auto=format&fit=crop',
+}
+
+function ProjectImage({ type, alt }) {
   return (
-    <div
-      role="img"
-      aria-label={alt || `${type} project screenshot`}
-      className={`w-full h-full bg-gradient-to-br ${styles[type] ?? 'from-brand-gray-100 to-brand-gray-200'} flex items-center justify-center`}
-    >
-      <p className="text-xs font-medium uppercase tracking-widest opacity-30 text-brand-gray-500">{type}</p>
+    <div className="relative w-full h-full overflow-hidden min-h-[260px]">
+      <img
+        src={PROJECT_IMAGES[type] ?? PROJECT_IMAGES['Business Website']}
+        alt={alt || `${type} project`}
+        className="w-full h-full object-cover object-center transition-transform duration-700 ease-out group-hover:scale-[1.04]"
+        loading="lazy"
+      />
+      <div className="absolute inset-0 bg-brand-black/15" />
     </div>
   )
 }
@@ -58,33 +63,35 @@ export default function Work() {
         { name: 'Work', url: 'https://tjcreates.in/work' },
       ])} />
 
+      {/* Page header */}
       <section className="section-pad pt-36 bg-white">
         <div className="container-content">
-          <FadeIn><p className="eyebrow mb-4">Selected work</p></FadeIn>
-          <FadeIn delay={0.08}>
-            <h1 className="text-display-xl font-extrabold text-brand-black tracking-tight max-w-[640px] mb-6">
-              Case studies, not screenshots.
-            </h1>
-          </FadeIn>
-          <FadeIn delay={0.14}>
+          <Reveal><p className="eyebrow mb-4">Selected work</p></Reveal>
+          <RevealText delay={80} as="h1" className="text-display-xl font-extrabold text-brand-black tracking-tight max-w-[640px] mb-6">
+            {'Case studies,\nnot screenshots.'}
+          </RevealText>
+          <Reveal delay={140}>
             <p className="text-[17px] text-brand-gray-500 leading-relaxed max-w-[480px]">
               Every project below led with a clear problem and measured against a real outcome.
             </p>
-          </FadeIn>
+          </Reveal>
         </div>
       </section>
 
+      {/* Project cards */}
       <section className="section-pad-sm bg-brand-gray-50" aria-label="Project case studies">
         <div className="container-content space-y-6">
           {projects.map((project, i) => (
-            <FadeIn key={project.id} delay={i * 0.1}>
-              <article
+            <Reveal key={project.id} delay={i * 80}>
+              <motion.article
                 id={project.id}
-                className="card-base overflow-hidden hover:shadow-[0_8px_40px_-8px_rgba(0,0,0,0.10)] hover:-translate-y-1 transition-all duration-300"
+                whileHover={{ y: -4, boxShadow: '0 16px 48px -8px rgba(0,0,0,0.11)' }}
+                transition={{ type: 'spring', stiffness: 260, damping: 22 }}
+                className="card-base overflow-hidden group"
               >
                 <div className="grid grid-cols-1 lg:grid-cols-2">
-                  <div className="h-[260px] lg:h-auto min-h-[260px]">
-                    <ProjectPlaceholder
+                  <div className="h-[260px] lg:h-auto">
+                    <ProjectImage
                       type={project.type}
                       alt={`${project.title} — ${project.type} built by T&J Creates`}
                     />
@@ -125,30 +132,28 @@ export default function Work() {
                       <div className="flex items-center gap-5">
                         {project.live && (
                           <a href={project.live} target="_blank" rel="noreferrer noopener"
-                            aria-label={`Visit live site for ${project.title}`}
                             className="inline-flex items-center gap-1.5 text-sm font-semibold text-brand-black hover:opacity-60 transition-opacity">
-                            Live site <ExternalLink size={13} aria-hidden="true" />
+                            Live site <ExternalLink size={13} />
                           </a>
                         )}
                         {project.github && (
                           <a href={project.github} target="_blank" rel="noreferrer noopener"
-                            aria-label={`View source code for ${project.title} on GitHub`}
                             className="inline-flex items-center gap-1.5 text-sm font-semibold text-brand-gray-500 hover:text-brand-black transition-colors">
-                            GitHub <Github size={13} aria-hidden="true" />
+                            GitHub <Github size={13} />
                           </a>
                         )}
                         {!project.live && !project.github && (
                           <Link to="/contact"
                             className="inline-flex items-center gap-1.5 text-sm font-semibold text-brand-black hover:gap-2.5 transition-all duration-200">
-                            Start a similar project <ArrowRight size={14} aria-hidden="true" />
+                            Start a similar project <ArrowRight size={14} />
                           </Link>
                         )}
                       </div>
                     </div>
                   </div>
                 </div>
-              </article>
-            </FadeIn>
+              </motion.article>
+            </Reveal>
           ))}
         </div>
       </section>
