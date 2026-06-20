@@ -2,8 +2,9 @@ import { Helmet } from 'react-helmet-async'
 import { FadeIn } from '../components/ui/FadeIn'
 import { CheckCircle, Zap, Shield, Heart } from 'lucide-react'
 
-const SITE = 'https://tj-creates.vercel.app'
-const OG_IMAGE = `${SITE}/og-image.jpg`
+const SITE          = 'https://tj-creates.vercel.app'
+const OG_IMAGE      = `${SITE}/og.png`
+const TWITTER_IMAGE = `${SITE}/og-tiwtter.png`
 
 const VALUES = [
   { icon: Zap,         title: 'Speed first',        body: 'Every site we build targets sub-2s load times. Performance is a feature, not an afterthought.' },
@@ -21,8 +22,10 @@ export default function About() {
         <meta property="og:title" content="About — T&J Creates" />
         <meta property="og:url" content={`${SITE}/about`} />
         <meta property="og:image" content={OG_IMAGE} />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:image" content={OG_IMAGE} />
+        <meta name="twitter:image" content={TWITTER_IMAGE} />
         <link rel="canonical" href={`${SITE}/about`} />
       </Helmet>
 

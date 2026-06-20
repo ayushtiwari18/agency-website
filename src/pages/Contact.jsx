@@ -5,8 +5,9 @@ import { CheckCircle, Send, MapPin, Mail, Clock } from 'lucide-react'
 import { FadeIn } from '../components/ui/FadeIn'
 import ContactMockup from '../components/ui/ContactMockup'
 
-const SITE = 'https://tj-creates.vercel.app'
-const OG_IMAGE = `${SITE}/og-image.jpg`
+const SITE          = 'https://tj-creates.vercel.app'
+const OG_IMAGE      = `${SITE}/og.png`
+const TWITTER_IMAGE = `${SITE}/og-tiwtter.png`
 
 const BUDGET_OPTIONS   = ['Under ₹10,000','₹10,000 – ₹20,000','₹20,000 – ₹50,000','₹50,000+','Not sure yet']
 const TIMELINE_OPTIONS = ['ASAP','2–4 weeks','1–2 months','3+ months','Just exploring']
@@ -40,8 +41,10 @@ export default function Contact() {
         <meta property="og:title" content="Contact — T&J Creates" />
         <meta property="og:url" content={`${SITE}/contact`} />
         <meta property="og:image" content={OG_IMAGE} />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:image" content={OG_IMAGE} />
+        <meta name="twitter:image" content={TWITTER_IMAGE} />
         <link rel="canonical" href={`${SITE}/contact`} />
       </Helmet>
 

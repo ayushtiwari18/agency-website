@@ -12,8 +12,9 @@ import ContactFormSection from '../sections/ContactForm'
 import SchemaOrg from '../components/seo/SchemaOrg'
 import { organizationSchema, websiteSchema } from '../data/schema'
 
-const SITE = 'https://tj-creates.vercel.app'
-const OG_IMAGE = `${SITE}/og-image.jpg`
+const SITE         = 'https://tj-creates.vercel.app'
+const OG_IMAGE     = `${SITE}/og.png`
+const TWITTER_IMAGE = `${SITE}/og-tiwtter.png`
 
 export default function Home() {
   return (
@@ -34,7 +35,7 @@ export default function Home() {
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content="T&J Creates — Web Development Studio" />
         <meta name="twitter:description" content="Fast, transparent, conversion-focused websites for businesses and personal brands." />
-        <meta name="twitter:image" content={OG_IMAGE} />
+        <meta name="twitter:image" content={TWITTER_IMAGE} />
         <link rel="canonical" href={`${SITE}/`} />
       </Helmet>
 
