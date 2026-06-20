@@ -1,118 +1,155 @@
 import { motion } from 'framer-motion'
-import { Search, Zap, TrendingUp, CheckCircle, Globe, Star } from 'lucide-react'
+import { Wifi, Battery, Signal, CheckCircle } from 'lucide-react'
 
-const float = (y = 8, dur = 4, delay = 0) => ({
-  animate: { y: [0, -y, 0] },
-  transition: { duration: dur, repeat: Infinity, ease: 'easeInOut', delay },
-})
+const ease = [0.22, 1, 0.36, 1]
+
+// Tiny webpage rendered inside frames
+function MiniPage({ mobile = false }) {
+  return (
+    <div className={`bg-white flex flex-col h-full ${mobile ? 'px-2 pt-2' : 'px-3 pt-2.5'}`}>
+      {/* Nav */}
+      <div className={`flex items-center justify-between mb-${mobile ? '2' : '3'} ${mobile ? '' : 'border-b border-gray-100 pb-2'}`}>
+        <div className="flex items-center gap-1">
+          <div className="w-3 h-3 rounded-sm bg-gray-900" />
+          <span className={`font-bold text-gray-900 ${mobile ? 'text-[7px]' : 'text-[9px]'}`}>Studio</span>
+        </div>
+        {!mobile && (
+          <div className="flex gap-2.5">
+            {['Work','Services','Contact'].map(l => (
+              <span key={l} className="text-[7px] text-gray-400">{l}</span>
+            ))}
+          </div>
+        )}
+        <div className={`rounded ${mobile ? 'px-1 py-0.5 text-[6px]' : 'px-2 py-0.5 text-[7px]'} bg-gray-900 text-white font-semibold`}>
+          {mobile ? 'Call' : 'Book a call'}
+        </div>
+      </div>
+
+      {/* Hero block */}
+      <div className={`flex-1 flex flex-col justify-center ${mobile ? 'gap-1.5 pb-2' : 'gap-2 pb-3'}`}>
+        <div className={`font-extrabold text-gray-900 leading-tight ${mobile ? 'text-[9px]' : 'text-[11px]'}`}>
+          We build websites<br />that get clients.
+        </div>
+        <div className={`text-gray-400 leading-snug ${mobile ? 'text-[6px]' : 'text-[7.5px]'} max-w-[90%]`}>
+          Fast, conversion-focused sites for businesses and personal brands.
+        </div>
+        <div className="flex gap-1 mt-0.5">
+          <div className={`rounded bg-gray-900 text-white font-semibold ${mobile ? 'px-1.5 py-0.5 text-[6px]' : 'px-2 py-1 text-[7px]'}`}>
+            Get Estimate
+          </div>
+          <div className={`rounded border border-gray-200 text-gray-600 font-medium ${mobile ? 'px-1.5 py-0.5 text-[6px]' : 'px-2 py-1 text-[7px]'}`}>
+            See Work
+          </div>
+        </div>
+
+        {/* Stats strip */}
+        {!mobile && (
+          <div className="flex gap-3 mt-1 pt-2 border-t border-gray-100">
+            {[['10+','Projects'],['3+','Live'],['100%','On-time']].map(([v,l]) => (
+              <div key={l}>
+                <div className="text-[9px] font-extrabold text-gray-900">{v}</div>
+                <div className="text-[6px] text-gray-400 uppercase tracking-wide">{l}</div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+    </div>
+  )
+}
 
 export default function ServicesMockup() {
   return (
-    <div className="relative w-[480px] h-[380px] select-none">
+    <div className="relative flex items-end justify-center gap-5 h-[380px] w-full select-none">
 
-      {/* MAIN CARD — SEO & Performance report */}
+      {/* ── DESKTOP BROWSER FRAME ── */}
       <motion.div
-        {...float(7, 4.5, 0)}
-        className="absolute top-0 right-0 w-[340px] bg-white rounded-2xl border border-brand-gray-200 shadow-[0_8px_40px_-8px_rgba(0,0,0,0.12)] overflow-hidden"
+        initial={{ opacity: 0, x: 40, y: 10 }}
+        whileInView={{ opacity: 1, x: 0, y: 0 }}
+        viewport={{ once: true, margin: '-60px' }}
+        transition={{ duration: 0.75, ease }}
+        className="relative w-[280px] h-[200px] rounded-xl overflow-hidden shadow-[0_16px_48px_-8px_rgba(0,0,0,0.18)] border border-gray-200 flex flex-col flex-shrink-0"
       >
-        <div className="flex items-center justify-between px-5 py-3.5 border-b border-brand-gray-100">
-          <div className="flex items-center gap-2">
-            <div className="w-6 h-6 bg-brand-gray-100 rounded-lg flex items-center justify-center">
-              <Globe size={12} className="text-brand-gray-700" />
-            </div>
-            <span className="text-sm font-semibold text-brand-black">Site Report</span>
+        {/* Browser chrome */}
+        <div className="flex-shrink-0 bg-gray-100 border-b border-gray-200 px-3 py-2 flex items-center gap-2">
+          <div className="flex gap-1">
+            <div className="w-2 h-2 rounded-full bg-red-400" />
+            <div className="w-2 h-2 rounded-full bg-amber-400" />
+            <div className="w-2 h-2 rounded-full bg-emerald-400" />
           </div>
-          <span className="text-[11px] font-medium text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full">Delivered</span>
+          <div className="flex-1 bg-white rounded text-[7px] text-gray-400 px-2 py-0.5 text-center">
+            tjcreates.in
+          </div>
+        </div>
+        {/* Page */}
+        <div className="flex-1 overflow-hidden">
+          <MiniPage />
         </div>
 
-        <div className="grid grid-cols-3 divide-x divide-brand-gray-100">
-          {[
-            { icon: Search,     label: 'SEO Score',   value: '94',   unit: '/100', color: 'text-emerald-600' },
-            { icon: Zap,        label: 'Page Speed',  value: '0.9',  unit: 's',    color: 'text-brand-black' },
-            { icon: TrendingUp, label: 'Conversion',  value: '+3.2', unit: 'x',    color: 'text-emerald-600' },
-          ].map(({ icon: Icon, label, value, unit, color }) => (
-            <div key={label} className="px-4 py-4">
-              <div className="flex items-center gap-1 mb-2">
-                <Icon size={10} className="text-brand-gray-400" />
-                <span className="text-[9px] text-brand-gray-400 uppercase tracking-wide">{label}</span>
-              </div>
-              <p className="text-base font-extrabold text-brand-black leading-none">
-                <span className={color}>{value}</span>
-                <span className="text-xs text-brand-gray-400 font-normal">{unit}</span>
-              </p>
-            </div>
-          ))}
-        </div>
-
-        {/* Checklist */}
-        <div className="px-5 pb-4 pt-1 space-y-2">
-          {[
-            'Mobile responsive',
-            'Core Web Vitals ✔',
-            'Schema markup added',
-            'Google indexed',
-          ].map((item, i) => (
-            <motion.div
-              key={item}
-              initial={{ opacity: 0, x: -8 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.6 + i * 0.12, duration: 0.4, ease: 'easeOut' }}
-              className="flex items-center gap-2"
-            >
-              <CheckCircle size={12} className="text-emerald-500 flex-shrink-0" />
-              <span className="text-[12px] text-brand-gray-600">{item}</span>
-            </motion.div>
-          ))}
-        </div>
+        {/* Live badge */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.7 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.55, duration: 0.4, ease }}
+          className="absolute -top-3 -right-3 flex items-center gap-1 bg-emerald-500 text-white text-[9px] font-bold px-2 py-1 rounded-full shadow-md"
+        >
+          <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
+          Live
+        </motion.div>
       </motion.div>
 
-      {/* FLOATING CARD — Client review */}
+      {/* ── MOBILE FRAME ── */}
       <motion.div
-        {...float(5, 5, 0.6)}
-        className="absolute bottom-10 right-2 w-[190px] bg-white rounded-xl border border-brand-gray-200 shadow-[0_4px_24px_-4px_rgba(0,0,0,0.10)] p-3.5"
+        initial={{ opacity: 0, y: 50 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: '-60px' }}
+        transition={{ duration: 0.7, delay: 0.18, ease }}
+        className="relative w-[110px] h-[210px] rounded-[20px] overflow-hidden shadow-[0_16px_40px_-8px_rgba(0,0,0,0.22)] border-[3px] border-gray-800 bg-gray-800 flex flex-col flex-shrink-0"
       >
-        <div className="flex gap-0.5 mb-2">
-          {[1,2,3,4,5].map(s => <Star key={s} size={11} className="fill-amber-400 text-amber-400" />)}
+        {/* Phone notch */}
+        <div className="flex-shrink-0 bg-gray-800 flex items-center justify-between px-2.5 py-1">
+          <span className="text-[7px] text-white font-medium">9:41</span>
+          <div className="flex items-center gap-1">
+            <Signal size={7} className="text-white" />
+            <Wifi size={7} className="text-white" />
+            <Battery size={7} className="text-white" />
+          </div>
         </div>
-        <p className="text-[11px] text-brand-gray-700 leading-snug italic">
-          &ldquo;Launched in 3 weeks. Got our first lead the same day.&rdquo;
-        </p>
-        <p className="text-[10px] text-brand-gray-400 mt-2">Priya Designs · Client</p>
+        {/* Screen */}
+        <div className="flex-1 overflow-hidden rounded-b-[17px]">
+          <MiniPage mobile />
+        </div>
+
+        {/* Speed badge */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.7 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.7, duration: 0.4, ease }}
+          className="absolute -bottom-2 -left-6 bg-white border border-gray-200 shadow-lg rounded-xl px-2.5 py-1.5 flex flex-col"
+        >
+          <span className="text-[8px] text-gray-400 uppercase tracking-wide">Load time</span>
+          <span className="text-[13px] font-extrabold text-gray-900 leading-none">0.8s</span>
+          <span className="text-[7px] text-emerald-600 font-medium">Top 5%</span>
+        </motion.div>
       </motion.div>
 
-      {/* FLOATING CARD — Launch status */}
+      {/* ── FLOATING: Score badge ── */}
       <motion.div
-        {...float(6, 3.5, 1)}
-        className="absolute top-10 -left-2 w-[150px] bg-brand-black rounded-xl p-3.5 shadow-[0_8px_24px_-4px_rgba(0,0,0,0.28)]"
+        initial={{ opacity: 0, y: 16 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ delay: 0.85, duration: 0.45, ease }}
+        className="absolute top-4 left-0 bg-brand-black text-white rounded-xl px-3 py-2.5 shadow-[0_8px_24px_-4px_rgba(0,0,0,0.3)] flex items-center gap-2"
       >
-        <div className="flex items-center gap-1.5 mb-2">
-          <CheckCircle size={11} className="text-emerald-400" />
-          <span className="text-[11px] font-semibold text-white">On-time Launch</span>
-        </div>
-        <p className="text-[22px] font-extrabold text-white leading-none">3 wk</p>
-        <p className="text-[10px] text-brand-gray-500 mt-1">Avg. to delivery</p>
-        <div className="mt-3 w-full h-1 bg-brand-gray-800 rounded-full overflow-hidden">
-          <motion.div
-            initial={{ width: '0%' }}
-            animate={{ width: '100%' }}
-            transition={{ duration: 1.1, delay: 0.9, ease: 'easeOut' }}
-            className="h-full bg-emerald-500 rounded-full"
-          />
+        <CheckCircle size={14} className="text-emerald-400 flex-shrink-0" />
+        <div>
+          <p className="text-[10px] font-bold leading-none">100% on-time</p>
+          <p className="text-[9px] text-gray-400 mt-0.5">Every launch delivered</p>
         </div>
       </motion.div>
 
-      {/* FLOATING CARD — Leads */}
-      <motion.div
-        {...float(4, 4, 0.8)}
-        className="absolute bottom-0 left-6 w-[148px] bg-white rounded-xl border border-brand-gray-200 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.08)] p-3.5"
-      >
-        <div className="flex items-center gap-1.5 mb-1.5">
-          <TrendingUp size={11} className="text-brand-gray-400" />
-          <span className="text-[10px] text-brand-gray-500 uppercase tracking-wide">Leads this month</span>
-        </div>
-        <p className="text-[22px] font-extrabold text-brand-black leading-none">+14</p>
-        <p className="text-[10px] font-medium text-emerald-600 mt-1">vs 3 last month</p>
-      </motion.div>
     </div>
   )
 }
