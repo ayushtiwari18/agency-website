@@ -1,42 +1,21 @@
-import { useRef, useState, useEffect } from 'react'
+import { motion } from 'framer-motion'
+import { useScrollReveal } from '../../hooks/useScrollReveal'
 
 /**
- * Layer 4 — Divider line that draws itself left-to-right
- * the moment it enters the viewport.
+ * A horizontal rule that draws itself left-to-right (scaleX 0→1)
+ * using expo-out easing over 900ms when it enters the viewport.
  */
-export function AnimatedDivider({ className = '', delay = 0 }) {
-  const ref = useRef(null)
-  const [drawn, setDrawn] = useState(false)
-
-  useEffect(() => {
-    const node = ref.current
-    if (!node) return
-    const rect = node.getBoundingClientRect()
-    if (rect.top < window.innerHeight) { setDrawn(true); return }
-    const observer = new IntersectionObserver(
-      ([e]) => { if (e.isIntersecting) { setDrawn(true); observer.disconnect() } },
-      { rootMargin: '0px 0px -1px 0px', threshold: 0 }
-    )
-    observer.observe(node)
-    return () => observer.disconnect()
-  }, [])
+export function AnimatedDivider({ className = '' }) {
+  const { ref, revealed } = useScrollReveal({ once: true })
 
   return (
-    <div
-      ref={ref}
-      className={`overflow-hidden ${className}`}
-      style={{ height: '1px', background: 'transparent' }}
-    >
-      <div
-        style={{
-          height: '1px',
-          background: 'currentColor',
-          opacity: 0.15,
-          transformOrigin: 'left center',
-          transform: drawn ? 'scaleX(1)' : 'scaleX(0)',
-          transition: `transform 900ms cubic-bezier(0.16,1,0.3,1) ${delay}ms`,
-          willChange: 'transform',
-        }}
+    <div ref={ref} className={`overflow-hidden ${className}`}>
+      <motion.div
+        animate={revealed ? { scaleX: 1 } : { scaleX: 0 }}
+        initial={{ scaleX: 0 }}
+        transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
+        style={{ originX: 0 }}
+        className="h-px w-full bg-brand-gray-200"
       />
     </div>
   )

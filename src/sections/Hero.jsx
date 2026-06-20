@@ -2,6 +2,8 @@ import { motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
 import { ArrowUpRight, ArrowRight } from 'lucide-react'
 import HeroMockup from '../components/ui/HeroMockup'
+import { SlotCounter } from '../components/ui/SlotCounter'
+import { AnimatedDivider } from '../components/ui/AnimatedDivider'
 
 const fadeUp = (delay = 0) => ({
   initial: { opacity: 0, y: 32 },
@@ -18,7 +20,7 @@ const stats = [
 export default function Hero() {
   return (
     <section className="relative min-h-screen flex flex-col justify-center overflow-hidden bg-white">
-      {/* subtle grid bg */}
+      {/* Grid bg */}
       <div
         aria-hidden
         className="pointer-events-none absolute inset-0"
@@ -29,7 +31,7 @@ export default function Hero() {
           opacity: 0.35,
         }}
       />
-      {/* fade-out bottom edge */}
+      {/* Fade-out bottom */}
       <div
         aria-hidden
         className="pointer-events-none absolute bottom-0 inset-x-0 h-48"
@@ -41,8 +43,6 @@ export default function Hero() {
 
           {/* LEFT COPY */}
           <div className="max-w-[580px]">
-
-            {/* Eyebrow pill */}
             <motion.div {...fadeUp(0)}>
               <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-brand-gray-200 bg-brand-gray-50 mb-8">
                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 flex-shrink-0" />
@@ -52,7 +52,6 @@ export default function Hero() {
               </div>
             </motion.div>
 
-            {/* Headline — underline removed */}
             <motion.h1
               {...fadeUp(0.08)}
               className="text-[clamp(2.6rem,6vw,5.25rem)] font-extrabold leading-[1.04] tracking-[-0.03em] text-brand-black mb-6"
@@ -60,7 +59,6 @@ export default function Hero() {
               We build websites that help businesses get clients.
             </motion.h1>
 
-            {/* Subheadline */}
             <motion.p
               {...fadeUp(0.18)}
               className="text-[17px] text-brand-gray-500 leading-[1.7] mb-10 max-w-[460px]"
@@ -70,7 +68,6 @@ export default function Hero() {
               into leads.
             </motion.p>
 
-            {/* CTAs */}
             <motion.div {...fadeUp(0.26)} className="flex flex-wrap items-center gap-3">
               <Link
                 to="/contact"
@@ -98,19 +95,24 @@ export default function Hero() {
           </motion.div>
         </div>
 
-        {/* STATS STRIP */}
+        {/* STATS STRIP — Layer 4 animated divider + Layer 5 slot counter */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.45, ease: [0.22, 1, 0.36, 1] }}
-          className="mt-16 lg:mt-20 pt-8 border-t border-brand-gray-200"
+          className="mt-16 lg:mt-20"
         >
+          {/* Layer 4 — draws left-to-right on scroll */}
+          <AnimatedDivider className="mb-8" />
+
           <div className="flex flex-wrap gap-10 md:gap-16">
             {stats.map((s, i) => (
               <div key={i} className="flex flex-col gap-0.5">
-                <span className="text-[2rem] font-extrabold tracking-tight text-brand-black leading-none">
-                  {s.value}
-                </span>
+                {/* Layer 5 — slot-machine roll */}
+                <SlotCounter
+                  value={s.value}
+                  className="text-[2rem] font-extrabold tracking-tight text-brand-black leading-none"
+                />
                 <span className="text-xs font-medium tracking-[0.1em] uppercase text-brand-gray-500">
                   {s.label}
                 </span>
