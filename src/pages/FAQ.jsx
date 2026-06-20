@@ -1,92 +1,55 @@
 import { Helmet } from 'react-helmet-async'
-import { Disclosure, Transition } from '@headlessui/react'
-import { Plus, Minus } from 'lucide-react'
+import { useState } from 'react'
+import { ChevronDown } from 'lucide-react'
 import { FadeIn } from '../components/ui/FadeIn'
 import { faqs } from '../data/faqs'
-import ContactCTA from '../sections/ContactCTA'
 import SchemaOrg from '../components/seo/SchemaOrg'
-import { faqSchema, breadcrumbSchema } from '../data/schema'
+import { faqSchema } from '../data/schema'
+
+const SITE = 'https://tj-creates.vercel.app'
 
 export default function FAQ() {
+  const [open, setOpen] = useState(null)
   return (
     <>
       <Helmet>
-        <title>FAQ — T&amp;J Creates | Web Development Studio</title>
-        <meta name="description" content="Frequently asked questions about T&J Creates web development services, timelines, pricing, and process." />
+        <title>FAQ — T&amp;J Creates</title>
+        <meta name="description" content="Answers to common questions about working with T&J Creates — process, pricing, timelines, and more." />
         <meta property="og:title" content="FAQ — T&J Creates" />
-        <link rel="canonical" href="https://tjcreates.in/faq" />
+        <meta property="og:url" content={`${SITE}/faq`} />
+        <link rel="canonical" href={`${SITE}/faq`} />
       </Helmet>
-
       <SchemaOrg schema={faqSchema(faqs)} />
-      <SchemaOrg schema={breadcrumbSchema([
-        { name: 'Home', url: 'https://tjcreates.in/' },
-        { name: 'FAQ', url: 'https://tjcreates.in/faq' },
-      ])} />
 
-      <section className="section-pad pt-36 bg-white" aria-label="Frequently asked questions">
-        <div className="container-content">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
-            <div className="lg:sticky lg:top-28">
-              <FadeIn><p className="eyebrow mb-4">FAQ</p></FadeIn>
-              <FadeIn delay={0.08}>
-                <h1 className="text-display-xl font-extrabold text-brand-black tracking-tight mb-6">
-                  Questions we hear most.
-                </h1>
+      <section className="section-pad pt-36 bg-white">
+        <div className="container-content max-w-2xl">
+          <FadeIn><p className="eyebrow mb-4">FAQ</p></FadeIn>
+          <FadeIn delay={0.08}>
+            <h1 className="text-display-xl font-extrabold text-brand-black tracking-tight mb-12">Common questions.</h1>
+          </FadeIn>
+          <div className="space-y-3">
+            {faqs.map((faq, i) => (
+              <FadeIn key={i} delay={i * 0.04}>
+                <div className="card-base overflow-hidden">
+                  <button
+                    onClick={() => setOpen(open === i ? null : i)}
+                    className="w-full text-left px-6 py-5 flex items-center justify-between gap-4"
+                    aria-expanded={open === i}
+                  >
+                    <span className="text-[15px] font-semibold text-brand-black">{faq.q}</span>
+                    <ChevronDown size={16} className={`text-brand-gray-400 flex-shrink-0 transition-transform duration-200 ${ open === i ? 'rotate-180' : '' }`} />
+                  </button>
+                  {open === i && (
+                    <div className="px-6 pb-5">
+                      <p className="text-sm text-brand-gray-500 leading-relaxed">{faq.a}</p>
+                    </div>
+                  )}
+                </div>
               </FadeIn>
-              <FadeIn delay={0.14}>
-                <p className="text-brand-gray-500 text-sm leading-relaxed mb-8 max-w-sm">
-                  Still have questions? A 30-minute call answers everything
-                  faster than any FAQ ever could.
-                </p>
-              </FadeIn>
-              <FadeIn delay={0.2}>
-                <Link to="/contact"
-                  className="inline-flex items-center gap-2 px-5 py-2.5 bg-brand-black text-white text-sm font-semibold rounded-lg hover:bg-brand-gray-800 active:scale-[0.97] transition-all">
-                  Book a free call
-                </Link>
-              </FadeIn>
-            </div>
-
-            <FadeIn delay={0.1} direction="left">
-              <div className="space-y-2" role="list">
-                {faqs.map((faq) => (
-                  <Disclosure key={faq.id} as="div" role="listitem">
-                    {({ open }) => (
-                      <div className={`rounded-xl border transition-all duration-200 ${
-                        open ? 'border-brand-gray-300 bg-white shadow-sm' : 'border-brand-gray-200 bg-white hover:border-brand-gray-300'
-                      }`}>
-                        <Disclosure.Button className="w-full flex items-center justify-between gap-4 px-6 py-5 text-left">
-                          <span className="text-[15px] font-semibold text-brand-black leading-snug">{faq.q}</span>
-                          <span className="flex-shrink-0 w-6 h-6 rounded-full border border-brand-gray-200 flex items-center justify-center" aria-hidden="true">
-                            {open ? <Minus size={12} className="text-brand-black" /> : <Plus size={12} className="text-brand-gray-500" />}
-                          </span>
-                        </Disclosure.Button>
-                        <Transition
-                          enter="transition duration-200 ease-out"
-                          enterFrom="opacity-0 -translate-y-1"
-                          enterTo="opacity-100 translate-y-0"
-                          leave="transition duration-150 ease-in"
-                          leaveFrom="opacity-100 translate-y-0"
-                          leaveTo="opacity-0 -translate-y-1"
-                        >
-                          <Disclosure.Panel className="px-6 pb-5">
-                            <p className="text-sm text-brand-gray-500 leading-relaxed border-t border-brand-gray-100 pt-4">{faq.a}</p>
-                          </Disclosure.Panel>
-                        </Transition>
-                      </div>
-                    )}
-                  </Disclosure>
-                ))}
-              </div>
-            </FadeIn>
+            ))}
           </div>
         </div>
       </section>
-
-      <ContactCTA />
     </>
   )
 }
-
-// Missing import fix
-import { Link } from 'react-router-dom'

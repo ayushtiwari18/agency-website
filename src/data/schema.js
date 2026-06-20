@@ -1,4 +1,9 @@
 // ─── Reusable schema fragments ───────────────────────────────────────────────
+// Domain: https://tj-creates.vercel.app  (no custom domain yet)
+// Email:  ayushtiwari102003@gmail.com
+
+const SITE = 'https://tj-creates.vercel.app'
+const EMAIL = 'ayushtiwari102003@gmail.com'
 
 export const organizationSchema = {
   '@context': 'https://schema.org',
@@ -6,8 +11,8 @@ export const organizationSchema = {
   name: 'T&J Creates',
   description:
     'T&J Creates is a web development studio in Jabalpur, India. We build fast, conversion-focused websites for businesses and personal brands.',
-  url: 'https://tjcreates.in',
-  email: 'ayushtiwari102003@gmail.com',
+  url: SITE,
+  email: EMAIL,
   address: {
     '@type': 'PostalAddress',
     addressLocality: 'Jabalpur',
@@ -33,10 +38,10 @@ export const websiteSchema = {
   '@context': 'https://schema.org',
   '@type': 'WebSite',
   name: 'T&J Creates',
-  url: 'https://tjcreates.in',
+  url: SITE,
   potentialAction: {
     '@type': 'SearchAction',
-    target: 'https://tjcreates.in/work?q={search_term_string}',
+    target: `${SITE}/work?q={search_term_string}`,
     'query-input': 'required name=search_term_string',
   },
 }
@@ -46,28 +51,28 @@ export const servicesSchema = {
   '@type': 'ItemList',
   name: 'T&J Creates Web Development Services',
   description: 'Portfolio websites, business websites, and growth websites built for conversion and SEO.',
-  url: 'https://tjcreates.in/services',
+  url: `${SITE}/services`,
   itemListElement: [
     {
       '@type': 'ListItem',
       position: 1,
       name: 'Portfolio Websites',
       description: 'Custom portfolio websites for developers, designers, and freelancers.',
-      url: 'https://tjcreates.in/services#portfolio',
+      url: `${SITE}/services#portfolio`,
     },
     {
       '@type': 'ListItem',
       position: 2,
       name: 'Business Websites',
       description: 'Conversion-focused websites for startups, local businesses, and service providers.',
-      url: 'https://tjcreates.in/services#business',
+      url: `${SITE}/services#business`,
     },
     {
       '@type': 'ListItem',
       position: 3,
       name: 'Growth Websites',
       description: 'SEO-optimized, performance-first websites for brands focused on scaling.',
-      url: 'https://tjcreates.in/services#growth',
+      url: `${SITE}/services#growth`,
     },
   ],
 }

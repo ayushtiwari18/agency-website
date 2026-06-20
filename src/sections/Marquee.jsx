@@ -27,7 +27,8 @@ export default function Marquee() {
         style={{ width: 'max-content' }}
       >
         {repeated.map((name, i) => (
-          <span key={i} className="text-sm font-medium text-brand-gray-400 tracking-wide">
+          // contrast fix: brand-gray-400 (#a3a3a3) on white = 2.52 ✗ → brand-gray-600 (#525252) = 7.0 ✓
+          <span key={i} className="text-sm font-medium text-brand-gray-600 tracking-wide">
             {name}
           </span>
         ))}
