@@ -5,7 +5,9 @@ import { CheckCircle, Send, MapPin, Mail, Clock } from 'lucide-react'
 import { FadeIn } from '../components/ui/FadeIn'
 import ContactMockup from '../components/ui/ContactMockup'
 
-const BUDGET_OPTIONS  = ['Under ₹10,000','₹10,000 – ₹20,000','₹20,000 – ₹50,000','₹50,000+','Not sure yet']
+const SITE = 'https://tj-creates.vercel.app'
+
+const BUDGET_OPTIONS   = ['Under ₹10,000','₹10,000 – ₹20,000','₹20,000 – ₹50,000','₹50,000+','Not sure yet']
 const TIMELINE_OPTIONS = ['ASAP','2–4 weeks','1–2 months','3+ months','Just exploring']
 const SERVICE_OPTIONS  = ['Portfolio website','Business website','Growth website','Something else']
 
@@ -34,13 +36,14 @@ export default function Contact() {
       <Helmet>
         <title>Contact — T&amp;J Creates</title>
         <meta name="description" content="Start your web development project with T&J Creates. Get a free estimate, book a discovery call, or ask us anything." />
-        <link rel="canonical" href="https://tjcreates.in/contact" />
+        <meta property="og:title" content="Contact — T&J Creates" />
+        <meta property="og:url" content={`${SITE}/contact`} />
+        <link rel="canonical" href={`${SITE}/contact`} />
       </Helmet>
 
       <section className="section-pad pt-36 bg-white">
         <div className="container-content">
 
-          {/* ── TOP: heading + mockup full width ── */}
           <div className="mb-12">
             <FadeIn><p className="eyebrow mb-4">Get in touch</p></FadeIn>
             <FadeIn delay={0.08}>
@@ -50,26 +53,22 @@ export default function Contact() {
             </FadeIn>
             <FadeIn delay={0.14}>
               <p className="text-brand-gray-500 text-[16px] leading-relaxed max-w-xl mb-8">
-                Fill in the form and we’ll get back to you within 24 hours
+                Fill in the form and we'll get back to you within 24 hours
                 with a clear next step. No obligations, no spam.
               </p>
             </FadeIn>
-
-            {/* Mockup — full width, clearly visible */}
             <FadeIn delay={0.2}>
               <ContactMockup />
             </FadeIn>
           </div>
 
-          {/* ── BOTTOM: trust info (left) + form (right) ── */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
 
-            {/* Left — contact info + checklist */}
             <div>
               <FadeIn delay={0.1}>
                 <div className="space-y-4 mb-8">
                   {[
-                    { icon: Mail,   text: 'hello@tjcreates.in' },
+                    { icon: Mail,   text: 'ayushtiwari102003@gmail.com' },
                     { icon: MapPin, text: 'Jabalpur, Madhya Pradesh, India' },
                     { icon: Clock,  text: 'Response within 24 hours' },
                   ].map(({ icon: Icon, text }) => (
@@ -95,7 +94,6 @@ export default function Contact() {
               </FadeIn>
             </div>
 
-            {/* Right — form */}
             <FadeIn delay={0.12} direction="left">
               {submitted ? (
                 <div className="card-base p-10 flex flex-col items-center text-center min-h-[400px] justify-center">
@@ -104,7 +102,7 @@ export default function Contact() {
                   </div>
                   <h2 className="text-xl font-bold text-brand-black mb-2">Message received!</h2>
                   <p className="text-sm text-brand-gray-500 max-w-xs leading-relaxed">
-                    We’ll review your project and get back to you within 24 hours with a clear next step.
+                    We'll review your project and get back to you within 24 hours with a clear next step.
                   </p>
                 </div>
               ) : (
@@ -157,7 +155,7 @@ export default function Contact() {
                     className="w-full inline-flex items-center justify-center gap-2 py-3.5 bg-brand-black text-white text-sm font-bold rounded-lg hover:bg-brand-gray-800 active:scale-[0.98] disabled:opacity-50 transition-all duration-200">
                     {isSubmitting ? 'Sending…' : <><Send size={14} /> Send message</>}
                   </button>
-                  <p className="text-center text-xs text-brand-gray-400">We respond within 24 hours &middot; No spam, ever.</p>
+                  <p className="text-center text-xs text-brand-gray-400">We respond within 24 hours · No spam, ever.</p>
                 </form>
               )}
             </FadeIn>
