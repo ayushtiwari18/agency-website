@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 import { User, Briefcase, TrendingUp, ArrowRight } from 'lucide-react'
 import { motion } from 'framer-motion'
-import { FadeIn } from '../components/ui/FadeIn'
+import { Reveal } from '../components/ui/Reveal'
 import { Badge } from '../components/ui/Badge'
 import { services } from '../data/services'
 
@@ -13,25 +13,25 @@ export default function ServicesSection() {
       <div className="container-content">
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-14">
           <div>
-            <FadeIn><p className="eyebrow mb-4">Capabilities</p></FadeIn>
-            <FadeIn delay={0.08}>
+            <Reveal><p className="eyebrow mb-4">Capabilities</p></Reveal>
+            <Reveal delay={80}>
               <h2 className="text-display-lg font-extrabold text-brand-black tracking-tight max-w-[520px]">
                 Outcomes we are engaged to deliver.
               </h2>
-            </FadeIn>
+            </Reveal>
           </div>
-          <FadeIn delay={0.12} direction="left">
+          <Reveal delay={120} direction="left">
             <p className="text-sm text-brand-gray-500 max-w-[280px] leading-relaxed">
               We don&apos;t sell hours. We take ownership of measurable business results.
             </p>
-          </FadeIn>
+          </Reveal>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
           {services.map((svc, i) => {
             const Icon = ICONS[svc.icon]
             return (
-              <FadeIn key={svc.id} delay={i * 0.1}>
+              <Reveal key={svc.id} delay={i * 80}>
                 <motion.div
                   whileHover={{ y: -6 }}
                   transition={{ type: 'spring', stiffness: 320, damping: 24 }}
@@ -56,30 +56,28 @@ export default function ServicesSection() {
                   <div className="flex flex-wrap gap-1.5 mb-6">
                     {svc.tags.map((t) => <Badge key={t}>{t}</Badge>)}
                   </div>
-                  <Link to="/services"
-                    className="group inline-flex items-center gap-1.5 text-sm font-semibold text-brand-black">
+                  <Link to="/services" className="group inline-flex items-center gap-1.5 text-sm font-semibold text-brand-black">
                     Explore
                     <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform duration-200" />
                   </Link>
                 </motion.div>
-              </FadeIn>
+              </Reveal>
             )
           })}
         </div>
 
-        <FadeIn delay={0.2}>
+        <Reveal delay={160}>
           <div className="mt-10 rounded-2xl bg-brand-black px-8 py-7 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
             <div>
               <p className="text-white font-semibold text-[16px]">Not sure which fits your project?</p>
               <p className="text-brand-gray-500 text-sm mt-0.5">A 30-minute discovery call. No pitch deck, no pressure.</p>
             </div>
-            <Link to="/contact"
-              className="group flex-shrink-0 inline-flex items-center gap-1.5 px-5 py-2.5 bg-white text-brand-black text-sm font-semibold rounded-lg hover:bg-brand-gray-100 active:scale-[0.97] transition-all duration-200">
+            <Link to="/contact" className="group flex-shrink-0 inline-flex items-center gap-1.5 px-5 py-2.5 bg-white text-brand-black text-sm font-semibold rounded-lg hover:bg-brand-gray-100 active:scale-[0.97] transition-all duration-200">
               Book a discovery call
               <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform duration-200" />
             </Link>
           </div>
-        </FadeIn>
+        </Reveal>
       </div>
     </section>
   )

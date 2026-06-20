@@ -4,13 +4,10 @@
 
 @layer base {
   html {
-    /* Native smooth scroll — instant response, OS-level inertia */
     scroll-behavior: smooth;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
-
-    /* Critical: prevents Framer Motion layout jank */
     overflow-x: hidden;
   }
 
@@ -22,11 +19,6 @@
     @apply text-brand-black bg-white;
     font-family: 'Inter', system-ui, -apple-system, sans-serif;
     overflow-x: hidden;
-
-    /*
-     * This is the key to cloffstudio-style scroll feel:
-     * momentum scroll on iOS, native inertia on desktop
-     */
     -webkit-overflow-scrolling: touch;
   }
 
@@ -42,15 +34,11 @@
     @apply mx-auto w-full max-w-[1120px] px-5 sm:px-8 lg:px-10;
   }
 
-  .section-pad    { @apply py-20 md:py-28; }
+  .section-pad { @apply py-20 md:py-28; }
   .section-pad-sm { @apply py-12 md:py-16; }
 
   .card-base {
     @apply rounded-2xl border border-brand-gray-200 bg-white;
-    /*
-     * GPU promote cards to their own layer—
-     * hover transforms paint in <1 frame, no repaint
-     */
     will-change: transform;
     transform: translateZ(0);
     backface-visibility: hidden;
@@ -64,10 +52,41 @@
   }
 
   .text-display-xl { font-size: clamp(2.6rem, 6vw, 5.25rem); line-height: 1.03; }
-  .text-display-lg { font-size: clamp(2rem, 4vw, 3.2rem);    line-height: 1.08; }
-  .text-display-md { font-size: clamp(1.6rem, 3vw, 2.4rem);  line-height: 1.12; }
+  .text-display-lg { font-size: clamp(2rem, 4vw, 3.2rem); line-height: 1.08; }
+  .text-display-md { font-size: clamp(1.6rem, 3vw, 2.4rem); line-height: 1.12; }
 }
 
 @layer utilities {
   .tabular-nums { font-variant-numeric: tabular-nums; }
+}
+
+/* Scroll reveal system */
+.reveal-base {
+  opacity: 0;
+  will-change: transform, opacity;
+  transition-property: transform, opacity;
+  transition-duration: 650ms;
+  transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  transform: translate3d(0, 0, 0);
+}
+
+.reveal-up { transform: translate3d(0, 32px, 0); }
+.reveal-down { transform: translate3d(0, -24px, 0); }
+.reveal-left { transform: translate3d(24px, 0, 0); }
+.reveal-right { transform: translate3d(-24px, 0, 0); }
+.reveal-none { transform: translate3d(0, 0, 0); }
+
+.reveal-base.is-revealed {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal-base {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
 }

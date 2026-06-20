@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion'
-import { FadeIn } from '../components/ui/FadeIn'
+import { Reveal } from '../components/ui/Reveal'
 import { testimonials } from '../data/testimonials'
 
 function Avatar({ name }) {
@@ -15,14 +15,14 @@ export default function TestimonialsSection() {
   return (
     <section className="section-pad bg-white">
       <div className="container-content">
-        <FadeIn><p className="eyebrow mb-4">What clients say</p></FadeIn>
-        <FadeIn delay={0.08}>
+        <Reveal><p className="eyebrow mb-4">What clients say</p></Reveal>
+        <Reveal delay={80}>
           <h2 className="text-display-md font-extrabold text-brand-black tracking-tight mb-12">Built for real outcomes.</h2>
-        </FadeIn>
+        </Reveal>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
           {testimonials.map((t, i) => (
-            <FadeIn key={t.id} delay={i * 0.14}>
+            <Reveal key={t.id} delay={i * 90}>
               <motion.div
                 whileHover={{ y: -5, boxShadow: '0 12px 36px -6px rgba(0,0,0,0.09)' }}
                 transition={{ type: 'spring', stiffness: 280, damping: 20 }}
@@ -40,7 +40,7 @@ export default function TestimonialsSection() {
                   </div>
                 </div>
               </motion.div>
-            </FadeIn>
+            </Reveal>
           ))}
         </div>
       </div>
