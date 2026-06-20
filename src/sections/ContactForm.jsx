@@ -1,6 +1,6 @@
 import { useForm } from 'react-hook-form'
 import { useState } from 'react'
-import { FadeIn } from '../components/ui/FadeIn'
+import { Reveal } from '../components/ui/Reveal'
 import { CheckCircle, Send } from 'lucide-react'
 
 const BUDGET_OPTIONS = [
@@ -36,8 +36,6 @@ export default function ContactFormSection() {
   } = useForm()
 
   const onSubmit = async (data) => {
-    // Formspree or any static handler endpoint
-    // Replace the action URL with your Formspree form ID
     try {
       await fetch('https://formspree.io/f/mnjyewlo', {
         method: 'POST',
@@ -45,7 +43,7 @@ export default function ContactFormSection() {
         body: JSON.stringify(data),
       })
     } catch (_) {
-      // silently fail for now — still show success
+      // silently fail
     }
     setSubmitted(true)
   }
@@ -64,23 +62,21 @@ export default function ContactFormSection() {
 
           {/* Left */}
           <div>
-            <FadeIn>
+            <Reveal>
               <p className="eyebrow mb-4">Get in touch</p>
-            </FadeIn>
-            <FadeIn delay={0.08}>
+            </Reveal>
+            <Reveal delay={80}>
               <h2 className="text-display-lg font-extrabold text-brand-black tracking-tight mb-5">
                 Start your project.
               </h2>
-            </FadeIn>
-            <FadeIn delay={0.14}>
+            </Reveal>
+            <Reveal delay={140}>
               <p className="text-brand-gray-500 text-sm leading-relaxed max-w-sm">
                 Fill in the form and we&apos;ll get back to you within 24 hours
                 with a clear next step. No obligations, no spam.
               </p>
-            </FadeIn>
-
-            {/* Trust signals */}
-            <FadeIn delay={0.2}>
+            </Reveal>
+            <Reveal delay={200}>
               <div className="mt-10 space-y-3">
                 {[
                   'Response within 24 hours',
@@ -94,11 +90,11 @@ export default function ContactFormSection() {
                   </div>
                 ))}
               </div>
-            </FadeIn>
+            </Reveal>
           </div>
 
           {/* Right: form */}
-          <FadeIn delay={0.12} direction="left">
+          <Reveal delay={120} direction="left">
             {submitted ? (
               <div className="card-base p-10 flex flex-col items-center justify-center text-center min-h-[420px]">
                 <div className="w-14 h-14 rounded-full bg-emerald-50 flex items-center justify-center mb-5">
@@ -116,7 +112,6 @@ export default function ContactFormSection() {
                 noValidate
                 className="card-base p-8 space-y-5"
               >
-                {/* Row 1: Name + Email */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-xs font-medium text-brand-gray-600 mb-1.5">
@@ -127,9 +122,7 @@ export default function ContactFormSection() {
                       placeholder="Your name"
                       className={inputCls(errors.name)}
                     />
-                    {errors.name && (
-                      <p className="text-xs text-red-500 mt-1">{errors.name.message}</p>
-                    )}
+                    {errors.name && <p className="text-xs text-red-500 mt-1">{errors.name.message}</p>}
                   </div>
                   <div>
                     <label className="block text-xs font-medium text-brand-gray-600 mb-1.5">
@@ -144,13 +137,10 @@ export default function ContactFormSection() {
                       placeholder="you@company.com"
                       className={inputCls(errors.email)}
                     />
-                    {errors.email && (
-                      <p className="text-xs text-red-500 mt-1">{errors.email.message}</p>
-                    )}
+                    {errors.email && <p className="text-xs text-red-500 mt-1">{errors.email.message}</p>}
                   </div>
                 </div>
 
-                {/* Business name */}
                 <div>
                   <label className="block text-xs font-medium text-brand-gray-600 mb-1.5">Business / Project name</label>
                   <input
@@ -160,7 +150,6 @@ export default function ContactFormSection() {
                   />
                 </div>
 
-                {/* What do you need */}
                 <div>
                   <label className="block text-xs font-medium text-brand-gray-600 mb-1.5">
                     What do you need? <span className="text-red-400">*</span>
@@ -172,12 +161,9 @@ export default function ContactFormSection() {
                     <option value="">Select a service…</option>
                     {SERVICE_OPTIONS.map((o) => <option key={o} value={o}>{o}</option>)}
                   </select>
-                  {errors.service && (
-                    <p className="text-xs text-red-500 mt-1">{errors.service.message}</p>
-                  )}
+                  {errors.service && <p className="text-xs text-red-500 mt-1">{errors.service.message}</p>}
                 </div>
 
-                {/* Row 2: Budget + Timeline */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-xs font-medium text-brand-gray-600 mb-1.5">Budget range</label>
@@ -195,7 +181,6 @@ export default function ContactFormSection() {
                   </div>
                 </div>
 
-                {/* Message */}
                 <div>
                   <label className="block text-xs font-medium text-brand-gray-600 mb-1.5">Tell us more (optional)</label>
                   <textarea
@@ -206,7 +191,6 @@ export default function ContactFormSection() {
                   />
                 </div>
 
-                {/* Submit */}
                 <button
                   type="submit"
                   disabled={isSubmitting}
@@ -220,7 +204,7 @@ export default function ContactFormSection() {
                 </p>
               </form>
             )}
-          </FadeIn>
+          </Reveal>
         </div>
       </div>
     </section>

@@ -1,6 +1,6 @@
 import { Disclosure, Transition } from '@headlessui/react'
 import { Plus, Minus } from 'lucide-react'
-import { FadeIn } from '../components/ui/FadeIn'
+import { Reveal } from '../components/ui/Reveal'
 import { faqs } from '../data/faqs'
 
 export default function FAQSection() {
@@ -11,34 +11,34 @@ export default function FAQSection() {
 
           {/* Left: header */}
           <div className="lg:sticky lg:top-28">
-            <FadeIn>
+            <Reveal>
               <p className="eyebrow mb-4">FAQ</p>
-            </FadeIn>
-            <FadeIn delay={0.08}>
+            </Reveal>
+            <Reveal delay={80}>
               <h2 className="text-display-lg font-extrabold text-brand-black tracking-tight mb-6">
                 Questions we hear most.
               </h2>
-            </FadeIn>
-            <FadeIn delay={0.14}>
+            </Reveal>
+            <Reveal delay={140}>
               <p className="text-brand-gray-500 text-sm leading-relaxed mb-8">
                 Still have questions? A 30-minute call answers everything
                 faster than any FAQ ever could.
               </p>
-            </FadeIn>
-            <FadeIn delay={0.2}>
+            </Reveal>
+            <Reveal delay={200}>
               <a
                 href="/contact"
                 className="inline-flex items-center gap-2 px-5 py-2.5 bg-brand-black text-white text-sm font-semibold rounded-lg hover:bg-brand-gray-800 active:scale-[0.97] transition-all duration-200"
               >
                 Book a free call
               </a>
-            </FadeIn>
+            </Reveal>
           </div>
 
           {/* Right: accordion */}
-          <FadeIn delay={0.1} direction="left">
+          <Reveal delay={100} direction="left">
             <div className="space-y-2">
-              {faqs.map((faq, i) => (
+              {faqs.map((faq) => (
                 <Disclosure key={faq.id} as="div">
                   {({ open }) => (
                     <div className={`rounded-xl border transition-all duration-200 ${
@@ -76,7 +76,7 @@ export default function FAQSection() {
                 </Disclosure>
               ))}
             </div>
-          </FadeIn>
+          </Reveal>
         </div>
       </div>
     </section>

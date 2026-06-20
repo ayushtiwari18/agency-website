@@ -1,47 +1,16 @@
-import { motion } from 'framer-motion'
-
-const directionMap = {
-  up:    { y: 20, x: 0 },
-  down:  { y: -14, x: 0 },
-  left:  { x: 20, y: 0 },
-  right: { x: -20, y: 0 },
-  none:  { x: 0,  y: 0 },
-}
-
 /**
- * FadeIn tuned for native scroll:
- * - Very early trigger (margin: '-10px', amount: 0.01)
- *   so animation starts the moment the element enters viewport
- * - Short duration so it completes while scrolling past
- * - No layout-triggering props (no scale, no rotateX)
+ * FadeIn is now an alias for Reveal.
+ * Kept so any page-level imports don't break.
+ * delay prop: Framer used seconds (0.08), Reveal uses ms (80) — convert here.
  */
-export function FadeIn({
-  children,
-  delay = 0,
-  duration = 0.55,
-  direction = 'up',
-  className = '',
-  once = true,
-}) {
-  const { x, y } = directionMap[direction] ?? directionMap.up
+import { Reveal } from './Reveal'
 
+export function FadeIn({ children, delay = 0, direction = 'up', className = '', once = true }) {
+  // Old FadeIn used delay in seconds, Reveal uses ms
+  const delayMs = delay < 2 ? Math.round(delay * 1000) : delay
   return (
-    <motion.div
-      initial={{ opacity: 0, x, y }}
-      whileInView={{ opacity: 1, x: 0, y: 0 }}
-      viewport={{ once, margin: '-10px', amount: 0.01 }}
-      transition={{
-        duration,
-        delay,
-        ease: [0.16, 1, 0.3, 1], // expo out — fast start, soft land
-      }}
-      className={className}
-      style={{
-        willChange: 'transform, opacity',
-        backfaceVisibility: 'hidden',
-      }}
-    >
+    <Reveal delay={delayMs} direction={direction} className={className} once={once}>
       {children}
-    </motion.div>
+    </Reveal>
   )
 }
