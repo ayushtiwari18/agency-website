@@ -6,6 +6,9 @@ import WorkSection from '../sections/Work'
 import ProcessSection from '../sections/Process'
 import PricingSection from '../sections/Pricing'
 import TestimonialsSection from '../sections/Testimonials'
+import FAQSection from '../sections/FAQ'
+import ContactCTA from '../sections/ContactCTA'
+import ContactFormSection from '../sections/ContactForm'
 
 export default function Home() {
   return (
@@ -26,11 +29,9 @@ export default function Home() {
       <ProcessSection />
       <PricingSection />
       <TestimonialsSection />
-
-      {/* Remaining — Round 5: FAQ + Contact CTA */}
-      <div className="container-content py-16">
-        <p className="text-brand-gray-300 text-sm">FAQ + Contact CTA — coming in Round 5.</p>
-      </div>
+      <FAQSection />
+      <ContactCTA />
+      <ContactFormSection />
     </>
   )
 }
