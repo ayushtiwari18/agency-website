@@ -3,9 +3,9 @@ import { User, Briefcase, TrendingUp, ArrowRight } from 'lucide-react'
 import { motion } from 'framer-motion'
 import { Reveal } from '../components/ui/Reveal'
 import { RevealText } from '../components/ui/RevealText'
-import { AnimatedDivider } from '../components/ui/AnimatedDivider'
 import { Badge } from '../components/ui/Badge'
 import { services } from '../data/services'
+import ServicesMockup from '../components/ui/ServicesMockup'
 
 const ICONS = { User, Briefcase, TrendingUp }
 
@@ -13,20 +13,39 @@ export default function ServicesSection() {
   return (
     <section className="section-pad bg-white">
       <div className="container-content">
-        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-14">
+
+        {/* ── HEADER: left copy + right mockup ── */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-8 items-center mb-16">
+
+          {/* Left */}
           <div>
             <Reveal><p className="eyebrow mb-4">Capabilities</p></Reveal>
-            <RevealText delay={80} className="text-display-lg font-extrabold text-brand-black tracking-tight max-w-[520px]">
+            <RevealText
+              delay={80}
+              className="text-display-lg font-extrabold text-brand-black tracking-tight max-w-[480px] mb-5"
+            >
               {'Outcomes we are\nengaged to deliver.'}
             </RevealText>
+            <Reveal delay={180}>
+              <p className="text-sm text-brand-gray-500 max-w-[360px] leading-relaxed">
+                We don&apos;t sell hours. We take ownership of measurable business results.
+              </p>
+            </Reveal>
           </div>
-          <Reveal delay={120} direction="left">
-            <p className="text-sm text-brand-gray-500 max-w-[280px] leading-relaxed">
-              We don&apos;t sell hours. We take ownership of measurable business results.
-            </p>
-          </Reveal>
+
+          {/* Right — mockup */}
+          <motion.div
+            initial={{ opacity: 0, y: 32, scale: 0.97 }}
+            whileInView={{ opacity: 1, y: 0, scale: 1 }}
+            viewport={{ once: true, margin: '-80px' }}
+            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+            className="hidden lg:flex justify-end items-center"
+          >
+            <ServicesMockup />
+          </motion.div>
         </div>
 
+        {/* ── SERVICE CARDS ── */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
           {services.map((svc, i) => {
             const Icon = ICONS[svc.icon]
@@ -63,6 +82,7 @@ export default function ServicesSection() {
           })}
         </div>
 
+        {/* ── BOTTOM CTA STRIP ── */}
         <Reveal delay={200}>
           <div className="mt-10 rounded-2xl bg-brand-black px-8 py-7 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
             <div>
