@@ -1,0 +1,32 @@
+export const services = [
+  {
+    id: 'portfolio',
+    number: '01',
+    icon: 'User',
+    title: 'Portfolio Websites',
+    forWho: 'Developers, designers, freelancers & students',
+    outcome: 'Get noticed. Win clients. Land opportunities.',
+    deliverables: ['Custom design', 'Mobile-first', 'Fast load', 'SEO setup'],
+    tags: ['Portfolio', 'Personal Brand', 'SEO'],
+  },
+  {
+    id: 'business',
+    number: '02',
+    icon: 'Briefcase',
+    title: 'Business Websites',
+    forWho: 'Startups, local businesses & service providers',
+    outcome: 'Build credibility. Generate leads. Grow revenue.',
+    deliverables: ['Conversion-focused layout', 'CMS ready', 'Contact forms', 'Analytics'],
+    tags: ['Business', 'CRO', 'Performance'],
+  },
+  {
+    id: 'growth',
+    number: '03',
+    icon: 'TrendingUp',
+    title: 'Growth Websites',
+    forWho: 'Brands ready to scale and dominate search',
+    outcome: 'Rank higher. Convert better. Scale faster.',
+    deliverables: ['Full SEO strategy', 'Landing pages', 'A/B ready', 'Speed optimized'],
+    tags: ['Growth', 'SEO', 'Scale'],
+  },
+]

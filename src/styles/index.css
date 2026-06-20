@@ -1,0 +1,46 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    font-family: 'Inter', system-ui, sans-serif;
+    background-color: #ffffff;
+    color: #0D0D0D;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  ::selection { background: #0D0D0D; color: #ffffff; }
+
+  ::-webkit-scrollbar { width: 5px; }
+  ::-webkit-scrollbar-track { background: #f9f9f9; }
+  ::-webkit-scrollbar-thumb { background: #d4d4d4; border-radius: 3px; }
+}
+
+@layer components {
+  .container-content { @apply max-w-content mx-auto px-6 lg:px-8; }
+  .section-pad       { @apply py-28 lg:py-36; }
+  .section-pad-sm    { @apply py-16 lg:py-20; }
+
+  .eyebrow {
+    @apply text-[11px] font-medium tracking-[0.15em] uppercase text-brand-gray-500;
+  }
+
+  .tag-pill {
+    @apply inline-flex items-center px-3 py-1 rounded-full text-xs font-medium
+           bg-brand-gray-100 text-brand-gray-600 border border-brand-gray-200;
+  }
+
+  .card-base {
+    @apply border border-brand-gray-200 rounded-card bg-white;
+  }
+}
