@@ -5,6 +5,7 @@ import SchemaOrg from '../components/seo/SchemaOrg'
 import { servicesSchema, breadcrumbSchema } from '../data/schema'
 
 const SITE = 'https://tj-creates.vercel.app'
+const OG_IMAGE = `${SITE}/og-image.jpg`
 
 export default function Services() {
   const crumbs = breadcrumbSchema([
@@ -19,6 +20,9 @@ export default function Services() {
         <meta name="description" content="Portfolio websites, business websites, and growth websites — built fast, priced fairly, and focused on results." />
         <meta property="og:title" content="Services — T&J Creates" />
         <meta property="og:url" content={`${SITE}/services`} />
+        <meta property="og:image" content={OG_IMAGE} />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:image" content={OG_IMAGE} />
         <link rel="canonical" href={`${SITE}/services`} />
       </Helmet>
       <SchemaOrg schema={servicesSchema} />

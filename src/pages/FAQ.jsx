@@ -7,6 +7,7 @@ import SchemaOrg from '../components/seo/SchemaOrg'
 import { faqSchema } from '../data/schema'
 
 const SITE = 'https://tj-creates.vercel.app'
+const OG_IMAGE = `${SITE}/og-image.jpg`
 
 export default function FAQ() {
   const [open, setOpen] = useState(null)
@@ -17,6 +18,9 @@ export default function FAQ() {
         <meta name="description" content="Answers to common questions about working with T&J Creates — process, pricing, timelines, and more." />
         <meta property="og:title" content="FAQ — T&J Creates" />
         <meta property="og:url" content={`${SITE}/faq`} />
+        <meta property="og:image" content={OG_IMAGE} />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:image" content={OG_IMAGE} />
         <link rel="canonical" href={`${SITE}/faq`} />
       </Helmet>
       <SchemaOrg schema={faqSchema(faqs)} />
