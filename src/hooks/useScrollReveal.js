@@ -1,10 +1,10 @@
 import { useEffect, useRef, useState } from 'react'
 
 /**
- * IntersectionObserver-based reveal.
- * Fires the instant the element enters the bottom of viewport.
+ * Fires the instant the element's top edge crosses
+ * the bottom of the viewport. No delay, no debounce.
  */
-export function useScrollReveal({ once = true, delay = 0 } = {}) {
+export function useScrollReveal({ once = true } = {}) {
   const ref = useRef(null)
   const [revealed, setRevealed] = useState(false)
 
@@ -12,14 +12,16 @@ export function useScrollReveal({ once = true, delay = 0 } = {}) {
     const node = ref.current
     if (!node) return
 
+    // If element is already above the fold on load — reveal immediately
+    const rect = node.getBoundingClientRect()
+    if (rect.top < window.innerHeight && rect.bottom > 0) {
+      setRevealed(true)
+      return
+    }
+
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          if (delay > 0) {
-            const t = setTimeout(() => setRevealed(true), delay)
-            if (once) observer.disconnect()
-            return () => clearTimeout(t)
-          }
           setRevealed(true)
           if (once) observer.disconnect()
         } else if (!once) {
@@ -35,7 +37,7 @@ export function useScrollReveal({ once = true, delay = 0 } = {}) {
 
     observer.observe(node)
     return () => observer.disconnect()
-  }, [once, delay])
+  }, [once])
 
   return { ref, revealed }
 }

@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { HelmetProvider } from 'react-helmet-async'
 import { useLenis } from './hooks/useLenis'
+import { ScrollToTop } from './components/ui/ScrollToTop'
 import Header from './components/layout/Header'
 import Footer from './components/layout/Footer'
 import Home from './pages/Home'
@@ -12,9 +13,10 @@ import FAQ from './pages/FAQ'
 import Contact from './pages/Contact'
 
 function AppShell() {
-  useLenis() // boot smooth scroll globally
+  useLenis()
   return (
     <>
+      <ScrollToTop />
       <Header />
       <main>
         <Routes>
