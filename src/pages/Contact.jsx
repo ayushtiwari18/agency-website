@@ -39,24 +39,34 @@ export default function Contact() {
 
       <section className="section-pad pt-36 bg-white">
         <div className="container-content">
+
+          {/* ── TOP: heading + mockup full width ── */}
+          <div className="mb-12">
+            <FadeIn><p className="eyebrow mb-4">Get in touch</p></FadeIn>
+            <FadeIn delay={0.08}>
+              <h1 className="text-display-xl font-extrabold text-brand-black tracking-tight mb-5">
+                Start your project.
+              </h1>
+            </FadeIn>
+            <FadeIn delay={0.14}>
+              <p className="text-brand-gray-500 text-[16px] leading-relaxed max-w-xl mb-8">
+                Fill in the form and we’ll get back to you within 24 hours
+                with a clear next step. No obligations, no spam.
+              </p>
+            </FadeIn>
+
+            {/* Mockup — full width, clearly visible */}
+            <FadeIn delay={0.2}>
+              <ContactMockup />
+            </FadeIn>
+          </div>
+
+          {/* ── BOTTOM: trust info (left) + form (right) ── */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
 
-            {/* LEFT */}
+            {/* Left — contact info + checklist */}
             <div>
-              <FadeIn><p className="eyebrow mb-4">Get in touch</p></FadeIn>
-              <FadeIn delay={0.08}>
-                <h1 className="text-display-xl font-extrabold text-brand-black tracking-tight mb-5">
-                  Start your project.
-                </h1>
-              </FadeIn>
-              <FadeIn delay={0.14}>
-                <p className="text-brand-gray-500 text-[16px] leading-relaxed max-w-sm mb-10">
-                  Fill in the form and we'll get back to you within 24 hours
-                  with a clear next step. No obligations, no spam.
-                </p>
-              </FadeIn>
-
-              <FadeIn delay={0.2}>
+              <FadeIn delay={0.1}>
                 <div className="space-y-4 mb-8">
                   {[
                     { icon: Mail,   text: 'hello@tjcreates.in' },
@@ -73,7 +83,7 @@ export default function Contact() {
                 </div>
               </FadeIn>
 
-              <FadeIn delay={0.26}>
+              <FadeIn delay={0.18}>
                 <div className="space-y-3">
                   {['Response within 24 hours','Free 30-min discovery call','Fixed-price quotes — no hidden fees','No lock-in contracts'].map(item => (
                     <div key={item} className="flex items-center gap-3">
@@ -83,21 +93,18 @@ export default function Contact() {
                   ))}
                 </div>
               </FadeIn>
-
-              {/* Inbox + Calendar mockup */}
-              <ContactMockup />
             </div>
 
-            {/* RIGHT: form */}
+            {/* Right — form */}
             <FadeIn delay={0.12} direction="left">
               {submitted ? (
-                <div className="card-base p-10 flex flex-col items-center text-center min-h-[500px] justify-center">
+                <div className="card-base p-10 flex flex-col items-center text-center min-h-[400px] justify-center">
                   <div className="w-14 h-14 rounded-full bg-emerald-50 flex items-center justify-center mb-5">
                     <CheckCircle size={28} className="text-emerald-500" />
                   </div>
                   <h2 className="text-xl font-bold text-brand-black mb-2">Message received!</h2>
                   <p className="text-sm text-brand-gray-500 max-w-xs leading-relaxed">
-                    We'll review your project and get back to you within 24 hours with a clear next step.
+                    We’ll review your project and get back to you within 24 hours with a clear next step.
                   </p>
                 </div>
               ) : (
