@@ -7,7 +7,7 @@ export const organizationSchema = {
   description:
     'T&J Creates is a web development studio in Jabalpur, India. We build fast, conversion-focused websites for businesses and personal brands.',
   url: 'https://tjcreates.in',
-  email: 'hello@tjcreates.in',
+  email: 'ayushtiwari102003@gmail.com',
   address: {
     '@type': 'PostalAddress',
     addressLocality: 'Jabalpur',
@@ -24,7 +24,7 @@ export const organizationSchema = {
     'Web Performance Optimization',
   ],
   sameAs: [
-    'https://linkedin.com',
+    'https://www.linkedin.com/in/tiwariaayush',
     'https://github.com/ayushtiwari18',
   ],
 }

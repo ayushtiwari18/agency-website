@@ -39,7 +39,7 @@ export default function ContactFormSection() {
     // Formspree or any static handler endpoint
     // Replace the action URL with your Formspree form ID
     try {
-      await fetch('https://formspree.io/f/placeholder', {
+      await fetch('https://formspree.io/f/mnjyewlo', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
         body: JSON.stringify(data),
