@@ -10,8 +10,7 @@ export default function ProcessSection() {
     <section className="section-pad bg-white">
       <div className="container-content">
 
-        {/* ── 2-col: left content + right DevTools mock ── */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-12 items-start mb-16">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-12 items-center mb-16">
 
           {/* LEFT — heading + steps + footer */}
           <div>
@@ -21,8 +20,8 @@ export default function ProcessSection() {
             </RevealText>
 
             <div className="relative">
-              {/* Connecting line on desktop */}
-              <div className="hidden sm:block absolute left-[20px] top-[44px] bottom-[44px] w-px bg-brand-gray-100 z-0" />
+              {/* Vertical connector line */}
+              <div className="hidden sm:block absolute left-[19px] top-[40px] bottom-[40px] w-px bg-brand-gray-100 z-0" />
 
               <div className="flex flex-col gap-8 relative z-10">
                 {process.map((step, i) => (
@@ -35,7 +34,7 @@ export default function ProcessSection() {
                       <div className="w-10 h-10 rounded-full border-2 border-brand-gray-200 bg-white flex items-center justify-center flex-shrink-0">
                         <span className="text-[11px] font-bold text-brand-gray-500 tracking-widest">{step.number}</span>
                       </div>
-                      <div className="pt-1">
+                      <div className="pt-1.5">
                         <h3 className="text-[16px] font-bold text-brand-black mb-1.5">{step.title}</h3>
                         <p className="text-sm text-brand-gray-500 leading-relaxed">{step.description}</p>
                       </div>
@@ -61,8 +60,8 @@ export default function ProcessSection() {
             </Reveal>
           </div>
 
-          {/* RIGHT — DevTools mock */}
-          <div className="hidden lg:flex items-start justify-end pt-4">
+          {/* RIGHT — DevTools mock, vertically centered */}
+          <div className="hidden lg:flex items-center justify-end">
             <DevToolsMockup />
           </div>
         </div>
