@@ -1,16 +1,33 @@
+import { lazy, Suspense } from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { HelmetProvider } from 'react-helmet-async'
 import { useLenis } from './hooks/useLenis'
 import { ScrollToTop } from './components/ui/ScrollToTop'
 import Header from './components/layout/Header'
 import Footer from './components/layout/Footer'
-import Home from './pages/Home'
-import Services from './pages/Services'
-import Work from './pages/Work'
-import About from './pages/About'
-import Pricing from './pages/Pricing'
-import FAQ from './pages/FAQ'
-import Contact from './pages/Contact'
+
+// Route-based code splitting — each page becomes its own JS chunk.
+// Vite will split these automatically at build time.
+const Home     = lazy(() => import('./pages/Home'))
+const Services = lazy(() => import('./pages/Services'))
+const Work     = lazy(() => import('./pages/Work'))
+const About    = lazy(() => import('./pages/About'))
+const Pricing  = lazy(() => import('./pages/Pricing'))
+const FAQ      = lazy(() => import('./pages/FAQ'))
+const Contact  = lazy(() => import('./pages/Contact'))
+
+// Minimal page skeleton shown while a lazy chunk loads (~100-300ms on first nav)
+function PageSkeleton() {
+  return (
+    <div
+      aria-hidden="true"
+      style={{
+        minHeight: '100vh',
+        background: '#ffffff',
+      }}
+    />
+  )
+}
 
 function AppShell() {
   useLenis()
@@ -19,15 +36,17 @@ function AppShell() {
       <ScrollToTop />
       <Header />
       <main>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/services" element={<Services />} />
-          <Route path="/work" element={<Work />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/pricing" element={<Pricing />} />
-          <Route path="/faq" element={<FAQ />} />
-          <Route path="/contact" element={<Contact />} />
-        </Routes>
+        <Suspense fallback={<PageSkeleton />}>
+          <Routes>
+            <Route path="/"         element={<Home />} />
+            <Route path="/services" element={<Services />} />
+            <Route path="/work"     element={<Work />} />
+            <Route path="/about"    element={<About />} />
+            <Route path="/pricing"  element={<Pricing />} />
+            <Route path="/faq"      element={<FAQ />} />
+            <Route path="/contact"  element={<Contact />} />
+          </Routes>
+        </Suspense>
       </main>
       <Footer />
     </>

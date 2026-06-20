@@ -18,7 +18,8 @@
     "react-helmet-async": "^2.0.5",
     "react-hook-form": "^7.52.0",
     "lucide-react": "^0.395.0",
-    "@headlessui/react": "^2.1.1"
+    "@headlessui/react": "^2.1.1",
+    "@fontsource/inter": "^5.1.1"
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^4.3.1",
