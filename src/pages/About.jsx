@@ -3,6 +3,7 @@ import { FadeIn } from '../components/ui/FadeIn'
 import { CheckCircle, Zap, Shield, Heart } from 'lucide-react'
 
 const SITE = 'https://tj-creates.vercel.app'
+const OG_IMAGE = `${SITE}/og-image.jpg`
 
 const VALUES = [
   { icon: Zap,         title: 'Speed first',        body: 'Every site we build targets sub-2s load times. Performance is a feature, not an afterthought.' },
@@ -19,6 +20,9 @@ export default function About() {
         <meta name="description" content="Learn about T&J Creates, a web development studio based in Jabalpur, India. We build fast, focused websites with fixed prices and full transparency." />
         <meta property="og:title" content="About — T&J Creates" />
         <meta property="og:url" content={`${SITE}/about`} />
+        <meta property="og:image" content={OG_IMAGE} />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:image" content={OG_IMAGE} />
         <link rel="canonical" href={`${SITE}/about`} />
       </Helmet>
 

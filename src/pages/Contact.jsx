@@ -6,6 +6,7 @@ import { FadeIn } from '../components/ui/FadeIn'
 import ContactMockup from '../components/ui/ContactMockup'
 
 const SITE = 'https://tj-creates.vercel.app'
+const OG_IMAGE = `${SITE}/og-image.jpg`
 
 const BUDGET_OPTIONS   = ['Under ₹10,000','₹10,000 – ₹20,000','₹20,000 – ₹50,000','₹50,000+','Not sure yet']
 const TIMELINE_OPTIONS = ['ASAP','2–4 weeks','1–2 months','3+ months','Just exploring']
@@ -38,12 +39,14 @@ export default function Contact() {
         <meta name="description" content="Start your web development project with T&J Creates. Get a free estimate, book a discovery call, or ask us anything." />
         <meta property="og:title" content="Contact — T&J Creates" />
         <meta property="og:url" content={`${SITE}/contact`} />
+        <meta property="og:image" content={OG_IMAGE} />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:image" content={OG_IMAGE} />
         <link rel="canonical" href={`${SITE}/contact`} />
       </Helmet>
 
       <section className="section-pad pt-36 bg-white">
         <div className="container-content">
-
           <div className="mb-12">
             <FadeIn><p className="eyebrow mb-4">Get in touch</p></FadeIn>
             <FadeIn delay={0.08}>
@@ -63,7 +66,6 @@ export default function Contact() {
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
-
             <div>
               <FadeIn delay={0.1}>
                 <div className="space-y-4 mb-8">
@@ -81,7 +83,6 @@ export default function Contact() {
                   ))}
                 </div>
               </FadeIn>
-
               <FadeIn delay={0.18}>
                 <div className="space-y-3">
                   {['Response within 24 hours','Free 30-min discovery call','Fixed-price quotes — no hidden fees','No lock-in contracts'].map(item => (

@@ -5,9 +5,9 @@ import { useLenis } from './hooks/useLenis'
 import { ScrollToTop } from './components/ui/ScrollToTop'
 import Header from './components/layout/Header'
 import Footer from './components/layout/Footer'
+import NotFound from './pages/NotFound'
 
-// Route-based code splitting — each page becomes its own JS chunk.
-// Vite will split these automatically at build time.
+// Route-based code splitting — each page becomes its own JS chunk
 const Home     = lazy(() => import('./pages/Home'))
 const Services = lazy(() => import('./pages/Services'))
 const Work     = lazy(() => import('./pages/Work'))
@@ -16,17 +16,8 @@ const Pricing  = lazy(() => import('./pages/Pricing'))
 const FAQ      = lazy(() => import('./pages/FAQ'))
 const Contact  = lazy(() => import('./pages/Contact'))
 
-// Minimal page skeleton shown while a lazy chunk loads (~100-300ms on first nav)
 function PageSkeleton() {
-  return (
-    <div
-      aria-hidden="true"
-      style={{
-        minHeight: '100vh',
-        background: '#ffffff',
-      }}
-    />
-  )
+  return <div aria-hidden="true" style={{ minHeight: '100vh', background: '#ffffff' }} />
 }
 
 function AppShell() {
@@ -45,6 +36,8 @@ function AppShell() {
             <Route path="/pricing"  element={<Pricing />} />
             <Route path="/faq"      element={<FAQ />} />
             <Route path="/contact"  element={<Contact />} />
+            {/* 404 catch-all — NotFound is tiny, no need to lazy-load */}
+            <Route path="*"         element={<NotFound />} />
           </Routes>
         </Suspense>
       </main>

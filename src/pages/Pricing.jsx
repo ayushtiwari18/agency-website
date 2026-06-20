@@ -5,6 +5,7 @@ import { FadeIn } from '../components/ui/FadeIn'
 import { pricing } from '../data/pricing'
 
 const SITE = 'https://tj-creates.vercel.app'
+const OG_IMAGE = `${SITE}/og-image.jpg`
 
 export default function Pricing() {
   return (
@@ -14,6 +15,9 @@ export default function Pricing() {
         <meta name="description" content="Clear, fixed prices for portfolio, business, and growth websites. No hidden fees, no lock-in contracts. Starting from ₹8,000." />
         <meta property="og:title" content="Pricing — T&J Creates" />
         <meta property="og:url" content={`${SITE}/pricing`} />
+        <meta property="og:image" content={OG_IMAGE} />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:image" content={OG_IMAGE} />
         <link rel="canonical" href={`${SITE}/pricing`} />
       </Helmet>
 

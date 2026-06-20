@@ -5,6 +5,7 @@ import { FadeIn } from '../components/ui/FadeIn'
 import { projects } from '../data/projects'
 
 const SITE = 'https://tj-creates.vercel.app'
+const OG_IMAGE = `${SITE}/og-image.jpg`
 const TAGS = ['All', ...new Set(projects.flatMap(p => p.tags))]
 
 export default function Work() {
@@ -18,6 +19,9 @@ export default function Work() {
         <meta name="description" content="Browse websites built by T&J Creates — portfolio, business, and growth projects across a range of industries." />
         <meta property="og:title" content="Work — T&J Creates" />
         <meta property="og:url" content={`${SITE}/work`} />
+        <meta property="og:image" content={OG_IMAGE} />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:image" content={OG_IMAGE} />
         <link rel="canonical" href={`${SITE}/work`} />
       </Helmet>
 

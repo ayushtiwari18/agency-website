@@ -13,6 +13,7 @@ import SchemaOrg from '../components/seo/SchemaOrg'
 import { organizationSchema, websiteSchema } from '../data/schema'
 
 const SITE = 'https://tj-creates.vercel.app'
+const OG_IMAGE = `${SITE}/og-image.jpg`
 
 export default function Home() {
   return (
@@ -26,9 +27,14 @@ export default function Home() {
         <meta property="og:type" content="website" />
         <meta property="og:url" content={`${SITE}/`} />
         <meta property="og:site_name" content="T&J Creates" />
+        <meta property="og:image" content={OG_IMAGE} />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta property="og:image:alt" content="T&J Creates — Web Development Studio" />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content="T&J Creates — Web Development Studio" />
         <meta name="twitter:description" content="Fast, transparent, conversion-focused websites for businesses and personal brands." />
+        <meta name="twitter:image" content={OG_IMAGE} />
         <link rel="canonical" href={`${SITE}/`} />
       </Helmet>
 
