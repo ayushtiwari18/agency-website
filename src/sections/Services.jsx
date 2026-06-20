@@ -2,6 +2,8 @@ import { Link } from 'react-router-dom'
 import { User, Briefcase, TrendingUp, ArrowRight } from 'lucide-react'
 import { motion } from 'framer-motion'
 import { Reveal } from '../components/ui/Reveal'
+import { RevealText } from '../components/ui/RevealText'
+import { AnimatedDivider } from '../components/ui/AnimatedDivider'
 import { Badge } from '../components/ui/Badge'
 import { services } from '../data/services'
 
@@ -14,11 +16,9 @@ export default function ServicesSection() {
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-14">
           <div>
             <Reveal><p className="eyebrow mb-4">Capabilities</p></Reveal>
-            <Reveal delay={80}>
-              <h2 className="text-display-lg font-extrabold text-brand-black tracking-tight max-w-[520px]">
-                Outcomes we are engaged to deliver.
-              </h2>
-            </Reveal>
+            <RevealText delay={80} className="text-display-lg font-extrabold text-brand-black tracking-tight max-w-[520px]">
+              {'Outcomes we are\nengaged to deliver.'}
+            </RevealText>
           </div>
           <Reveal delay={120} direction="left">
             <p className="text-sm text-brand-gray-500 max-w-[280px] leading-relaxed">
@@ -31,9 +31,9 @@ export default function ServicesSection() {
           {services.map((svc, i) => {
             const Icon = ICONS[svc.icon]
             return (
-              <Reveal key={svc.id} delay={i * 80}>
+              <Reveal key={svc.id} delay={i * 100}>
                 <motion.div
-                  whileHover={{ y: -6 }}
+                  whileHover={{ y: -6, boxShadow: '0 16px 40px -8px rgba(0,0,0,0.10)' }}
                   transition={{ type: 'spring', stiffness: 320, damping: 24 }}
                   className="card-base p-7 flex flex-col h-full"
                 >
@@ -53,12 +53,9 @@ export default function ServicesSection() {
                       </li>
                     ))}
                   </ul>
-                  <div className="flex flex-wrap gap-1.5 mb-6">
-                    {svc.tags.map((t) => <Badge key={t}>{t}</Badge>)}
-                  </div>
+                  <div className="flex flex-wrap gap-1.5 mb-6">{svc.tags.map((t) => <Badge key={t}>{t}</Badge>)}</div>
                   <Link to="/services" className="group inline-flex items-center gap-1.5 text-sm font-semibold text-brand-black">
-                    Explore
-                    <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform duration-200" />
+                    Explore <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform duration-200" />
                   </Link>
                 </motion.div>
               </Reveal>
@@ -66,15 +63,14 @@ export default function ServicesSection() {
           })}
         </div>
 
-        <Reveal delay={160}>
+        <Reveal delay={200}>
           <div className="mt-10 rounded-2xl bg-brand-black px-8 py-7 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
             <div>
               <p className="text-white font-semibold text-[16px]">Not sure which fits your project?</p>
               <p className="text-brand-gray-500 text-sm mt-0.5">A 30-minute discovery call. No pitch deck, no pressure.</p>
             </div>
             <Link to="/contact" className="group flex-shrink-0 inline-flex items-center gap-1.5 px-5 py-2.5 bg-white text-brand-black text-sm font-semibold rounded-lg hover:bg-brand-gray-100 active:scale-[0.97] transition-all duration-200">
-              Book a discovery call
-              <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform duration-200" />
+              Book a discovery call <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform duration-200" />
             </Link>
           </div>
         </Reveal>

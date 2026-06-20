@@ -4,6 +4,7 @@ import { motion, useScroll, useTransform } from 'framer-motion'
 import { ArrowRight, Zap, Star, Clock } from 'lucide-react'
 import { AnimatedWord } from '../components/ui/AnimatedWord'
 import { MagneticButton } from '../components/ui/MagneticButton'
+import { AnimatedDivider } from '../components/ui/AnimatedDivider'
 import { useAnimatedCounter } from '../hooks/useAnimatedCounter'
 
 const STATS = [
@@ -13,10 +14,13 @@ const STATS = [
 ]
 
 function StatCounter({ end, suffix, label }) {
-  const { ref, display } = useAnimatedCounter(end, 1600, suffix)
+  const { ref, display, style } = useAnimatedCounter(end, 1600, suffix)
   return (
     <div ref={ref} className="flex flex-col">
-      <span className="text-[2.2rem] font-extrabold text-brand-black leading-none tracking-tight tabular-nums">
+      <span
+        className="text-[2.2rem] font-extrabold text-brand-black leading-none tracking-tight tabular-nums"
+        style={style}
+      >
         {display}
       </span>
       <span className="text-xs text-brand-gray-500 mt-1 uppercase tracking-wider">{label}</span>
@@ -39,50 +43,23 @@ function MockupCard({ delay, className, children }) {
 
 export default function Hero() {
   const sectionRef = useRef(null)
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ['start start', 'end start'],
-  })
-
-  /*
-   * Lightweight parallax — NO spring wrapper.
-   * Spring on scroll = delayed response = the exact lag you felt.
-   * Direct useTransform is frame-perfect with native scroll.
-   */
+  const { scrollYProgress } = useScroll({ target: sectionRef, offset: ['start start', 'end start'] })
   const bgY = useTransform(scrollYProgress, [0, 1], [0, 60])
 
   return (
-    <section
-      ref={sectionRef}
-      className="relative min-h-screen flex flex-col justify-center overflow-hidden bg-white pt-24 pb-16"
-    >
-      {/* Parallax grid bg — no spring, no lag */}
-      <motion.div
-        aria-hidden
-        style={{ y: bgY }}
-        className="pointer-events-none absolute inset-0"
-      >
-        <div
-          className="absolute inset-0 opacity-[0.035]"
-          style={{
-            backgroundImage:
-              'linear-gradient(#000 1px,transparent 1px),linear-gradient(90deg,#000 1px,transparent 1px)',
-            backgroundSize: '72px 72px',
-          }}
-        />
-        <div
-          className="absolute inset-0"
-          style={{
-            background:
-              'radial-gradient(ellipse 80% 60% at 50% 50%, transparent 40%, white 100%)',
-          }}
-        />
+    <section ref={sectionRef} className="relative min-h-screen flex flex-col justify-center overflow-hidden bg-white pt-24 pb-16">
+      <motion.div aria-hidden style={{ y: bgY }} className="pointer-events-none absolute inset-0">
+        <div className="absolute inset-0 opacity-[0.035]" style={{
+          backgroundImage: 'linear-gradient(#000 1px,transparent 1px),linear-gradient(90deg,#000 1px,transparent 1px)',
+          backgroundSize: '72px 72px',
+        }} />
+        <div className="absolute inset-0" style={{
+          background: 'radial-gradient(ellipse 80% 60% at 50% 50%, transparent 40%, white 100%)',
+        }} />
       </motion.div>
 
       <div className="container-content relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-8 items-center">
-
-          {/* LEFT — copy */}
           <div>
             <motion.div
               initial={{ opacity: 0, y: 10 }}
@@ -94,19 +71,13 @@ export default function Hero() {
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
               </span>
-              <span className="text-[12px] font-medium text-brand-gray-600">
-                Web development studio · Jabalpur, India
-              </span>
+              <span className="text-[12px] font-medium text-brand-gray-600">Web development studio · Jabalpur, India</span>
             </motion.div>
 
             <h1 className="text-[clamp(2.6rem,5.5vw,5rem)] font-extrabold text-brand-black leading-[1.05] tracking-tight mb-6">
               <AnimatedWord text="We build websites" delay={0.08} />
               <br />
-              <AnimatedWord
-                text="that get you clients."
-                delay={0.22}
-                className="text-brand-gray-400"
-              />
+              <AnimatedWord text="that get you clients." delay={0.22} className="text-brand-gray-400" />
             </h1>
 
             <motion.p
@@ -126,26 +97,19 @@ export default function Hero() {
               className="flex flex-wrap items-center gap-3"
             >
               <MagneticButton>
-                <Link
-                  to="/contact"
-                  className="group inline-flex items-center gap-2 px-6 py-3.5 bg-brand-black text-white text-sm font-bold rounded-lg hover:bg-brand-gray-800 active:scale-[0.97] transition-colors duration-200"
-                >
+                <Link to="/contact" className="group inline-flex items-center gap-2 px-6 py-3.5 bg-brand-black text-white text-sm font-bold rounded-lg hover:bg-brand-gray-800 active:scale-[0.97] transition-colors duration-200">
                   Start a project
                   <ArrowRight size={15} className="group-hover:translate-x-1 transition-transform duration-200" />
                 </Link>
               </MagneticButton>
               <MagneticButton>
-                <Link
-                  to="/work"
-                  className="inline-flex items-center gap-2 px-6 py-3.5 border border-brand-gray-300 text-brand-black text-sm font-semibold rounded-lg hover:border-brand-gray-600 active:scale-[0.97] transition-colors duration-200"
-                >
+                <Link to="/work" className="inline-flex items-center gap-2 px-6 py-3.5 border border-brand-gray-300 text-brand-black text-sm font-semibold rounded-lg hover:border-brand-gray-600 active:scale-[0.97] transition-colors duration-200">
                   See our work
                 </Link>
               </MagneticButton>
             </motion.div>
           </div>
 
-          {/* RIGHT — mockup cards */}
           <div className="relative hidden lg:block h-[480px]">
             <MockupCard delay={0.35} className="absolute top-4 left-4 right-4">
               <div className="flex items-center gap-1.5 mb-3">
@@ -161,56 +125,45 @@ export default function Hero() {
                 <div className="h-10 bg-brand-black rounded-lg w-1/3 mt-4" />
               </div>
             </MockupCard>
-
             <MockupCard delay={0.52} className="absolute bottom-28 left-0 w-52">
               <div className="flex items-center gap-2 mb-2">
-                <div className="w-7 h-7 bg-emerald-100 rounded-lg flex items-center justify-center">
-                  <Zap size={13} className="text-emerald-600" />
-                </div>
+                <div className="w-7 h-7 bg-emerald-100 rounded-lg flex items-center justify-center"><Zap size={13} className="text-emerald-600" /></div>
                 <span className="text-xs font-semibold text-brand-black">Performance</span>
               </div>
               <p className="text-2xl font-extrabold text-brand-black">100</p>
               <p className="text-[10px] text-brand-gray-500 uppercase tracking-widest">Lighthouse score</p>
             </MockupCard>
-
             <MockupCard delay={0.66} className="absolute bottom-8 right-0 w-56">
               <div className="flex items-center gap-1 mb-2">
-                {[...Array(5)].map((_, i) => (
-                  <Star key={i} size={11} className="text-yellow-400 fill-yellow-400" />
-                ))}
+                {[...Array(5)].map((_, i) => <Star key={i} size={11} className="text-yellow-400 fill-yellow-400" />)}
               </div>
-              <p className="text-xs font-semibold text-brand-black mb-1">"Launched in 3 weeks."</p>
+              <p className="text-xs font-semibold text-brand-black mb-1">&ldquo;Launched in 3 weeks.&rdquo;</p>
               <p className="text-[10px] text-brand-gray-500">— Rahul M., Founder</p>
             </MockupCard>
-
             <MockupCard delay={0.78} className="absolute top-8 right-0 w-44">
               <div className="flex items-center gap-2">
-                <div className="w-7 h-7 bg-brand-gray-100 rounded-lg flex items-center justify-center">
-                  <Clock size={13} className="text-brand-gray-600" />
-                </div>
+                <div className="w-7 h-7 bg-brand-gray-100 rounded-lg flex items-center justify-center"><Clock size={13} className="text-brand-gray-600" /></div>
                 <div>
                   <p className="text-xs font-bold text-brand-black">2–4 weeks</p>
                   <p className="text-[10px] text-brand-gray-500">avg. delivery</p>
                 </div>
               </div>
             </MockupCard>
-
-            <motion.div
-              animate={{ y: [0, -7, 0] }}
-              transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}
-              className="absolute inset-0 pointer-events-none"
-            />
+            <motion.div animate={{ y: [0, -7, 0] }} transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }} className="absolute inset-0 pointer-events-none" />
           </div>
         </div>
 
-        {/* Stat strip */}
+        {/* Animated divider + stat strip */}
         <motion.div
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.75, ease: [0.16, 1, 0.3, 1] }}
-          className="mt-16 pt-10 border-t border-brand-gray-100 flex flex-wrap gap-8 md:gap-16"
+          className="mt-16"
         >
-          {STATS.map((s) => <StatCounter key={s.label} {...s} />)}
+          <AnimatedDivider delay={800} className="text-brand-gray-300 mb-10" />
+          <div className="flex flex-wrap gap-8 md:gap-16">
+            {STATS.map((s) => <StatCounter key={s.label} {...s} />)}
+          </div>
         </motion.div>
       </div>
     </section>
