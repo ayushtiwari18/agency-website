@@ -3,6 +3,7 @@ import { useForm } from 'react-hook-form'
 import { useState } from 'react'
 import { CheckCircle, Send, MapPin, Mail, Clock } from 'lucide-react'
 import { FadeIn } from '../components/ui/FadeIn'
+import ContactMockup from '../components/ui/ContactMockup'
 
 const BUDGET_OPTIONS  = ['Under ₹10,000','₹10,000 – ₹20,000','₹20,000 – ₹50,000','₹50,000+','Not sure yet']
 const TIMELINE_OPTIONS = ['ASAP','2–4 weeks','1–2 months','3+ months','Just exploring']
@@ -40,7 +41,7 @@ export default function Contact() {
         <div className="container-content">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
 
-            {/* Left */}
+            {/* LEFT */}
             <div>
               <FadeIn><p className="eyebrow mb-4">Get in touch</p></FadeIn>
               <FadeIn delay={0.08}>
@@ -50,13 +51,13 @@ export default function Contact() {
               </FadeIn>
               <FadeIn delay={0.14}>
                 <p className="text-brand-gray-500 text-[16px] leading-relaxed max-w-sm mb-10">
-                  Fill in the form and we’ll get back to you within 24 hours
+                  Fill in the form and we'll get back to you within 24 hours
                   with a clear next step. No obligations, no spam.
                 </p>
               </FadeIn>
 
               <FadeIn delay={0.2}>
-                <div className="space-y-4 mb-10">
+                <div className="space-y-4 mb-8">
                   {[
                     { icon: Mail,   text: 'hello@tjcreates.in' },
                     { icon: MapPin, text: 'Jabalpur, Madhya Pradesh, India' },
@@ -82,9 +83,12 @@ export default function Contact() {
                   ))}
                 </div>
               </FadeIn>
+
+              {/* Inbox + Calendar mockup */}
+              <ContactMockup />
             </div>
 
-            {/* Right: form */}
+            {/* RIGHT: form */}
             <FadeIn delay={0.12} direction="left">
               {submitted ? (
                 <div className="card-base p-10 flex flex-col items-center text-center min-h-[500px] justify-center">
@@ -93,7 +97,7 @@ export default function Contact() {
                   </div>
                   <h2 className="text-xl font-bold text-brand-black mb-2">Message received!</h2>
                   <p className="text-sm text-brand-gray-500 max-w-xs leading-relaxed">
-                    We’ll review your project and get back to you within 24 hours with a clear next step.
+                    We'll review your project and get back to you within 24 hours with a clear next step.
                   </p>
                 </div>
               ) : (
