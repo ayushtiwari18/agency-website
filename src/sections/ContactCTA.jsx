@@ -4,13 +4,14 @@ import { motion } from 'framer-motion'
 import { Reveal } from '../components/ui/Reveal'
 import { RevealText } from '../components/ui/RevealText'
 import { CursorGlow } from '../components/ui/CursorGlow'
+import ContactMockup from '../components/ui/ContactMockup'
 
 export default function ContactCTA() {
   return (
     <section className="section-pad-sm bg-white">
       <div className="container-content">
         <Reveal>
-          <div className="bg-brand-black rounded-2xl px-10 py-16 md:px-16 md:py-20 text-center relative overflow-hidden">
+          <div className="bg-brand-black rounded-2xl px-10 py-14 md:px-14 md:py-16 relative overflow-hidden">
 
             {/* Static radial top glow */}
             <div aria-hidden className="pointer-events-none absolute inset-0 opacity-30"
@@ -28,31 +29,52 @@ export default function ContactCTA() {
               className="pointer-events-none absolute inset-y-0 w-1/3 bg-gradient-to-r from-transparent via-white/[0.04] to-transparent"
             />
 
-            <div className="relative z-10">
-              <Reveal><p className="eyebrow text-brand-gray-600 mb-5">Let&apos;s work together</p></Reveal>
-              <RevealText
-                delay={80}
-                className="text-[clamp(2rem,5vw,3.5rem)] font-extrabold text-white leading-[1.08] tracking-tight mb-5 max-w-[640px] mx-auto"
-              >
-                {"Let's discuss\nthe work that matters."}
-              </RevealText>
-              <Reveal delay={200}>
-                <p className="text-brand-gray-500 text-[15px] max-w-[400px] mx-auto mb-10 leading-relaxed">
-                  A 30-minute discovery call to understand your goals and see if
-                  we&apos;re the right partner. No pitch deck, no pressure.
-                </p>
-              </Reveal>
-              <Reveal delay={280}>
-                <div className="flex flex-wrap items-center justify-center gap-3">
-                  <Link to="/contact" className="group inline-flex items-center gap-2 px-6 py-3 bg-white text-brand-black text-sm font-bold rounded-lg hover:bg-brand-gray-100 active:scale-[0.97] transition-all duration-200">
-                    Book a discovery call
-                    <ArrowRight size={15} className="group-hover:translate-x-1 transition-transform duration-200" />
-                  </Link>
-                  <Link to="/work" className="inline-flex items-center gap-2 px-6 py-3 border border-brand-gray-700 text-white text-sm font-semibold rounded-lg hover:border-brand-gray-500 active:scale-[0.97] transition-all duration-200">
-                    See our work
-                  </Link>
+            {/* Inner 2-col grid */}
+            <div className="relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+
+              {/* LEFT — copy + CTAs */}
+              <div>
+                <Reveal>
+                  <p className="eyebrow text-brand-gray-600 mb-5">Let&apos;s work together</p>
+                </Reveal>
+                <RevealText
+                  delay={80}
+                  className="text-[clamp(2rem,4vw,3rem)] font-extrabold text-white leading-[1.08] tracking-tight mb-5 max-w-[480px]"
+                >
+                  {"Let's discuss\nthe work that matters."}
+                </RevealText>
+                <Reveal delay={200}>
+                  <p className="text-brand-gray-500 text-[15px] max-w-[380px] mb-10 leading-relaxed">
+                    A 30-minute discovery call to understand your goals and see if
+                    we&apos;re the right partner. No pitch deck, no pressure.
+                  </p>
+                </Reveal>
+                <Reveal delay={280}>
+                  <div className="flex flex-wrap items-center gap-3">
+                    <Link to="/contact" className="group inline-flex items-center gap-2 px-6 py-3 bg-white text-brand-black text-sm font-bold rounded-lg hover:bg-brand-gray-100 active:scale-[0.97] transition-all duration-200">
+                      Book a discovery call
+                      <ArrowRight size={15} className="group-hover:translate-x-1 transition-transform duration-200" />
+                    </Link>
+                    <Link to="/work" className="inline-flex items-center gap-2 px-6 py-3 border border-brand-gray-700 text-white text-sm font-semibold rounded-lg hover:border-brand-gray-500 active:scale-[0.97] transition-all duration-200">
+                      See our work
+                    </Link>
+                  </div>
+                </Reveal>
+              </div>
+
+              {/* RIGHT — Inbox + Calendar mockup (dark-adapted) */}
+              <div className="hidden lg:block">
+                {/*
+                  We override the card background/border colors with CSS variables
+                  so the white cards pop against the dark CTA background.
+                  The mockup internally uses brand-gray-200 borders and white bg
+                  which already contrast well on dark.
+                */}
+                <div style={{ filter: 'drop-shadow(0 8px 32px rgba(0,0,0,0.4))' }}>
+                  <ContactMockup dark />
                 </div>
-              </Reveal>
+              </div>
+
             </div>
           </div>
         </Reveal>
