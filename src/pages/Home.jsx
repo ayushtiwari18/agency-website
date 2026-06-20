@@ -1,6 +1,8 @@
 import { Helmet } from 'react-helmet-async'
 import Hero from '../sections/Hero'
 import Marquee from '../sections/Marquee'
+import ServicesSection from '../sections/Services'
+import WorkSection from '../sections/Work'
 
 export default function Home() {
   return (
@@ -16,10 +18,12 @@ export default function Home() {
 
       <Hero />
       <Marquee />
+      <ServicesSection />
+      <WorkSection />
 
-      {/* Remaining sections — Rounds 3–8 */}
-      <div className="container-content py-20">
-        <p className="text-brand-gray-300 text-sm">More sections coming in Rounds 3–8.</p>
+      {/* Remaining sections — Rounds 4–7 */}
+      <div className="container-content py-16">
+        <p className="text-brand-gray-300 text-sm">Process, Pricing, Testimonials, FAQ, Contact — coming in Rounds 4–7.</p>
       </div>
     </>
   )
