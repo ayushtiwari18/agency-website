@@ -4,23 +4,30 @@
 
 @layer base {
   html {
-    /* Lenis overrides this — kept as fallback */
+    /* Native smooth scroll — instant response, OS-level inertia */
     scroll-behavior: smooth;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
+
+    /* Critical: prevents Framer Motion layout jank */
+    overflow-x: hidden;
   }
 
   * {
     box-sizing: border-box;
-    /* Remove browser default scroll snap / overflow jank */
-    -webkit-overflow-scrolling: touch;
   }
 
   body {
     @apply text-brand-black bg-white;
     font-family: 'Inter', system-ui, -apple-system, sans-serif;
     overflow-x: hidden;
+
+    /*
+     * This is the key to cloffstudio-style scroll feel:
+     * momentum scroll on iOS, native inertia on desktop
+     */
+    -webkit-overflow-scrolling: touch;
   }
 
   :focus-visible {
@@ -40,10 +47,14 @@
 
   .card-base {
     @apply rounded-2xl border border-brand-gray-200 bg-white;
-    /* GPU layer — prevents paint on hover */
+    /*
+     * GPU promote cards to their own layer—
+     * hover transforms paint in <1 frame, no repaint
+     */
     will-change: transform;
     transform: translateZ(0);
     backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
   }
 
   .rounded-card { border-radius: 1rem; }
@@ -59,30 +70,4 @@
 
 @layer utilities {
   .tabular-nums { font-variant-numeric: tabular-nums; }
-
-  /* Prevent layout shift on animated elements */
-  [data-framer-appear-id] {
-    will-change: transform, opacity;
-  }
-}
-
-/* ---- Lenis smooth scroll base ---- */
-html.lenis {
-  height: auto;
-}
-
-.lenis.lenis-smooth {
-  scroll-behavior: auto !important;
-}
-
-.lenis.lenis-smooth [data-lenis-prevent] {
-  overscroll-behavior: contain;
-}
-
-.lenis.lenis-stopped {
-  overflow: hidden;
-}
-
-.lenis.lenis-scrolling iframe {
-  pointer-events: none;
 }

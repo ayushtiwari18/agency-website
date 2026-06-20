@@ -1,6 +1,6 @@
 import { useRef } from 'react'
 import { Link } from 'react-router-dom'
-import { motion, useScroll, useTransform, useSpring } from 'framer-motion'
+import { motion, useScroll, useTransform } from 'framer-motion'
 import { ArrowRight, Zap, Star, Clock } from 'lucide-react'
 import { AnimatedWord } from '../components/ui/AnimatedWord'
 import { MagneticButton } from '../components/ui/MagneticButton'
@@ -13,7 +13,7 @@ const STATS = [
 ]
 
 function StatCounter({ end, suffix, label }) {
-  const { ref, display } = useAnimatedCounter(end, 2000, suffix)
+  const { ref, display } = useAnimatedCounter(end, 1600, suffix)
   return (
     <div ref={ref} className="flex flex-col">
       <span className="text-[2.2rem] font-extrabold text-brand-black leading-none tracking-tight tabular-nums">
@@ -27,9 +27,9 @@ function StatCounter({ end, suffix, label }) {
 function MockupCard({ delay, className, children }) {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
+      initial={{ opacity: 0, y: 16 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.9, delay, ease: [0.25, 0.46, 0.45, 0.94] }}
+      transition={{ duration: 0.7, delay, ease: [0.16, 1, 0.3, 1] }}
       className={`bg-white rounded-2xl border border-brand-gray-200 shadow-[0_4px_24px_-4px_rgba(0,0,0,0.08)] p-4 ${className}`}
     >
       {children}
@@ -44,16 +44,19 @@ export default function Hero() {
     offset: ['start start', 'end start'],
   })
 
-  // Spring-smoothed parallax — eliminates jerk on scroll
-  const rawBgY = useTransform(scrollYProgress, [0, 1], [0, 80])
-  const bgY    = useSpring(rawBgY, { stiffness: 60, damping: 20, restDelta: 0.001 })
+  /*
+   * Lightweight parallax — NO spring wrapper.
+   * Spring on scroll = delayed response = the exact lag you felt.
+   * Direct useTransform is frame-perfect with native scroll.
+   */
+  const bgY = useTransform(scrollYProgress, [0, 1], [0, 60])
 
   return (
     <section
       ref={sectionRef}
       className="relative min-h-screen flex flex-col justify-center overflow-hidden bg-white pt-24 pb-16"
     >
-      {/* Spring-parallax grid bg */}
+      {/* Parallax grid bg — no spring, no lag */}
       <motion.div
         aria-hidden
         style={{ y: bgY }}
@@ -79,13 +82,12 @@ export default function Hero() {
       <div className="container-content relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-8 items-center">
 
-          {/* LEFT */}
+          {/* LEFT — copy */}
           <div>
-            {/* Eyebrow */}
             <motion.div
-              initial={{ opacity: 0, y: 12 }}
+              initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
+              transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
               className="inline-flex items-center gap-2 px-3.5 py-1.5 mb-8 rounded-full border border-brand-gray-200 bg-brand-gray-50"
             >
               <span className="relative flex h-2 w-2">
@@ -97,33 +99,30 @@ export default function Hero() {
               </span>
             </motion.div>
 
-            {/* Headline */}
             <h1 className="text-[clamp(2.6rem,5.5vw,5rem)] font-extrabold text-brand-black leading-[1.05] tracking-tight mb-6">
-              <AnimatedWord text="We build websites" delay={0.1} />
+              <AnimatedWord text="We build websites" delay={0.08} />
               <br />
               <AnimatedWord
                 text="that get you clients."
-                delay={0.28}
+                delay={0.22}
                 className="text-brand-gray-400"
               />
             </h1>
 
-            {/* Sub */}
             <motion.p
-              initial={{ opacity: 0, y: 16 }}
+              initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.55, ease: [0.25, 0.46, 0.45, 0.94] }}
+              transition={{ duration: 0.6, delay: 0.45, ease: [0.16, 1, 0.3, 1] }}
               className="text-[17px] text-brand-gray-500 leading-relaxed max-w-[440px] mb-10"
             >
               Fast, transparent, and conversion-focused. Portfolio, business,
               and growth websites built for one thing — results.
             </motion.p>
 
-            {/* CTAs */}
             <motion.div
-              initial={{ opacity: 0, y: 14 }}
+              initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.7, ease: [0.25, 0.46, 0.45, 0.94] }}
+              transition={{ duration: 0.5, delay: 0.58, ease: [0.16, 1, 0.3, 1] }}
               className="flex flex-wrap items-center gap-3"
             >
               <MagneticButton>
@@ -146,9 +145,9 @@ export default function Hero() {
             </motion.div>
           </div>
 
-          {/* RIGHT — floating mockup cards */}
+          {/* RIGHT — mockup cards */}
           <div className="relative hidden lg:block h-[480px]">
-            <MockupCard delay={0.45} className="absolute top-4 left-4 right-4">
+            <MockupCard delay={0.35} className="absolute top-4 left-4 right-4">
               <div className="flex items-center gap-1.5 mb-3">
                 <span className="w-2.5 h-2.5 rounded-full bg-red-400" />
                 <span className="w-2.5 h-2.5 rounded-full bg-yellow-400" />
@@ -163,7 +162,7 @@ export default function Hero() {
               </div>
             </MockupCard>
 
-            <MockupCard delay={0.65} className="absolute bottom-28 left-0 w-52">
+            <MockupCard delay={0.52} className="absolute bottom-28 left-0 w-52">
               <div className="flex items-center gap-2 mb-2">
                 <div className="w-7 h-7 bg-emerald-100 rounded-lg flex items-center justify-center">
                   <Zap size={13} className="text-emerald-600" />
@@ -174,7 +173,7 @@ export default function Hero() {
               <p className="text-[10px] text-brand-gray-500 uppercase tracking-widest">Lighthouse score</p>
             </MockupCard>
 
-            <MockupCard delay={0.82} className="absolute bottom-8 right-0 w-56">
+            <MockupCard delay={0.66} className="absolute bottom-8 right-0 w-56">
               <div className="flex items-center gap-1 mb-2">
                 {[...Array(5)].map((_, i) => (
                   <Star key={i} size={11} className="text-yellow-400 fill-yellow-400" />
@@ -184,7 +183,7 @@ export default function Hero() {
               <p className="text-[10px] text-brand-gray-500">— Rahul M., Founder</p>
             </MockupCard>
 
-            <MockupCard delay={0.96} className="absolute top-8 right-0 w-44">
+            <MockupCard delay={0.78} className="absolute top-8 right-0 w-44">
               <div className="flex items-center gap-2">
                 <div className="w-7 h-7 bg-brand-gray-100 rounded-lg flex items-center justify-center">
                   <Clock size={13} className="text-brand-gray-600" />
@@ -196,15 +195,9 @@ export default function Hero() {
               </div>
             </MockupCard>
 
-            {/* Gentle float — whole card group */}
             <motion.div
-              animate={{ y: [0, -8, 0] }}
-              transition={{
-                duration: 6,
-                repeat: Infinity,
-                ease: 'easeInOut',
-                repeatType: 'loop',
-              }}
+              animate={{ y: [0, -7, 0] }}
+              transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}
               className="absolute inset-0 pointer-events-none"
             />
           </div>
@@ -212,9 +205,9 @@ export default function Hero() {
 
         {/* Stat strip */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.9, ease: [0.25, 0.46, 0.45, 0.94] }}
+          transition={{ duration: 0.6, delay: 0.75, ease: [0.16, 1, 0.3, 1] }}
           className="mt-16 pt-10 border-t border-brand-gray-100 flex flex-wrap gap-8 md:gap-16"
         >
           {STATS.map((s) => <StatCounter key={s.label} {...s} />)}
