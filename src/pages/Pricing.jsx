@@ -2,7 +2,7 @@ import { Helmet } from 'react-helmet-async'
 import { Link } from 'react-router-dom'
 import { CheckCircle } from 'lucide-react'
 import { FadeIn } from '../components/ui/FadeIn'
-import { plans } from '../data/pricing'
+import { pricing } from '../data/pricing'
 
 const SITE = 'https://tj-creates.vercel.app'
 
@@ -34,17 +34,18 @@ export default function Pricing() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {plans.map(({ id, name, price, tagline, features, cta, highlight }, i) => (
+            {pricing.map(({ id, name, price, priceNote, bestFor, items, popular }, i) => (
               <FadeIn key={id} delay={i * 0.08}>
-                <div className={`card-base p-8 flex flex-col h-full ${ highlight ? 'ring-2 ring-brand-black' : '' }`}>
-                  {highlight && (
+                <div className={`card-base p-8 flex flex-col h-full ${ popular ? 'ring-2 ring-brand-black' : '' }`}>
+                  {popular && (
                     <p className="text-[10px] font-bold uppercase tracking-widest text-white bg-brand-black px-3 py-1 rounded-full self-start mb-4">Most popular</p>
                   )}
                   <h2 className="text-xl font-extrabold text-brand-black mb-1">{name}</h2>
-                  <p className="text-xs text-brand-gray-500 mb-6">{tagline}</p>
+                  <p className="text-xs text-brand-gray-500 mb-2">{bestFor}</p>
+                  <p className="text-xs text-brand-gray-400 mb-1">{priceNote}</p>
                   <p className="text-3xl font-extrabold text-brand-black mb-8">{price}</p>
                   <ul className="space-y-3 mb-8 flex-1">
-                    {features.map(f => (
+                    {items.map(f => (
                       <li key={f} className="flex items-start gap-2.5 text-sm text-brand-gray-600">
                         <CheckCircle size={14} className="text-emerald-500 mt-0.5 flex-shrink-0" />{f}
                       </li>
@@ -52,11 +53,11 @@ export default function Pricing() {
                   </ul>
                   <Link to="/contact"
                     className={`w-full text-center py-3 rounded-lg text-sm font-bold transition-all duration-200 ${
-                      highlight
+                      popular
                         ? 'bg-brand-black text-white hover:bg-brand-gray-800'
                         : 'border border-brand-gray-200 text-brand-black hover:border-brand-black'
                     }`}>
-                    {cta}
+                    Get started
                   </Link>
                 </div>
               </FadeIn>
