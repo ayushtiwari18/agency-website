@@ -4,21 +4,28 @@ import { Plus, Minus } from 'lucide-react'
 import { FadeIn } from '../components/ui/FadeIn'
 import { faqs } from '../data/faqs'
 import ContactCTA from '../sections/ContactCTA'
+import SchemaOrg from '../components/seo/SchemaOrg'
+import { faqSchema, breadcrumbSchema } from '../data/schema'
 
 export default function FAQ() {
   return (
     <>
       <Helmet>
-        <title>FAQ — T&amp;J Creates</title>
+        <title>FAQ — T&amp;J Creates | Web Development Studio</title>
         <meta name="description" content="Frequently asked questions about T&J Creates web development services, timelines, pricing, and process." />
+        <meta property="og:title" content="FAQ — T&J Creates" />
         <link rel="canonical" href="https://tjcreates.in/faq" />
       </Helmet>
 
-      <section className="section-pad pt-36 bg-white">
+      <SchemaOrg schema={faqSchema(faqs)} />
+      <SchemaOrg schema={breadcrumbSchema([
+        { name: 'Home', url: 'https://tjcreates.in/' },
+        { name: 'FAQ', url: 'https://tjcreates.in/faq' },
+      ])} />
+
+      <section className="section-pad pt-36 bg-white" aria-label="Frequently asked questions">
         <div className="container-content">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
-
-            {/* Left */}
             <div className="lg:sticky lg:top-28">
               <FadeIn><p className="eyebrow mb-4">FAQ</p></FadeIn>
               <FadeIn delay={0.08}>
@@ -33,25 +40,24 @@ export default function FAQ() {
                 </p>
               </FadeIn>
               <FadeIn delay={0.2}>
-                <a href="/contact"
+                <Link to="/contact"
                   className="inline-flex items-center gap-2 px-5 py-2.5 bg-brand-black text-white text-sm font-semibold rounded-lg hover:bg-brand-gray-800 active:scale-[0.97] transition-all">
                   Book a free call
-                </a>
+                </Link>
               </FadeIn>
             </div>
 
-            {/* Right */}
             <FadeIn delay={0.1} direction="left">
-              <div className="space-y-2">
+              <div className="space-y-2" role="list">
                 {faqs.map((faq) => (
-                  <Disclosure key={faq.id} as="div">
+                  <Disclosure key={faq.id} as="div" role="listitem">
                     {({ open }) => (
                       <div className={`rounded-xl border transition-all duration-200 ${
                         open ? 'border-brand-gray-300 bg-white shadow-sm' : 'border-brand-gray-200 bg-white hover:border-brand-gray-300'
                       }`}>
                         <Disclosure.Button className="w-full flex items-center justify-between gap-4 px-6 py-5 text-left">
                           <span className="text-[15px] font-semibold text-brand-black leading-snug">{faq.q}</span>
-                          <span className="flex-shrink-0 w-6 h-6 rounded-full border border-brand-gray-200 flex items-center justify-center">
+                          <span className="flex-shrink-0 w-6 h-6 rounded-full border border-brand-gray-200 flex items-center justify-center" aria-hidden="true">
                             {open ? <Minus size={12} className="text-brand-black" /> : <Plus size={12} className="text-brand-gray-500" />}
                           </span>
                         </Disclosure.Button>
@@ -81,3 +87,6 @@ export default function FAQ() {
     </>
   )
 }
+
+// Missing import fix
+import { Link } from 'react-router-dom'

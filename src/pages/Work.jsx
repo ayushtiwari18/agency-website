@@ -1,19 +1,40 @@
 import { Helmet } from 'react-helmet-async'
 import { Link } from 'react-router-dom'
-import { ArrowRight, ArrowUpRight, ExternalLink, Github } from 'lucide-react'
+import { ArrowRight, ExternalLink, Github } from 'lucide-react'
 import { FadeIn } from '../components/ui/FadeIn'
 import { Badge } from '../components/ui/Badge'
 import { projects } from '../data/projects'
 import ContactCTA from '../sections/ContactCTA'
+import SchemaOrg from '../components/seo/SchemaOrg'
+import { breadcrumbSchema } from '../data/schema'
 
-function ProjectPlaceholder({ type }) {
+const workItemListSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'ItemList',
+  name: 'T&J Creates — Portfolio of Work',
+  description: 'Case studies showing real web development projects, outcomes, and results.',
+  url: 'https://tjcreates.in/work',
+  itemListElement: projects.map((p, i) => ({
+    '@type': 'ListItem',
+    position: i + 1,
+    name: p.title,
+    description: p.result,
+    url: `https://tjcreates.in/work#${p.id}`,
+  })),
+}
+
+function ProjectPlaceholder({ type, alt }) {
   const styles = {
     'Portfolio Website': 'from-brand-gray-100 to-brand-gray-200',
     'Business Website':  'from-brand-gray-800 to-brand-black',
     'Growth Website':    'from-brand-gray-700 to-brand-gray-900',
   }
   return (
-    <div className={`w-full h-full bg-gradient-to-br ${styles[type] ?? 'from-brand-gray-100 to-brand-gray-200'} flex items-center justify-center`}>
+    <div
+      role="img"
+      aria-label={alt || `${type} project screenshot`}
+      className={`w-full h-full bg-gradient-to-br ${styles[type] ?? 'from-brand-gray-100 to-brand-gray-200'} flex items-center justify-center`}
+    >
       <p className="text-xs font-medium uppercase tracking-widest opacity-30 text-brand-gray-500">{type}</p>
     </div>
   )
@@ -23,12 +44,20 @@ export default function Work() {
   return (
     <>
       <Helmet>
-        <title>Work — T&amp;J Creates</title>
-        <meta name="description" content="Case studies from T&J Creates. Real projects, real outcomes. See how we build websites that help businesses get clients." />
+        <title>Work &amp; Case Studies — T&amp;J Creates</title>
+        <meta name="description" content="Real web development projects with measurable outcomes. See how T&J Creates builds websites that help businesses get clients." />
+        <meta property="og:title" content="Work & Case Studies — T&J Creates" />
+        <meta property="og:description" content="Real projects, real outcomes. Case studies from T&J Creates." />
+        <meta property="og:type" content="website" />
         <link rel="canonical" href="https://tjcreates.in/work" />
       </Helmet>
 
-      {/* Hero */}
+      <SchemaOrg schema={workItemListSchema} />
+      <SchemaOrg schema={breadcrumbSchema([
+        { name: 'Home', url: 'https://tjcreates.in/' },
+        { name: 'Work', url: 'https://tjcreates.in/work' },
+      ])} />
+
       <section className="section-pad pt-36 bg-white">
         <div className="container-content">
           <FadeIn><p className="eyebrow mb-4">Selected work</p></FadeIn>
@@ -45,15 +74,20 @@ export default function Work() {
         </div>
       </section>
 
-      {/* Projects */}
-      <section className="section-pad-sm bg-brand-gray-50">
+      <section className="section-pad-sm bg-brand-gray-50" aria-label="Project case studies">
         <div className="container-content space-y-6">
           {projects.map((project, i) => (
             <FadeIn key={project.id} delay={i * 0.1}>
-              <div className="card-base overflow-hidden hover:shadow-[0_8px_40px_-8px_rgba(0,0,0,0.10)] hover:-translate-y-1 transition-all duration-300">
+              <article
+                id={project.id}
+                className="card-base overflow-hidden hover:shadow-[0_8px_40px_-8px_rgba(0,0,0,0.10)] hover:-translate-y-1 transition-all duration-300"
+              >
                 <div className="grid grid-cols-1 lg:grid-cols-2">
                   <div className="h-[260px] lg:h-auto min-h-[260px]">
-                    <ProjectPlaceholder type={project.type} />
+                    <ProjectPlaceholder
+                      type={project.type}
+                      alt={`${project.title} — ${project.type} built by T&J Creates`}
+                    />
                   </div>
                   <div className="p-8 lg:p-10 flex flex-col justify-between">
                     <div>
@@ -64,17 +98,20 @@ export default function Work() {
                       <h2 className="text-[1.5rem] font-extrabold text-brand-black leading-snug tracking-tight mb-4">
                         {project.title}
                       </h2>
-                      <div className="space-y-3 mb-6">
-                        <p className="text-sm text-brand-gray-500 leading-relaxed">
-                          <span className="font-semibold text-brand-gray-700">Problem: </span>{project.problem}
-                        </p>
-                        <p className="text-sm text-brand-gray-500 leading-relaxed">
-                          <span className="font-semibold text-brand-gray-700">Solution: </span>{project.solution}
-                        </p>
-                        <p className="text-sm text-brand-gray-600 leading-relaxed">
-                          <span className="font-semibold text-brand-gray-700">Result: </span>{project.result}
-                        </p>
-                      </div>
+                      <dl className="space-y-3 mb-6">
+                        <div>
+                          <dt className="inline font-semibold text-sm text-brand-gray-700">Problem: </dt>
+                          <dd className="inline text-sm text-brand-gray-500 leading-relaxed">{project.problem}</dd>
+                        </div>
+                        <div>
+                          <dt className="inline font-semibold text-sm text-brand-gray-700">Solution: </dt>
+                          <dd className="inline text-sm text-brand-gray-500 leading-relaxed">{project.solution}</dd>
+                        </div>
+                        <div>
+                          <dt className="inline font-semibold text-sm text-brand-gray-700">Result: </dt>
+                          <dd className="inline text-sm text-brand-gray-600 leading-relaxed">{project.result}</dd>
+                        </div>
+                      </dl>
                     </div>
                     <div>
                       <div className="flex gap-8 pt-6 border-t border-brand-gray-100 mb-6">
@@ -85,30 +122,32 @@ export default function Work() {
                           </div>
                         ))}
                       </div>
-                      <div className="flex items-center gap-4">
+                      <div className="flex items-center gap-5">
                         {project.live && (
-                          <a href={project.live} target="_blank" rel="noreferrer"
+                          <a href={project.live} target="_blank" rel="noreferrer noopener"
+                            aria-label={`Visit live site for ${project.title}`}
                             className="inline-flex items-center gap-1.5 text-sm font-semibold text-brand-black hover:opacity-60 transition-opacity">
-                            Live site <ExternalLink size={13} />
+                            Live site <ExternalLink size={13} aria-hidden="true" />
                           </a>
                         )}
                         {project.github && (
-                          <a href={project.github} target="_blank" rel="noreferrer"
+                          <a href={project.github} target="_blank" rel="noreferrer noopener"
+                            aria-label={`View source code for ${project.title} on GitHub`}
                             className="inline-flex items-center gap-1.5 text-sm font-semibold text-brand-gray-500 hover:text-brand-black transition-colors">
-                            GitHub <Github size={13} />
+                            GitHub <Github size={13} aria-hidden="true" />
                           </a>
                         )}
                         {!project.live && !project.github && (
                           <Link to="/contact"
                             className="inline-flex items-center gap-1.5 text-sm font-semibold text-brand-black hover:gap-2.5 transition-all duration-200">
-                            Start a similar project <ArrowRight size={14} />
+                            Start a similar project <ArrowRight size={14} aria-hidden="true" />
                           </Link>
                         )}
                       </div>
                     </div>
                   </div>
                 </div>
-              </div>
+              </article>
             </FadeIn>
           ))}
         </div>
