@@ -1,17 +1,16 @@
 import { useScrollReveal } from '../../hooks/useScrollReveal'
 
 const HIDDEN_TRANSFORMS = {
-  up:    'translate3d(0, 32px, 0)',
+  up:    'translate3d(0, 40px, 0)',
   down:  'translate3d(0, -24px, 0)',
-  left:  'translate3d(24px, 0, 0)',
-  right: 'translate3d(-24px, 0, 0)',
+  left:  'translate3d(30px, 0, 0)',
+  right: 'translate3d(-30px, 0, 0)',
   none:  'translate3d(0, 0, 0)',
 }
 
 /**
- * Elements start hidden via INLINE STYLE (not CSS class)
- * so opacity:0 is guaranteed before any stylesheet loads.
- * On reveal, transition to opacity:1 + translate(0,0,0).
+ * Inline-style reveal: guaranteed opacity:0 before any paint.
+ * Transitions to visible when IntersectionObserver fires.
  */
 export function Reveal({
   children,
@@ -21,7 +20,6 @@ export function Reveal({
   once = true,
 }) {
   const { ref, revealed } = useScrollReveal({ once })
-
   const hiddenTransform = HIDDEN_TRANSFORMS[direction] ?? HIDDEN_TRANSFORMS.up
 
   const style = revealed

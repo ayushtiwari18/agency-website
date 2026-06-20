@@ -1,168 +1,131 @@
-import { useRef } from 'react'
+import { motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
-import { motion, useScroll, useTransform } from 'framer-motion'
-import { ArrowRight, Zap, Star, Clock } from 'lucide-react'
-import { AnimatedWord } from '../components/ui/AnimatedWord'
-import { MagneticButton } from '../components/ui/MagneticButton'
-import { AnimatedDivider } from '../components/ui/AnimatedDivider'
-import { useAnimatedCounter } from '../hooks/useAnimatedCounter'
+import { ArrowUpRight, ArrowRight } from 'lucide-react'
+import HeroMockup from '../components/ui/HeroMockup'
 
-const STATS = [
-  { end: 10,  suffix: '+',  label: 'Projects delivered' },
-  { end: 3,   suffix: '+',  label: 'Live products' },
-  { end: 100, suffix: '%',  label: 'On-time launches' },
+const fadeUp = (delay = 0) => ({
+  initial: { opacity: 0, y: 32 },
+  animate: { opacity: 1, y: 0 },
+  transition: { duration: 0.7, delay, ease: [0.22, 1, 0.36, 1] },
+})
+
+const stats = [
+  { value: '10+',  label: 'Projects delivered' },
+  { value: '3+',   label: 'Live products' },
+  { value: '100%', label: 'On-time launches' },
 ]
 
-function StatCounter({ end, suffix, label }) {
-  const { ref, display, style } = useAnimatedCounter(end, 1600, suffix)
-  return (
-    <div ref={ref} className="flex flex-col">
-      <span
-        className="text-[2.2rem] font-extrabold text-brand-black leading-none tracking-tight tabular-nums"
-        style={style}
-      >
-        {display}
-      </span>
-      <span className="text-xs text-brand-gray-500 mt-1 uppercase tracking-wider">{label}</span>
-    </div>
-  )
-}
-
-function MockupCard({ delay, className, children }) {
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 16 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.7, delay, ease: [0.16, 1, 0.3, 1] }}
-      className={`bg-white rounded-2xl border border-brand-gray-200 shadow-[0_4px_24px_-4px_rgba(0,0,0,0.08)] p-4 ${className}`}
-    >
-      {children}
-    </motion.div>
-  )
-}
-
 export default function Hero() {
-  const sectionRef = useRef(null)
-  const { scrollYProgress } = useScroll({ target: sectionRef, offset: ['start start', 'end start'] })
-  const bgY = useTransform(scrollYProgress, [0, 1], [0, 60])
-
   return (
-    <section ref={sectionRef} className="relative min-h-screen flex flex-col justify-center overflow-hidden bg-white pt-24 pb-16">
-      <motion.div aria-hidden style={{ y: bgY }} className="pointer-events-none absolute inset-0">
-        <div className="absolute inset-0 opacity-[0.035]" style={{
-          backgroundImage: 'linear-gradient(#000 1px,transparent 1px),linear-gradient(90deg,#000 1px,transparent 1px)',
+    <section className="relative min-h-screen flex flex-col justify-center overflow-hidden bg-white">
+      {/* subtle grid bg */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0"
+        style={{
+          backgroundImage:
+            'linear-gradient(to right, #E8E8E8 1px, transparent 1px), linear-gradient(to bottom, #E8E8E8 1px, transparent 1px)',
           backgroundSize: '72px 72px',
-        }} />
-        <div className="absolute inset-0" style={{
-          background: 'radial-gradient(ellipse 80% 60% at 50% 50%, transparent 40%, white 100%)',
-        }} />
-      </motion.div>
+          opacity: 0.35,
+        }}
+      />
+      {/* fade-out bottom edge */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute bottom-0 inset-x-0 h-48"
+        style={{ background: 'linear-gradient(to bottom, transparent, #ffffff)' }}
+      />
 
-      <div className="container-content relative z-10">
+      <div className="container-content relative z-10 pt-32 pb-16 lg:pt-40 lg:pb-24">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-8 items-center">
-          <div>
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-              className="inline-flex items-center gap-2 px-3.5 py-1.5 mb-8 rounded-full border border-brand-gray-200 bg-brand-gray-50"
-            >
-              <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
-              </span>
-              <span className="text-[12px] font-medium text-brand-gray-600">Web development studio · Jabalpur, India</span>
+
+          {/* LEFT COPY */}
+          <div className="max-w-[580px]">
+
+            {/* Eyebrow pill */}
+            <motion.div {...fadeUp(0)}>
+              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-brand-gray-200 bg-brand-gray-50 mb-8">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 flex-shrink-0" />
+                <span className="text-xs font-medium text-brand-gray-600 tracking-wide">
+                  Web development studio &middot; Jabalpur, India
+                </span>
+              </div>
             </motion.div>
 
-            <h1 className="text-[clamp(2.6rem,5.5vw,5rem)] font-extrabold text-brand-black leading-[1.05] tracking-tight mb-6">
-              <AnimatedWord text="We build websites" delay={0.08} />
-              <br />
-              <AnimatedWord text="that get you clients." delay={0.22} className="text-brand-gray-400" />
-            </h1>
-
-            <motion.p
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.45, ease: [0.16, 1, 0.3, 1] }}
-              className="text-[17px] text-brand-gray-500 leading-relaxed max-w-[440px] mb-10"
+            {/* Headline */}
+            <motion.h1
+              {...fadeUp(0.08)}
+              className="text-[clamp(2.6rem,6vw,5.25rem)] font-extrabold leading-[1.04] tracking-[-0.03em] text-brand-black mb-6"
             >
-              Fast, transparent, and conversion-focused. Portfolio, business,
-              and growth websites built for one thing — results.
+              We build websites that help businesses{' '}
+              <span className="relative inline-block">
+                get clients.
+                <motion.span
+                  initial={{ scaleX: 0 }}
+                  animate={{ scaleX: 1 }}
+                  transition={{ duration: 0.6, delay: 0.55, ease: [0.22, 1, 0.36, 1] }}
+                  style={{ originX: 0 }}
+                  className="absolute -bottom-1 left-0 right-0 h-[3px] bg-brand-black rounded-full block"
+                />
+              </span>
+            </motion.h1>
+
+            {/* Subheadline */}
+            <motion.p
+              {...fadeUp(0.18)}
+              className="text-[17px] text-brand-gray-500 leading-[1.7] mb-10 max-w-[460px]"
+            >
+              Fast, transparent, conversion-focused websites for businesses
+              and personal brands. Built to rank, load fast, and convert visitors
+              into leads.
             </motion.p>
 
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.58, ease: [0.16, 1, 0.3, 1] }}
-              className="flex flex-wrap items-center gap-3"
-            >
-              <MagneticButton>
-                <Link to="/contact" className="group inline-flex items-center gap-2 px-6 py-3.5 bg-brand-black text-white text-sm font-bold rounded-lg hover:bg-brand-gray-800 active:scale-[0.97] transition-colors duration-200">
-                  Start a project
-                  <ArrowRight size={15} className="group-hover:translate-x-1 transition-transform duration-200" />
-                </Link>
-              </MagneticButton>
-              <MagneticButton>
-                <Link to="/work" className="inline-flex items-center gap-2 px-6 py-3.5 border border-brand-gray-300 text-brand-black text-sm font-semibold rounded-lg hover:border-brand-gray-600 active:scale-[0.97] transition-colors duration-200">
-                  See our work
-                </Link>
-              </MagneticButton>
+            {/* CTAs */}
+            <motion.div {...fadeUp(0.26)} className="flex flex-wrap items-center gap-3">
+              <Link
+                to="/contact"
+                className="inline-flex items-center gap-2 px-6 py-3 bg-brand-black text-white text-sm font-semibold rounded-lg hover:bg-brand-gray-800 active:scale-[0.97] transition-all duration-200"
+              >
+                Get Estimate <ArrowUpRight size={15} />
+              </Link>
+              <Link
+                to="/work"
+                className="inline-flex items-center gap-2 px-6 py-3 border border-brand-gray-300 text-brand-black text-sm font-semibold rounded-lg hover:border-brand-black active:scale-[0.97] transition-all duration-200"
+              >
+                See Work <ArrowRight size={15} />
+              </Link>
             </motion.div>
           </div>
 
-          <div className="relative hidden lg:block h-[480px]">
-            <MockupCard delay={0.35} className="absolute top-4 left-4 right-4">
-              <div className="flex items-center gap-1.5 mb-3">
-                <span className="w-2.5 h-2.5 rounded-full bg-red-400" />
-                <span className="w-2.5 h-2.5 rounded-full bg-yellow-400" />
-                <span className="w-2.5 h-2.5 rounded-full bg-green-400" />
-                <div className="flex-1 ml-2 h-5 bg-brand-gray-100 rounded-md" />
-              </div>
-              <div className="space-y-2">
-                <div className="h-8 bg-brand-gray-100 rounded-lg w-2/3" />
-                <div className="h-4 bg-brand-gray-100 rounded w-full" />
-                <div className="h-4 bg-brand-gray-100 rounded w-4/5" />
-                <div className="h-10 bg-brand-black rounded-lg w-1/3 mt-4" />
-              </div>
-            </MockupCard>
-            <MockupCard delay={0.52} className="absolute bottom-28 left-0 w-52">
-              <div className="flex items-center gap-2 mb-2">
-                <div className="w-7 h-7 bg-emerald-100 rounded-lg flex items-center justify-center"><Zap size={13} className="text-emerald-600" /></div>
-                <span className="text-xs font-semibold text-brand-black">Performance</span>
-              </div>
-              <p className="text-2xl font-extrabold text-brand-black">100</p>
-              <p className="text-[10px] text-brand-gray-500 uppercase tracking-widest">Lighthouse score</p>
-            </MockupCard>
-            <MockupCard delay={0.66} className="absolute bottom-8 right-0 w-56">
-              <div className="flex items-center gap-1 mb-2">
-                {[...Array(5)].map((_, i) => <Star key={i} size={11} className="text-yellow-400 fill-yellow-400" />)}
-              </div>
-              <p className="text-xs font-semibold text-brand-black mb-1">&ldquo;Launched in 3 weeks.&rdquo;</p>
-              <p className="text-[10px] text-brand-gray-500">— Rahul M., Founder</p>
-            </MockupCard>
-            <MockupCard delay={0.78} className="absolute top-8 right-0 w-44">
-              <div className="flex items-center gap-2">
-                <div className="w-7 h-7 bg-brand-gray-100 rounded-lg flex items-center justify-center"><Clock size={13} className="text-brand-gray-600" /></div>
-                <div>
-                  <p className="text-xs font-bold text-brand-black">2–4 weeks</p>
-                  <p className="text-[10px] text-brand-gray-500">avg. delivery</p>
-                </div>
-              </div>
-            </MockupCard>
-            <motion.div animate={{ y: [0, -7, 0] }} transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }} className="absolute inset-0 pointer-events-none" />
-          </div>
+          {/* RIGHT MOCKUP */}
+          <motion.div
+            initial={{ opacity: 0, y: 40, scale: 0.97 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            transition={{ duration: 0.85, delay: 0.22, ease: [0.22, 1, 0.36, 1] }}
+            className="hidden lg:flex justify-end items-center"
+          >
+            <HeroMockup />
+          </motion.div>
         </div>
 
-        {/* Animated divider + stat strip */}
+        {/* STATS STRIP */}
         <motion.div
-          initial={{ opacity: 0, y: 16 }}
+          initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.75, ease: [0.16, 1, 0.3, 1] }}
-          className="mt-16"
+          transition={{ duration: 0.6, delay: 0.45, ease: [0.22, 1, 0.36, 1] }}
+          className="mt-16 lg:mt-20 pt-8 border-t border-brand-gray-200"
         >
-          <AnimatedDivider delay={800} className="text-brand-gray-300 mb-10" />
-          <div className="flex flex-wrap gap-8 md:gap-16">
-            {STATS.map((s) => <StatCounter key={s.label} {...s} />)}
+          <div className="flex flex-wrap gap-10 md:gap-16">
+            {stats.map((s, i) => (
+              <div key={i} className="flex flex-col gap-0.5">
+                <span className="text-[2rem] font-extrabold tracking-tight text-brand-black leading-none">
+                  {s.value}
+                </span>
+                <span className="text-xs font-medium tracking-[0.1em] uppercase text-brand-gray-500">
+                  {s.label}
+                </span>
+              </div>
+            ))}
           </div>
         </motion.div>
       </div>
