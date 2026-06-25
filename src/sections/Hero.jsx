@@ -38,13 +38,13 @@ export default function Hero() {
         style={{ background: 'linear-gradient(to bottom, transparent, #ffffff)' }}
       />
 
-      <div className="container-content relative z-10 pt-32 pb-16 lg:pt-40 lg:pb-24">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-8 items-center">
+      <div className="container-content relative z-10 pt-28 pb-12 lg:pt-32 lg:pb-20">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-8 items-center">
 
           {/* LEFT COPY */}
-          <div className="max-w-[580px]">
+          <div className="max-w-[540px]">
             <motion.div {...fadeUp(0)}>
-              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-brand-gray-200 bg-brand-gray-50 mb-8">
+              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-brand-gray-200 bg-brand-gray-50 mb-6">
                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 flex-shrink-0" />
                 <span className="text-xs font-medium text-brand-gray-600 tracking-wide">
                   Custom Software &amp; AI Solutions &middot; Jabalpur, India
@@ -54,14 +54,14 @@ export default function Hero() {
 
             <motion.h1
               {...fadeUp(0.08)}
-              className="text-[clamp(2.6rem,6vw,5.25rem)] font-extrabold leading-[1.04] tracking-[-0.03em] text-brand-black mb-6"
+              className="text-[clamp(1.9rem,3.5vw,3rem)] font-extrabold leading-[1.08] tracking-[-0.02em] text-brand-black mb-5"
             >
               Custom Software, AI Solutions &amp; Modern Websites for Growing Businesses
             </motion.h1>
 
             <motion.p
               {...fadeUp(0.18)}
-              className="text-[17px] text-brand-gray-500 leading-[1.7] mb-10 max-w-[460px]"
+              className="text-[16px] text-brand-gray-500 leading-[1.7] mb-8 max-w-[440px]"
             >
               We help businesses streamline operations, improve customer experiences, and accelerate growth through tailored software solutions.
             </motion.p>
@@ -98,9 +98,9 @@ export default function Hero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.45, ease: [0.22, 1, 0.36, 1] }}
-          className="mt-16 lg:mt-20"
+          className="mt-12 lg:mt-16"
         >
-          <AnimatedDivider className="mb-8" />
+          <AnimatedDivider className="mb-6" />
 
           <div className="flex flex-wrap gap-10 md:gap-16">
             {stats.map((s, i) => (
