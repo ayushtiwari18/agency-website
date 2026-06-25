@@ -35,24 +35,24 @@ export default function ContactCTA() {
               {/* LEFT — copy + CTAs */}
               <div>
                 <Reveal>
-                  <p className="eyebrow text-brand-gray-600 mb-5">Let&apos;s work together</p>
+                  <p className="eyebrow text-brand-gray-600 mb-5">Let&apos;s build together</p>
                 </Reveal>
                 <RevealText
                   delay={80}
                   className="text-[clamp(2rem,4vw,3rem)] font-extrabold text-white leading-[1.08] tracking-tight mb-5 max-w-[480px]"
                 >
-                  {"Let's discuss\nthe work that matters."}
+                  {"Ready to Build Your\nNext Digital Solution?"}
                 </RevealText>
                 <Reveal delay={200}>
                   <p className="text-brand-gray-500 text-[15px] max-w-[380px] mb-10 leading-relaxed">
-                    A 30-minute discovery call to understand your goals and see if
-                    we&apos;re the right partner. No pitch deck, no pressure.
+                    A free 30-minute consultation to understand your goals and map out
+                    the right solution for your business. No pitch deck, no pressure.
                   </p>
                 </Reveal>
                 <Reveal delay={280}>
                   <div className="flex flex-wrap items-center gap-3">
                     <Link to="/contact" className="group inline-flex items-center gap-2 px-6 py-3 bg-white text-brand-black text-sm font-bold rounded-lg hover:bg-brand-gray-100 active:scale-[0.97] transition-all duration-200">
-                      Book a discovery call
+                      Schedule a Free Consultation
                       <ArrowRight size={15} className="group-hover:translate-x-1 transition-transform duration-200" />
                     </Link>
                     <Link to="/work" className="inline-flex items-center gap-2 px-6 py-3 border border-brand-gray-700 text-white text-sm font-semibold rounded-lg hover:border-brand-gray-500 active:scale-[0.97] transition-all duration-200">
@@ -64,12 +64,6 @@ export default function ContactCTA() {
 
               {/* RIGHT — Inbox + Calendar mockup (dark-adapted) */}
               <div className="hidden lg:block">
-                {/*
-                  We override the card background/border colors with CSS variables
-                  so the white cards pop against the dark CTA background.
-                  The mockup internally uses brand-gray-200 borders and white bg
-                  which already contrast well on dark.
-                */}
                 <div style={{ filter: 'drop-shadow(0 8px 32px rgba(0,0,0,0.4))' }}>
                   <ContactMockup dark />
                 </div>

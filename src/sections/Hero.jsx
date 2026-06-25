@@ -47,7 +47,7 @@ export default function Hero() {
               <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-brand-gray-200 bg-brand-gray-50 mb-8">
                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 flex-shrink-0" />
                 <span className="text-xs font-medium text-brand-gray-600 tracking-wide">
-                  Web development studio &middot; Jabalpur, India
+                  Custom Software &amp; AI Solutions &middot; Jabalpur, India
                 </span>
               </div>
             </motion.div>
@@ -56,16 +56,14 @@ export default function Hero() {
               {...fadeUp(0.08)}
               className="text-[clamp(2.6rem,6vw,5.25rem)] font-extrabold leading-[1.04] tracking-[-0.03em] text-brand-black mb-6"
             >
-              We build websites that help businesses get clients.
+              Custom Software, AI Solutions &amp; Modern Websites for Growing Businesses
             </motion.h1>
 
             <motion.p
               {...fadeUp(0.18)}
               className="text-[17px] text-brand-gray-500 leading-[1.7] mb-10 max-w-[460px]"
             >
-              Fast, transparent, conversion-focused websites for businesses
-              and personal brands. Built to rank, load fast, and convert visitors
-              into leads.
+              We help businesses streamline operations, improve customer experiences, and accelerate growth through tailored software solutions.
             </motion.p>
 
             <motion.div {...fadeUp(0.26)} className="flex flex-wrap items-center gap-3">
@@ -73,13 +71,13 @@ export default function Hero() {
                 to="/contact"
                 className="inline-flex items-center gap-2 px-6 py-3 bg-brand-black text-white text-sm font-semibold rounded-lg hover:bg-brand-gray-800 active:scale-[0.97] transition-all duration-200"
               >
-                Get Estimate <ArrowUpRight size={15} />
+                Book a Free Consultation <ArrowUpRight size={15} />
               </Link>
               <Link
                 to="/work"
                 className="inline-flex items-center gap-2 px-6 py-3 border border-brand-gray-300 text-brand-black text-sm font-semibold rounded-lg hover:border-brand-black active:scale-[0.97] transition-all duration-200"
               >
-                See Work <ArrowRight size={15} />
+                View Our Work <ArrowRight size={15} />
               </Link>
             </motion.div>
           </div>
@@ -95,20 +93,18 @@ export default function Hero() {
           </motion.div>
         </div>
 
-        {/* STATS STRIP — Layer 4 animated divider + Layer 5 slot counter */}
+        {/* STATS STRIP */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.45, ease: [0.22, 1, 0.36, 1] }}
           className="mt-16 lg:mt-20"
         >
-          {/* Layer 4 — draws left-to-right on scroll */}
           <AnimatedDivider className="mb-8" />
 
           <div className="flex flex-wrap gap-10 md:gap-16">
             {stats.map((s, i) => (
               <div key={i} className="flex flex-col gap-0.5">
-                {/* Layer 5 — slot-machine roll */}
                 <SlotCounter
                   value={s.value}
                   className="text-[2rem] font-extrabold tracking-tight text-brand-black leading-none"
