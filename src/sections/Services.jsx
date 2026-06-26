@@ -1,13 +1,17 @@
 import { Link } from 'react-router-dom'
-import { User, Briefcase, TrendingUp, ArrowRight } from 'lucide-react'
+import { ArrowRight } from 'lucide-react'
 import { motion } from 'framer-motion'
 import { Reveal } from '../components/ui/Reveal'
 import { RevealText } from '../components/ui/RevealText'
-import { Badge } from '../components/ui/Badge'
 import { services } from '../data/services'
 import ServicesMockup from '../components/ui/ServicesMockup'
 
-const ICONS = { User, Briefcase, TrendingUp }
+const colorDot = {
+  emerald: 'bg-emerald-400',
+  blue:    'bg-blue-400',
+  purple:  'bg-purple-400',
+  orange:  'bg-orange-400',
+}
 
 export default function ServicesSection() {
   return (
@@ -46,9 +50,9 @@ export default function ServicesSection() {
         </div>
 
         {/* ── SERVICE CARDS ── */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
           {services.map((svc, i) => {
-            const Icon = ICONS[svc.icon]
+            const Icon = svc.icon
             return (
               <Reveal key={svc.id} delay={i * 100}>
                 <motion.div
@@ -58,23 +62,25 @@ export default function ServicesSection() {
                 >
                   <div className="flex items-start justify-between mb-6">
                     <div className="w-11 h-11 bg-brand-gray-100 rounded-xl flex items-center justify-center">
-                      {Icon && <Icon size={18} className="text-brand-gray-700" />}
+                      <Icon size={18} className="text-brand-gray-700" />
                     </div>
-                    <span className="text-xs font-semibold text-brand-gray-300 tracking-widest">{svc.number}</span>
+                    <span className={`w-2 h-2 rounded-full mt-1.5 flex-shrink-0 ${colorDot[svc.color]}`} />
                   </div>
-                  <h3 className="text-[18px] font-bold text-brand-black mb-2 leading-snug">{svc.title}</h3>
-                  <p className="text-xs text-brand-gray-500 mb-3">{svc.forWho}</p>
-                  <p className="text-sm text-brand-gray-600 leading-relaxed mb-5 flex-1">{svc.outcome}</p>
+                  <h3 className="text-[17px] font-bold text-brand-black mb-2 leading-snug">{svc.name}</h3>
+                  <p className="text-xs font-medium text-brand-gray-400 uppercase tracking-widest mb-3">{svc.tagline}</p>
+                  <p className="text-sm text-brand-gray-600 leading-relaxed mb-5 flex-1">{svc.description}</p>
                   <ul className="space-y-1.5 mb-6">
-                    {svc.deliverables.map((d) => (
-                      <li key={d} className="flex items-center gap-2 text-sm text-brand-gray-600">
-                        <span className="w-1 h-1 rounded-full bg-brand-gray-400 flex-shrink-0" />{d}
+                    {svc.features.slice(0, 4).map((f) => (
+                      <li key={f} className="flex items-center gap-2 text-sm text-brand-gray-600">
+                        <span className="w-1 h-1 rounded-full bg-brand-gray-400 flex-shrink-0" />{f}
                       </li>
                     ))}
                   </ul>
-                  <div className="flex flex-wrap gap-1.5 mb-6">{svc.tags.map((t) => <Badge key={t}>{t}</Badge>)}</div>
-                  <Link to="/services" className="group inline-flex items-center gap-1.5 text-sm font-semibold text-brand-black">
-                    Explore <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform duration-200" />
+                  <Link
+                    to={`/services#${svc.id}`}
+                    className="group inline-flex items-center gap-1.5 text-sm font-semibold text-brand-black"
+                  >
+                    Learn more <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform duration-200" />
                   </Link>
                 </motion.div>
               </Reveal>
@@ -89,7 +95,10 @@ export default function ServicesSection() {
               <p className="text-white font-semibold text-[16px]">Not sure which fits your project?</p>
               <p className="text-brand-gray-500 text-sm mt-0.5">A 30-minute discovery call. No pitch deck, no pressure.</p>
             </div>
-            <Link to="/contact" className="group flex-shrink-0 inline-flex items-center gap-1.5 px-5 py-2.5 bg-white text-brand-black text-sm font-semibold rounded-lg hover:bg-brand-gray-100 active:scale-[0.97] transition-all duration-200">
+            <Link
+              to="/contact"
+              className="group flex-shrink-0 inline-flex items-center gap-1.5 px-5 py-2.5 bg-white text-brand-black text-sm font-semibold rounded-lg hover:bg-brand-gray-100 active:scale-[0.97] transition-all duration-200"
+            >
               Book a discovery call <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform duration-200" />
             </Link>
           </div>
