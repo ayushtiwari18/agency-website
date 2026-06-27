@@ -116,7 +116,6 @@ export const projects = [
     status: 'live',
     featured: true,
 
-    // ── CLIENT ──
     client: {
       name: 'Ashray Wellness',
       industry: 'Spiritual & Holistic Wellness',
@@ -125,7 +124,6 @@ export const projects = [
       url: 'https://ashraywellness.com',
     },
 
-    // ── META ──
     type: 'Web Development',
     tags: ['Website', 'Wellness', 'Mobile-first', 'Lead Generation'],
     duration: null,
@@ -133,31 +131,23 @@ export const projects = [
     live: 'https://ashraywellness.com',
     github: null,
 
-    // ── VISUAL ──
     image: null,
     images: [],
     color: 'violet',
 
-    // ── HEADLINE ──
     headline: 'A spiritual wellness platform that earns trust before a single word is spoken.',
     summary:
       'A full-featured wellness platform for Ashi Pawaiya Jain — a certified astrologer, master Reikist, numerologist, and psychologist — to connect with clients globally, showcase services, and drive consultation bookings.',
 
-    // ── THE STORY ──
-
-    // The Situation
     context:
       `Ashray Wellness had a growing reputation through platforms like Astrotalk and Nebula, and high-profile corporate partnerships with Accenture and the Indian Air Force. But without a dedicated digital home, the brand relied entirely on third-party platforms. Clients couldn't discover the full scope of services, book sessions directly, or trust the brand at first glance. The practitioner — Ashi Pawaiya Jain — had 8+ years of experience, 17,000+ consultations, and 20,000+ happy clients. None of that was visible anywhere she owned.`,
 
-    // The Ask
     brief:
       `We need a website that feels as healing and intentional as our practice. Something clients land on and immediately feel — this is a person I can trust. It should show everything we do: personal consultations, corporate wellness programs, all the credentials. And make it easy to get in touch.`,
 
-    // What We Built
     solution:
       `We designed and built a cosmic-themed multi-page wellness platform that communicates credibility the moment the page loads. The hero surfaces the most powerful trust signals — 20K+ clients, 8+ years, certifications — immediately. A dedicated About section tells Ashi's story with warmth and precision: her credentials (Astrologer, Reikist, Numerologist, Psychologist), her background with Astrotalk and Nebula, and her corporate work with Accenture and the Indian Air Force. A separate Corporate Wellness section speaks directly to HR leaders and organisations, with its own value proposition and CTA. Direct WhatsApp and email CTAs are embedded throughout so no enquiry gets lost. The entire site is fully responsive, motion-rich, and optimised for mobile-first spiritual seekers.`,
 
-    // The Challenges
     challenges: [
       {
         title: 'Trust had to land in under 3 seconds',
@@ -176,11 +166,9 @@ export const projects = [
       },
     ],
 
-    // The Outcome
     outcome:
       `A polished digital presence that mirrors the depth of the practice. Ashray Wellness now owns its brand online — with a platform that communicates authority, warmth, and credibility before the first consultation. Clients arrive informed, confident, and ready to book.`,
 
-    // ── FEATURES BUILT ──
     features: [
       'Cosmic-themed animated hero with motion-rich UI (Framer Motion)',
       'Stats section: 8+ years, 17K+ consultations, 20K+ clients, 15+ expertise areas',
@@ -215,38 +203,135 @@ export const projects = [
     stack: ['React', 'Framer Motion', 'Tailwind CSS', 'React Router', 'Lucide Icons', 'Vite'],
   },
 
-  // ── PLACEHOLDER — to be replaced with The Preceptor case study ──
+  // ── THE PRECEPTOR ────────────────────────────────────────────────────────────
   {
     id: 'the-preceptor',
     slug: 'the-preceptor',
     status: 'live',
-    featured: false,
+    featured: true,
+
+    // ── CLIENT ──
     client: {
       name: 'The Preceptor',
-      industry: 'Education',
-      location: 'India',
-      size: 'Small business',
-      url: null,
+      industry: 'Vedic Astrology / Spiritual Consultation',
+      location: 'Worldwide · Online',
+      size: 'Solo practitioner',
+      url: 'https://thepreceptor.com',
     },
+
+    // ── META ──
     type: 'Web Development',
-    tags: ['Website', 'Education', 'Conversion'],
+    tags: ['Consultation Platform', 'Booking System', 'CMS Integration', 'Full-Stack', 'Cinematic UI'],
     duration: null,
     year: 2025,
-    live: null,
-    github: null,
+    live: 'https://thepreceptor.com',
+    github: 'https://github.com/thepreceptor1111/the-prceptor',
+
+    // ── VISUAL ──
     image: null,
     images: [],
-    color: 'purple',
-    headline: 'Coming soon',
-    summary: 'Case study in progress.',
-    context: null,
-    brief: null,
-    solution: null,
-    challenges: [],
-    outcome: null,
-    features: [],
-    metrics: [],
-    testimonial: { quote: null, author: null, role: null, avatar: null },
-    stack: [],
+    color: 'gold',
+
+    // ── HEADLINE ──
+    headline: 'A cinematic astrology platform built for high-intention seekers — and the practitioner who guides them.',
+    summary:
+      'A premium, multi-page consultation platform for The Preceptor — a Vedic astrologer with 7+ years of practice, serving clients across 47 countries. Built with a cinematic design system, a 4-step booking wizard, Sanity CMS, Cal.com integration, and a full e-commerce shop.',
+
+    // ── THE STORY ──
+    context:
+      `The Preceptor had been practising Vedic astrology since 2019, beginning as a personal search for answers after years of personal loss and difficulty. Over seven years, the practice grew from free readings for friends into a global consultation studio serving founders, artists, healers, and high-intention seekers across 47 countries — 8,400+ sessions delivered, a 4.98 average rating. But the digital presence didn't reflect the depth of the practice. There was no owned platform. No way for clients to self-serve, browse sessions, book a time, or buy digital products — without going through third-party platforms.`,
+
+    // The Ask
+    brief:
+      `Build something that feels like the practice itself — cinematic, quiet, unhurried. It should communicate who I am and what I do within seconds. Clients should be able to browse all sessions, understand what each one covers, book a time without friction, and eventually buy from a shop. It needs to work globally — different timezones, international clients, live content I can update myself without touching code.`,
+
+    // What We Built
+    solution:
+      `We designed and built a full multi-page consultation platform from the ground up — with a bespoke dark cosmic design system using CSS variables and OKLCH colour tokens, cinematic Framer Motion animations throughout, and a architecture built for long-term content ownership. The homepage presents the practice with immediate authority: a star-field hero, trust metrics (8,400+ sessions, 47 countries, 4.98 rating), and five featured sessions. A dedicated Services page lists all 10 consultation types — General Birth Chart, Detailed Birth Chart, Relationship Guidance, Partner Compatibility, Marriage Consultation, Career Consultation, Saturn's Seven and a Half, Later Life Reading, Mahadasha Guidance, and Current Situation Guidance — with tier-based filtering (Quick / Mid-Level / In-Depth). A 4-step Booking Wizard handles the full session intake: service selection, date & time, client details, and confirmation. A Sanity CMS integration keeps all live content — services, testimonials, settings — editable without a developer. A Cal.com embed (Phase 2) handles real calendar booking. The About page carries the full founder story — written in the first person, deeply personal, from loss and searching to becoming The Preceptor. A Testimonials page, a Q&A page, a Shop (Phase 1 Sanity-powered), Contact, Privacy, and Terms pages complete the platform. SEO metadata, JSON-LD structured data, and open graph tags are set on every route.`,
+
+    // The Challenges
+    challenges: [
+      {
+        title: 'A design system that earns trust without saying a word',
+        detail:
+          'Spiritual consultation platforms suffer from two failure modes: cold and clinical (stock photos, generic layouts) or noisy and mystical (every element animated, every surface glowing). We needed a third path — quiet luxury. We built a bespoke dark design system using CSS custom properties and OKLCH color tokens: deep cosmic surfaces, gold as the single accent, Cormorant Garamond as the display serif, and motion that is deliberate and slow. The aesthetic communicates the practitioner\'s voice before any copy is read.',
+      },
+      {
+        title: 'A booking wizard that handles complexity without friction',
+        detail:
+          'Session booking requires collecting: which service, preferred date and time, full birth details (date, time, place), relationship status, what the client wants to focus on, and timezone. Putting all of this in a single form would feel like a bureaucratic intake process. We designed a 4-step wizard — service selection, scheduling, birth details, confirmation — with animated step transitions, clear progress indicators, and validation at each step. The client always knows where they are and what comes next.',
+      },
+      {
+        title: 'Live content without a developer in the loop',
+        detail:
+          'The practitioner needed to update session prices, toggle sold-out status, change the offer timer end date, and update testimonials — without filing a support request. We integrated Sanity CMS as the content layer, with GROQ queries for services, testimonials, and site settings. The frontend falls back to static constants if the CMS is unreachable, so the site is never broken. Every editable string in the UI has a corresponding Sanity field.',
+      },
+      {
+        title: 'A limited-time offer timer that actually works',
+        detail:
+          'The services page needed a countdown timer for a live pricing offer — showing the original price struck through while the offer was active, and hiding the struck price after expiry. A naive implementation (always show the timer) creates urgency theatre that erodes trust when the offer never actually ends. We built a useOfferActive hook driven by a single OFFER_END_DATE constant — the timer is real, the countdown is accurate to the second, and after expiry the original price disappears automatically.',
+      },
+      {
+        title: 'Global scheduling across 47 countries and dozens of timezones',
+        detail:
+          'Clients booking from Tokyo, Toronto, Berlin, and Mumbai all need to see available slots in their local time and confirm sessions without mental timezone arithmetic. We implemented timezone-aware scheduling in the booking wizard with automatic local time detection, clear timezone display, and a Cal.com integration in Phase 2 to handle the real calendar layer — so the practitioner\'s availability is always accurate regardless of where the client is.',
+      },
+    ],
+
+    // The Outcome
+    outcome:
+      `The Preceptor now has a digital home that matches the depth and quality of the practice. Clients across 47 countries can discover all 10 session types, understand what each one covers, and book a private consultation without leaving the platform. The practitioner updates content, prices, and testimonials independently through Sanity CMS — no developer calls required. The platform is built to grow: Phase 2 (Cal.com live booking), Phase 3 (Resend email + analytics), and Phase 4 (full SEO + structured data) are already architected.`,
+
+    // ── FEATURES BUILT ──
+    features: [
+      'Dark cosmic design system — OKLCH tokens, Cormorant Garamond serif, gold accent',
+      'Cinematic Framer Motion animations — hero, scroll reveals, page transitions',
+      'Star-field animated hero with trust metrics above the fold',
+      '10 consultation sessions across 4 tier filters (Quick / Mid-Level / In-Depth)',
+      'Live offer countdown timer (useOfferActive hook, real expiry date)',
+      '4-step booking wizard — service, schedule, birth details, confirmation',
+      'Sanity CMS integration — services, testimonials, site settings via GROQ',
+      'Static fallback constants — site never breaks if CMS is unreachable',
+      'Cal.com embed (Phase 2) for real calendar availability',
+      'Full About page with first-person founder story',
+      'Testimonials page with client reviews (18+ countries represented)',
+      'Q&A page — 6+ common questions answered',
+      'Shop page (Phase 1 scaffold, Sanity-powered in Phase 2)',
+      'Contact page with mailto form + social links',
+      'Privacy Policy and Terms & Conditions pages',
+      'SEO metadata + Open Graph tags on every route',
+      'TanStack Router (file-based) for type-safe routing',
+      'Vite 6 build — sub-second HMR, optimised production bundle',
+      'Fully mobile-responsive, timezone-aware scheduling',
+    ],
+
+    metrics: [
+      { label: 'Sessions Delivered',  value: '8,400+',  note: 'Across all consultation types',         icon: 'star' },
+      { label: 'Countries Served',    value: '47',       note: 'Global client base',                   icon: 'globe' },
+      { label: 'Average Rating',      value: '4.98',     note: 'Across all client reviews',            icon: 'award' },
+      { label: 'Years of Practice',   value: '7+',       note: 'Since August 2019',                   icon: 'clock' },
+      { label: 'Session Types',       value: '10',       note: 'From quick reads to deep dives',       icon: 'layers' },
+      { label: 'Content Areas',       value: '9+',       note: 'Home, About, Services, Book, Q&A…',   icon: 'layout' },
+    ],
+
+    testimonial: {
+      quote:
+        'Calm, confident, and breathtakingly accurate. The Preceptor gave me a map I didn\'t know I needed.',
+      author: 'Daniel K.',
+      role: 'Client, London, UK',
+      avatar: null,
+    },
+
+    stack: [
+      'React 19',
+      'Vite 6',
+      'TanStack Router',
+      'Framer Motion',
+      'Sanity CMS',
+      'Cal.com',
+      'CSS Variables',
+      'Cormorant Garamond',
+      'Vercel',
+    ],
   },
 ]
