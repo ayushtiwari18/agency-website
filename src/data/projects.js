@@ -216,7 +216,7 @@ export const projects = [
       industry: 'Vedic Astrology / Spiritual Consultation',
       location: 'Worldwide · Online',
       size: 'Solo practitioner',
-      url: 'https://thepreceptor.com',
+      url: 'https://thepreceptorglobal.com',
     },
 
     // ── META ──
@@ -224,7 +224,7 @@ export const projects = [
     tags: ['Consultation Platform', 'Booking System', 'CMS Integration', 'Full-Stack', 'Cinematic UI'],
     duration: null,
     year: 2025,
-    live: 'https://thepreceptor.com',
+    live: 'https://thepreceptorglobal.com',
     github: 'https://github.com/thepreceptor1111/the-prceptor',
 
     // ── VISUAL ──
@@ -241,15 +241,12 @@ export const projects = [
     context:
       `The Preceptor had been practising Vedic astrology since 2019, beginning as a personal search for answers after years of personal loss and difficulty. Over seven years, the practice grew from free readings for friends into a global consultation studio serving founders, artists, healers, and high-intention seekers across 47 countries — 8,400+ sessions delivered, a 4.98 average rating. But the digital presence didn't reflect the depth of the practice. There was no owned platform. No way for clients to self-serve, browse sessions, book a time, or buy digital products — without going through third-party platforms.`,
 
-    // The Ask
     brief:
       `Build something that feels like the practice itself — cinematic, quiet, unhurried. It should communicate who I am and what I do within seconds. Clients should be able to browse all sessions, understand what each one covers, book a time without friction, and eventually buy from a shop. It needs to work globally — different timezones, international clients, live content I can update myself without touching code.`,
 
-    // What We Built
     solution:
       `We designed and built a full multi-page consultation platform from the ground up — with a bespoke dark cosmic design system using CSS variables and OKLCH colour tokens, cinematic Framer Motion animations throughout, and a architecture built for long-term content ownership. The homepage presents the practice with immediate authority: a star-field hero, trust metrics (8,400+ sessions, 47 countries, 4.98 rating), and five featured sessions. A dedicated Services page lists all 10 consultation types — General Birth Chart, Detailed Birth Chart, Relationship Guidance, Partner Compatibility, Marriage Consultation, Career Consultation, Saturn's Seven and a Half, Later Life Reading, Mahadasha Guidance, and Current Situation Guidance — with tier-based filtering (Quick / Mid-Level / In-Depth). A 4-step Booking Wizard handles the full session intake: service selection, date & time, client details, and confirmation. A Sanity CMS integration keeps all live content — services, testimonials, settings — editable without a developer. A Cal.com embed (Phase 2) handles real calendar booking. The About page carries the full founder story — written in the first person, deeply personal, from loss and searching to becoming The Preceptor. A Testimonials page, a Q&A page, a Shop (Phase 1 Sanity-powered), Contact, Privacy, and Terms pages complete the platform. SEO metadata, JSON-LD structured data, and open graph tags are set on every route.`,
 
-    // The Challenges
     challenges: [
       {
         title: 'A design system that earns trust without saying a word',
@@ -278,11 +275,9 @@ export const projects = [
       },
     ],
 
-    // The Outcome
     outcome:
       `The Preceptor now has a digital home that matches the depth and quality of the practice. Clients across 47 countries can discover all 10 session types, understand what each one covers, and book a private consultation without leaving the platform. The practitioner updates content, prices, and testimonials independently through Sanity CMS — no developer calls required. The platform is built to grow: Phase 2 (Cal.com live booking), Phase 3 (Resend email + analytics), and Phase 4 (full SEO + structured data) are already architected.`,
 
-    // ── FEATURES BUILT ──
     features: [
       'Dark cosmic design system — OKLCH tokens, Cormorant Garamond serif, gold accent',
       'Cinematic Framer Motion animations — hero, scroll reveals, page transitions',
