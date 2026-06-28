@@ -13,14 +13,9 @@ export default function PricingSection() {
           <div>
             <Reveal><p className="eyebrow mb-4">Pricing</p></Reveal>
             <RevealText delay={80} className="text-display-lg font-extrabold text-brand-black tracking-tight">
-              {'Transparent pricing,\nno surprises.'}
+              {'Simple packages,\nclear pricing.'}
             </RevealText>
           </div>
-          <Reveal delay={120} direction="left">
-            <p className="text-sm text-brand-gray-500 max-w-[260px] leading-relaxed">
-              Fixed-price packages. Every project is scoped before any work begins.
-            </p>
-          </Reveal>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-5 items-start">
@@ -80,7 +75,7 @@ export default function PricingSection() {
                         to="/contact"
                         className="group inline-flex items-center justify-center gap-2 w-full py-3 rounded-lg text-sm font-semibold bg-white text-brand-black hover:bg-brand-gray-100 active:scale-[0.97] transition-all duration-200"
                       >
-                        Get started <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform duration-200" />
+                        {plan.cta} <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform duration-200" />
                       </Link>
                     </div>
                   </motion.div>
@@ -111,7 +106,7 @@ export default function PricingSection() {
                     to="/contact"
                     className="group inline-flex items-center justify-center gap-2 w-full py-3 rounded-lg text-sm font-semibold border border-brand-gray-300 text-brand-black hover:border-brand-black active:scale-[0.97] transition-all duration-200"
                   >
-                    Get started <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform duration-200" />
+                    {plan.cta} <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform duration-200" />
                   </Link>
                 </motion.div>
               )}
@@ -121,9 +116,10 @@ export default function PricingSection() {
 
         <Reveal delay={200}>
           <p className="text-center text-sm text-brand-gray-400 mt-8">
-            All prices in INR. Need something custom?{' '}
+            All prices in INR &amp; starting rates — final quote depends on scope.{' '}
+            Need something custom?{' '}
             <Link to="/contact" className="text-brand-black font-medium underline underline-offset-2 hover:opacity-60 transition-opacity">
-              Let&apos;s talk.
+              Contact us and we&apos;ll build a package around your needs.
             </Link>
           </p>
         </Reveal>

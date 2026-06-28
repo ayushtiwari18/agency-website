@@ -1,15 +1,12 @@
-// Pricing packages — no fixed prices, all custom quoted.
-// The CTA on every package directs to contact / consultation booking.
 export const pricing = [
   {
     id: 'essential',
     name: 'Essential',
     bestFor: 'Startups, portfolios & landing pages',
-    price: null,
-    priceNote: 'Custom quote',
-    priceSubNote: 'Scoped to your project',
+    price: '₹20,000',
+    priceNote: 'starting at',
     popular: false,
-    cta: 'Get a Quote',
+    cta: 'Get Started',
     ctaHref: '/contact',
     items: [
       'Business website (up to 6 pages)',
@@ -25,11 +22,10 @@ export const pricing = [
     id: 'professional',
     name: 'Professional',
     bestFor: 'Growing businesses & product companies',
-    price: null,
-    priceNote: 'Custom quote',
-    priceSubNote: 'Scoped to your project',
+    price: '₹35,000',
+    priceNote: 'starting at',
     popular: true,
-    cta: 'Get a Quote',
+    cta: 'Get Started',
     ctaHref: '/contact',
     items: [
       'Everything in Essential',
@@ -46,11 +42,10 @@ export const pricing = [
     id: 'enterprise',
     name: 'Enterprise',
     bestFor: 'Complex platforms, AI & automation',
-    price: null,
-    priceNote: 'Custom quote',
-    priceSubNote: 'Scoped to your project',
+    price: '₹70,000',
+    priceNote: 'starting at',
     popular: false,
-    cta: 'Let\'s Talk',
+    cta: "Let's Talk",
     ctaHref: '/contact',
     items: [
       'Everything in Professional',
@@ -64,12 +59,3 @@ export const pricing = [
     ],
   },
 ]
-
-// Shown below the pricing cards — encourages custom scoping
-export const pricingNote = {
-  heading: 'Not sure which fits?',
-  body:
-    'Every project is different. Tell us what you need and we\'ll scope it honestly — no inflated quotes, no hidden costs. You\'ll get a clear breakdown before anything is agreed.',
-  cta: 'Start the Conversation',
-  ctaHref: '/contact',
-}
