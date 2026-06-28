@@ -12,29 +12,29 @@ import ContactFormSection from '../sections/ContactForm'
 import SchemaOrg from '../components/seo/SchemaOrg'
 import { organizationSchema, websiteSchema } from '../data/schema'
 
-const SITE         = 'https://tj-creates.vercel.app'
-const OG_IMAGE     = `${SITE}/og.png`
-const TWITTER_IMAGE = `${SITE}/og-tiwtter.png`
+const SITE          = 'https://tnj-solutions.vercel.app'
+const OG_IMAGE      = `${SITE}/og.png`
+const TWITTER_IMAGE = `${SITE}/og-twitter.png`
 
 export default function Home() {
   return (
     <>
       <Helmet>
-        <title>T&amp;J Creates — Web Development Studio in Jabalpur</title>
-        <meta name="description" content="T&J Creates builds fast, conversion-focused websites for businesses and personal brands in India. Portfolio, business and growth websites that get you clients." />
-        <meta name="keywords" content="web development studio Jabalpur, portfolio website, business website, growth website, SEO, React developer India" />
-        <meta property="og:title" content="T&J Creates — Web Development Studio" />
-        <meta property="og:description" content="Fast, transparent, conversion-focused websites for businesses and personal brands." />
+        <title>TNJ Solutions — Custom Software, AI &amp; Web Development Studio</title>
+        <meta name="description" content="TNJ Solutions builds custom software, AI solutions, and modern websites for growing businesses. Streamline operations, automate workflows, and accelerate growth." />
+        <meta name="keywords" content="custom software development, AI solutions, web development, CRM systems, business automation, Jabalpur, India" />
+        <meta property="og:title" content="TNJ Solutions — Custom Software, AI &amp; Web Development" />
+        <meta property="og:description" content="We help businesses streamline operations and accelerate growth through tailored software, AI, and web solutions." />
         <meta property="og:type" content="website" />
         <meta property="og:url" content={`${SITE}/`} />
-        <meta property="og:site_name" content="T&J Creates" />
+        <meta property="og:site_name" content="TNJ Solutions" />
         <meta property="og:image" content={OG_IMAGE} />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
-        <meta property="og:image:alt" content="T&J Creates — Web Development Studio" />
+        <meta property="og:image:alt" content="TNJ Solutions — Custom Software, AI &amp; Web Development" />
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="T&J Creates — Web Development Studio" />
-        <meta name="twitter:description" content="Fast, transparent, conversion-focused websites for businesses and personal brands." />
+        <meta name="twitter:title" content="TNJ Solutions — Custom Software, AI &amp; Web Development" />
+        <meta name="twitter:description" content="We help businesses streamline operations and accelerate growth through tailored software, AI, and web solutions." />
         <meta name="twitter:image" content={TWITTER_IMAGE} />
         <link rel="canonical" href={`${SITE}/`} />
       </Helmet>

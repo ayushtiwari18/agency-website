@@ -12,9 +12,9 @@ export default function Pricing() {
   return (
     <>
       <Helmet>
-        <title>Pricing — T&amp;J Creates</title>
-        <meta name="description" content="Clear, fixed prices for portfolio, business, and growth websites. No hidden fees, no lock-in contracts. Starting from ₹8,000." />
-        <meta property="og:title" content="Pricing — T&J Creates" />
+        <title>Pricing — TNJ Solutions</title>
+        <meta name="description" content="Simple, transparent packages for startups, growing businesses, and enterprise projects. Starting from ₹20,000. Custom scopes available — contact us." />
+        <meta property="og:title" content="Pricing — TNJ Solutions" />
         <meta property="og:url" content={`${SITE}/pricing`} />
         <meta property="og:image" content={OG_IMAGE} />
         <meta property="og:image:width" content="1200" />
@@ -30,18 +30,18 @@ export default function Pricing() {
             <FadeIn><p className="eyebrow mb-4">Pricing</p></FadeIn>
             <FadeIn delay={0.08}>
               <h1 className="text-display-xl font-extrabold text-brand-black tracking-tight mb-5">
-                Fixed prices. No surprises.
+                Simple packages,&nbsp;clear pricing.
               </h1>
             </FadeIn>
             <FadeIn delay={0.14}>
               <p className="text-brand-gray-500 text-[16px] leading-relaxed">
-                Every project is quoted upfront. You know the price before we start — and it doesn’t change.
+                Every project starts with a conversation. Prices listed are starting rates — final scope and cost are agreed upfront before any work begins.
               </p>
             </FadeIn>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {pricing.map(({ id, name, price, priceNote, bestFor, items, popular }, i) => (
+            {pricing.map(({ id, name, price, priceNote, bestFor, items, popular, cta }, i) => (
               <FadeIn key={id} delay={i * 0.08}>
                 <div className={`card-base p-8 flex flex-col h-full ${ popular ? 'ring-2 ring-brand-black' : '' }`}>
                   {popular && (
@@ -64,12 +64,21 @@ export default function Pricing() {
                         ? 'bg-brand-black text-white hover:bg-brand-gray-800'
                         : 'border border-brand-gray-200 text-brand-black hover:border-brand-black'
                     }`}>
-                    Get started
+                    {cta ?? 'Get started'}
                   </Link>
                 </div>
               </FadeIn>
             ))}
           </div>
+
+          <FadeIn delay={0.3}>
+            <p className="text-center text-sm text-brand-gray-400 mt-10">
+              Need something outside these packages?{' '}
+              <Link to="/contact" className="text-brand-black font-medium underline underline-offset-2 hover:opacity-60 transition-opacity">
+                Contact us and we&apos;ll build a custom quote around your needs.
+              </Link>
+            </p>
+          </FadeIn>
         </div>
       </section>
     </>

@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { ArrowRight, ArrowUpRight } from 'lucide-react'
 import { motion } from 'framer-motion'
 import { Reveal } from '../components/ui/Reveal'
@@ -6,47 +6,11 @@ import { RevealText } from '../components/ui/RevealText'
 import { Badge } from '../components/ui/Badge'
 import { projects } from '../data/projects'
 
-/**
- * Dribbble-style UI mockup images — landscape, design-focused
- * Portfolio — clean design workspace / UI screens
- * Business — laptop showing a professional website
- * Growth    — analytics / dashboard / growth chart
- */
-const PROJECT_IMAGES = {
-  'Portfolio Website': {
-    src: 'https://images.unsplash.com/photo-1545235617-9465d2a55698?w=900&q=85&auto=format&fit=crop',
-    position: 'object-center',
-  },
-  'Business Website': {
-    src: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=900&q=85&auto=format&fit=crop',
-    position: 'object-center',
-  },
-  'Growth Website': {
-    src: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=900&q=85&auto=format&fit=crop',
-    position: 'object-center',
-  },
-}
-
-const OVERLAY = {
-  'Portfolio Website': 'bg-brand-black/10',
-  'Business Website':  'bg-brand-black/20',
-  'Growth Website':    'bg-brand-black/15',
-}
-
-function ProjectImage({ type, featured = false }) {
-  const img = PROJECT_IMAGES[type] ?? PROJECT_IMAGES['Business Website']
-  const height = featured ? 'h-[360px] lg:h-full lg:min-h-[380px]' : 'h-[240px]'
-  return (
-    <div className={`relative w-full overflow-hidden ${height}`}>
-      <img
-        src={img.src}
-        alt={type}
-        className={`w-full h-full object-cover ${img.position} transition-transform duration-700 ease-out group-hover:scale-[1.04]`}
-        loading="lazy"
-      />
-      <div className={`absolute inset-0 ${OVERLAY[type] ?? 'bg-brand-black/10'}`} />
-    </div>
-  )
+const COLOR_MAP = {
+  emerald: { bg: 'bg-emerald-50', text: 'text-emerald-700', dot: 'bg-emerald-400' },
+  blue:    { bg: 'bg-blue-50',    text: 'text-blue-700',    dot: 'bg-blue-400'    },
+  purple:  { bg: 'bg-purple-50',  text: 'text-purple-700',  dot: 'bg-purple-400'  },
+  default: { bg: 'bg-brand-gray-50', text: 'text-brand-gray-500', dot: 'bg-brand-gray-400' },
 }
 
 function MetricPill({ label, value }) {
@@ -58,8 +22,43 @@ function MetricPill({ label, value }) {
   )
 }
 
+function ProjectImage({ project, featured = false }) {
+  const c = COLOR_MAP[project.color] ?? COLOR_MAP.default
+  const height = featured ? 'h-[360px] lg:h-full lg:min-h-[380px]' : 'h-[240px]'
+  return (
+    <div className={`relative w-full overflow-hidden ${height}`}>
+      {project.image
+        ? (
+          <img src={project.image} alt={project.client?.name ?? project.headline}
+            className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04]"
+            loading="lazy" width="800" height="450" />
+        ) : (
+          <div className={`w-full h-full flex items-center justify-center ${c.bg}`}>
+            <span className={`text-5xl font-extrabold tracking-tight ${c.text} opacity-20 select-none`}>
+              {(project.client?.name ?? project.headline ?? 'P').slice(0, 2).toUpperCase()}
+            </span>
+          </div>
+        )
+      }
+      {project.status === 'live' && (
+        <div className="absolute top-3 left-3">
+          <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 bg-white/90 backdrop-blur-sm text-[11px] font-semibold text-brand-black rounded-full border border-brand-gray-200`}>
+            <span className={`w-1.5 h-1.5 rounded-full ${c.dot} animate-pulse`} /> Live
+          </span>
+        </div>
+      )}
+    </div>
+  )
+}
+
 export default function WorkSection() {
+  const navigate = useNavigate()
   const [featured, ...rest] = projects
+
+  const goToWork = (project) => {
+    navigate('/work', { state: { openProject: project.id } })
+  }
+
   return (
     <section className="section-pad bg-brand-gray-50">
       <div className="container-content">
@@ -77,72 +76,94 @@ export default function WorkSection() {
           </Reveal>
         </div>
 
-        {/* Featured card */}
+        {/* Featured card — click → navigate to /work */}
         <Reveal delay={80}>
-          <motion.div
+          <motion.button
+            onClick={() => goToWork(featured)}
             whileHover={{ y: -5, boxShadow: '0 16px 48px -8px rgba(0,0,0,0.12)' }}
             transition={{ type: 'spring', stiffness: 260, damping: 22 }}
-            className="card-base overflow-hidden mb-5 group"
+            className="card-base overflow-hidden mb-5 group w-full text-left cursor-pointer focus-visible:ring-2 focus-visible:ring-brand-black focus-visible:outline-none"
+            aria-label={`View ${featured.client?.name ?? featured.headline} case study`}
           >
             <div className="grid grid-cols-1 lg:grid-cols-2">
               <div className="relative">
-                <ProjectImage type={featured.type} featured />
-                <div className="absolute top-4 left-4 z-10">
-                  <span className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-white/90 backdrop-blur-sm text-[11px] font-semibold text-brand-black rounded-full border border-brand-gray-200">
-                    &#9733; Featured
-                  </span>
-                </div>
+                <ProjectImage project={featured} featured />
+                {featured.featured && (
+                  <div className="absolute top-4 left-4 z-10">
+                    <span className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-white/90 backdrop-blur-sm text-[11px] font-semibold text-brand-black rounded-full border border-brand-gray-200">
+                      ★ Featured
+                    </span>
+                  </div>
+                )}
               </div>
               <div className="p-8 lg:p-10 flex flex-col justify-between">
                 <div>
                   <div className="flex flex-wrap gap-1.5 mb-5">
                     <Badge>{featured.type}</Badge>
-                    {featured.tags.slice(0, 2).map((t) => <Badge key={t}>{t}</Badge>)}
+                    {featured.tags?.slice(0, 2).map((t) => <Badge key={t}>{t}</Badge>)}
                   </div>
-                  <h3 className="text-[1.5rem] font-extrabold text-brand-black leading-snug tracking-tight mb-3">{featured.title}</h3>
-                  <p className="text-sm text-brand-gray-500 leading-relaxed mb-2"><strong className="text-brand-gray-700">Problem:</strong> {featured.problem}</p>
-                  <p className="text-sm text-brand-gray-600 leading-relaxed"><strong className="text-brand-gray-700">Result:</strong> {featured.result}</p>
+                  <h3 className="text-[1.5rem] font-extrabold text-brand-black leading-snug tracking-tight mb-3">
+                    {featured.client?.name ?? featured.headline}
+                  </h3>
+                  <p className="text-sm text-brand-gray-500 leading-relaxed mb-2">
+                    <strong className="text-brand-gray-700">What they needed: </strong>
+                    {featured.brief ?? featured.context?.slice(0, 140) + '…'}
+                  </p>
+                  <p className="text-sm text-brand-gray-600 leading-relaxed">
+                    <strong className="text-brand-gray-700">Outcome: </strong>
+                    {featured.outcome ?? featured.result}
+                  </p>
                 </div>
                 <div>
-                  <div className="flex gap-8 mt-7 pt-7 border-t border-brand-gray-100 mb-6">
-                    {featured.metrics.map((m) => <MetricPill key={m.label} {...m} />)}
-                  </div>
-                  <Link to="/work" className="group/link inline-flex items-center gap-1.5 text-sm font-semibold text-brand-black">
-                    Read the case study <ArrowRight size={14} className="group-hover/link:translate-x-1 transition-transform duration-200" />
-                  </Link>
+                  {featured.metrics?.length > 0 && (
+                    <div className="flex gap-8 mt-7 pt-7 border-t border-brand-gray-100 mb-6">
+                      {featured.metrics.slice(0, 3).map((m) => <MetricPill key={m.label} {...m} />)}
+                    </div>
+                  )}
+                  <span className="group/link inline-flex items-center gap-1.5 text-sm font-semibold text-brand-black">
+                    Read the full case study <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform duration-200" />
+                  </span>
                 </div>
               </div>
             </div>
-          </motion.div>
+          </motion.button>
         </Reveal>
 
         {/* Other cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
           {rest.map((project, i) => (
             <Reveal key={project.id} delay={120 + i * 90}>
-              <motion.div
+              <motion.button
+                onClick={() => goToWork(project)}
                 whileHover={{ y: -5, boxShadow: '0 12px 36px -6px rgba(0,0,0,0.10)' }}
                 transition={{ type: 'spring', stiffness: 260, damping: 22 }}
-                className="card-base overflow-hidden group"
+                className="card-base overflow-hidden group w-full text-left cursor-pointer focus-visible:ring-2 focus-visible:ring-brand-black focus-visible:outline-none"
+                aria-label={`View ${project.client?.name ?? project.headline} case study`}
               >
-                <ProjectImage type={project.type} />
+                <ProjectImage project={project} />
                 <div className="p-6">
                   <div className="flex flex-wrap gap-1.5 mb-3"><Badge>{project.type}</Badge></div>
-                  <h3 className="text-[16px] font-bold text-brand-black mb-1.5 leading-snug">{project.title}</h3>
-                  <p className="text-sm text-brand-gray-500 leading-relaxed mb-4">{project.problem}</p>
-                  <div className="flex gap-6 pt-4 border-t border-brand-gray-100 mb-4">
-                    {project.metrics.map((m) => (
-                      <div key={m.label} className="flex flex-col">
-                        <span className="text-lg font-extrabold text-brand-black leading-none">{m.value}</span>
-                        <span className="text-[10px] text-brand-gray-500 uppercase tracking-wide mt-0.5">{m.label}</span>
-                      </div>
-                    ))}
-                  </div>
-                  <Link to="/work" className="group/link inline-flex items-center gap-1.5 text-sm font-semibold text-brand-black">
-                    View project <ArrowUpRight size={14} className="group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5 transition-transform duration-200" />
-                  </Link>
+                  <h3 className="text-[16px] font-bold text-brand-black mb-1.5 leading-snug">
+                    {project.client?.name ?? project.headline}
+                  </h3>
+                  <p className="text-sm text-brand-gray-500 leading-relaxed mb-4 line-clamp-2">
+                    {project.summary ?? project.brief ?? project.context?.slice(0, 120) + '…'}
+                  </p>
+                  {project.metrics?.length > 0 && (
+                    <div className="flex gap-6 pt-4 border-t border-brand-gray-100 mb-4">
+                      {project.metrics.slice(0, 3).map((m) => (
+                        <div key={m.label} className="flex flex-col">
+                          <span className="text-lg font-extrabold text-brand-black leading-none">{m.value}</span>
+                          <span className="text-[10px] text-brand-gray-500 uppercase tracking-wide mt-0.5">{m.label}</span>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                  <span className="group/link inline-flex items-center gap-1.5 text-sm font-semibold text-brand-black">
+                    View case study <ArrowUpRight size={14} className="group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5 transition-transform duration-200" />
+                  </span>
                 </div>
-              </motion.div>
+              </motion.button>
             </Reveal>
           ))}
         </div>
