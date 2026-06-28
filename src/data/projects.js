@@ -121,14 +121,14 @@ export const projects = [
       industry: 'Spiritual & Holistic Wellness',
       location: 'Bhopal, Madhya Pradesh, India',
       size: 'Small business',
-      url: 'https://ashraywellness.com',
+      url: 'https://ashray-wellness.com',
     },
 
     type: 'Web Development',
     tags: ['Website', 'Wellness', 'Mobile-first', 'Lead Generation'],
     duration: null,
     year: 2025,
-    live: 'https://ashraywellness.com',
+    live: 'https://ashray-wellness.com',
     github: null,
 
     image: null,
