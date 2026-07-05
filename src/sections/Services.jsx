@@ -49,8 +49,8 @@ export default function ServicesSection() {
           </motion.div>
         </div>
 
-        {/* ── SERVICE CARDS ── */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
+        {/* ── SERVICE CARDS (2 by 2 Grid) ── */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
           {services.map((svc, i) => {
             const Icon = svc.icon
             return (

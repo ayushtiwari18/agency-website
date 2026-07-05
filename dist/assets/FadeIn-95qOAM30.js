@@ -1,0 +1,1 @@
+import{j as a}from"./vendor-motion-BEnErufg.js";import{R as u}from"./Reveal-DzZks_fT.js";function i({children:t,delay:r=0,direction:o="up",className:e="",once:s=!0}){const n=r<2?Math.round(r*1e3):r;return a.jsx(u,{delay:n,direction:o,className:e,once:s,children:t})}export{i as F};

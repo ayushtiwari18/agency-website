@@ -23,8 +23,14 @@ export const projects = [
     github: null,
 
     // ── VISUAL ──
-    image: null,
-    images: [],
+    image: '/projects/shreephal/shreephal-1.png',
+    images: [
+      { url: '/projects/shreephal/shreephal-1.png', caption: 'Hero Banner — Celebrate Your Achievements in Style' },
+      { url: '/projects/shreephal/shreephal-2.png', caption: 'Product Categories — Custom Awards, Medals, Trophies & Memorials' },
+      { url: '/projects/shreephal/shreephal-3.png', caption: 'Interactive Shopping Cart & Real-time Order Summary' },
+      { url: '/projects/shreephal/shreephal-4.png', caption: 'Checkout Integration — Secured by Razorpay' },
+      { url: '/projects/shreephal/shreephal-5.png', caption: 'Payment Options — UPI, Cards, Netbanking & Wallets' },
+    ],
     color: 'emerald',
 
     // ── HEADLINE ──

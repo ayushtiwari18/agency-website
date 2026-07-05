@@ -8,13 +8,14 @@ import Footer from './components/layout/Footer'
 import NotFound from './pages/NotFound'
 
 // Route-based code splitting — each page becomes its own JS chunk
-const Home     = lazy(() => import('./pages/Home'))
-const Services = lazy(() => import('./pages/Services'))
-const Work     = lazy(() => import('./pages/Work'))
-const About    = lazy(() => import('./pages/About'))
-const Pricing  = lazy(() => import('./pages/Pricing'))
-const FAQ      = lazy(() => import('./pages/FAQ'))
-const Contact  = lazy(() => import('./pages/Contact'))
+const Home          = lazy(() => import('./pages/Home'))
+const Services      = lazy(() => import('./pages/Services'))
+const Work          = lazy(() => import('./pages/Work'))
+const ProjectDetail = lazy(() => import('./pages/ProjectDetail'))
+const About         = lazy(() => import('./pages/About'))
+const Pricing       = lazy(() => import('./pages/Pricing'))
+const FAQ           = lazy(() => import('./pages/FAQ'))
+const Contact       = lazy(() => import('./pages/Contact'))
 
 function PageSkeleton() {
   return <div aria-hidden="true" style={{ minHeight: '100vh', background: '#ffffff' }} />
@@ -29,15 +30,16 @@ function AppShell() {
       <main>
         <Suspense fallback={<PageSkeleton />}>
           <Routes>
-            <Route path="/"         element={<Home />} />
-            <Route path="/services" element={<Services />} />
-            <Route path="/work"     element={<Work />} />
-            <Route path="/about"    element={<About />} />
-            <Route path="/pricing"  element={<Pricing />} />
-            <Route path="/faq"      element={<FAQ />} />
-            <Route path="/contact"  element={<Contact />} />
+            <Route path="/"            element={<Home />} />
+            <Route path="/services"    element={<Services />} />
+            <Route path="/work"        element={<Work />} />
+            <Route path="/work/:slug"  element={<ProjectDetail />} />
+            <Route path="/about"       element={<About />} />
+            <Route path="/pricing"     element={<Pricing />} />
+            <Route path="/faq"         element={<FAQ />} />
+            <Route path="/contact"     element={<Contact />} />
             {/* 404 catch-all — NotFound is tiny, no need to lazy-load */}
-            <Route path="*"         element={<NotFound />} />
+            <Route path="*"            element={<NotFound />} />
           </Routes>
         </Suspense>
       </main>

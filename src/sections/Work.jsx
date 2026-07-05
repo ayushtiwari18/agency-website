@@ -56,7 +56,7 @@ export default function WorkSection() {
   const [featured, ...rest] = projects
 
   const goToWork = (project) => {
-    navigate('/work', { state: { openProject: project.id } })
+    navigate(`/work/${project.slug ?? project.id}`)
   }
 
   return (
