@@ -4,8 +4,11 @@ import { RevealText } from '../components/ui/RevealText'
 import { AnimatedDivider } from '../components/ui/AnimatedDivider'
 import { process } from '../data/process'
 import DevToolsMockup from '../components/ui/DevToolsMockup'
+import { useCal } from '../hooks/useCal'
 
 export default function ProcessSection() {
+  const openBooking = useCal()
+
   return (
     <section className="section-pad bg-white">
       <div className="container-content">
@@ -50,12 +53,12 @@ export default function ProcessSection() {
                 <p className="text-sm text-brand-gray-500 max-w-sm">
                   Every project starts with a free 30-minute discovery call. No pitch deck. No pressure.
                 </p>
-                <a
-                  href="/contact"
+                <button
+                  onClick={openBooking}
                   className="text-sm font-semibold text-brand-black border-b border-brand-black pb-0.5 hover:opacity-60 transition-opacity whitespace-nowrap"
                 >
                   Start with a discovery call
-                </a>
+                </button>
               </div>
             </Reveal>
           </div>

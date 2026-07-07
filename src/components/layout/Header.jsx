@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Link, NavLink } from 'react-router-dom'
 import { ArrowUpRight, Menu, X } from 'lucide-react'
+import { useCal } from '../../hooks/useCal'
 
 const NAV = [
   { label: 'Work',     to: '/work' },
@@ -13,6 +14,7 @@ const NAV = [
 export default function Header() {
   const [scrolled, setScrolled] = useState(false)
   const [open, setOpen]         = useState(false)
+  const openBooking = useCal()
 
   useEffect(() => {
     const fn = () => setScrolled(window.scrollY > 20)
@@ -49,11 +51,12 @@ export default function Header() {
           </nav>
 
           {/* CTA */}
-          <Link to="/contact"
+          <button
+            onClick={openBooking}
             className="hidden md:inline-flex items-center gap-1.5 px-4 py-2 bg-brand-black text-white text-sm font-medium rounded-lg hover:bg-brand-gray-800 transition-colors"
           >
             Book a call <ArrowUpRight size={14} />
-          </Link>
+          </button>
 
           {/* Mobile toggle */}
           <button className="md:hidden p-2" onClick={() => setOpen(!open)} aria-label="Toggle menu">
@@ -69,11 +72,15 @@ export default function Header() {
               className="text-sm font-medium text-brand-gray-600 hover:text-brand-black transition-colors"
             >{label}</NavLink>
           ))}
-          <Link to="/contact" onClick={() => setOpen(false)}
-            className="inline-flex items-center gap-1.5 px-4 py-2.5 bg-brand-black text-white text-sm font-medium rounded-lg w-fit mt-1"
+          <button
+            onClick={(e) => {
+              setOpen(false)
+              openBooking(e)
+            }}
+            className="inline-flex items-center gap-1.5 px-4 py-2.5 bg-brand-black text-white text-sm font-medium rounded-lg w-fit mt-1 text-left"
           >
             Book a call <ArrowUpRight size={14} />
-          </Link>
+          </button>
         </div>
       )}
     </header>

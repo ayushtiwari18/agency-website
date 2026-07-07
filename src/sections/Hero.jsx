@@ -4,6 +4,7 @@ import { ArrowUpRight, ArrowRight } from 'lucide-react'
 import HeroMockup from '../components/ui/HeroMockup'
 import { SlotCounter } from '../components/ui/SlotCounter'
 import { AnimatedDivider } from '../components/ui/AnimatedDivider'
+import { useCal } from '../hooks/useCal'
 
 const fadeUp = (delay = 0) => ({
   initial: { opacity: 0, y: 32 },
@@ -18,6 +19,8 @@ const stats = [
 ]
 
 export default function Hero() {
+  const openBooking = useCal()
+
   return (
     <section className="relative min-h-screen flex flex-col justify-center overflow-hidden bg-white">
       {/* Grid bg */}
@@ -67,12 +70,12 @@ export default function Hero() {
             </motion.p>
 
             <motion.div {...fadeUp(0.26)} className="flex flex-wrap items-center gap-3">
-              <Link
-                to="/contact"
+              <button
+                onClick={openBooking}
                 className="inline-flex items-center gap-2 px-6 py-3 bg-brand-black text-white text-sm font-semibold rounded-lg hover:bg-brand-gray-800 active:scale-[0.97] transition-all duration-200"
               >
                 Book a Free Consultation <ArrowUpRight size={15} />
-              </Link>
+              </button>
               <Link
                 to="/work"
                 className="inline-flex items-center gap-2 px-6 py-3 border border-brand-gray-300 text-brand-black text-sm font-semibold rounded-lg hover:border-brand-black active:scale-[0.97] transition-all duration-200"

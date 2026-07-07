@@ -5,8 +5,11 @@ import { Reveal } from '../components/ui/Reveal'
 import { RevealText } from '../components/ui/RevealText'
 import { CursorGlow } from '../components/ui/CursorGlow'
 import ContactMockup from '../components/ui/ContactMockup'
+import { useCal } from '../hooks/useCal'
 
 export default function ContactCTA() {
+  const openBooking = useCal()
+
   return (
     <section className="section-pad-sm bg-white">
       <div className="container-content">
@@ -51,10 +54,13 @@ export default function ContactCTA() {
                 </Reveal>
                 <Reveal delay={280}>
                   <div className="flex flex-wrap items-center gap-3">
-                    <Link to="/contact" className="group inline-flex items-center gap-2 px-6 py-3 bg-white text-brand-black text-sm font-bold rounded-lg hover:bg-brand-gray-100 active:scale-[0.97] transition-all duration-200">
+                    <button
+                      onClick={openBooking}
+                      className="group inline-flex items-center gap-2 px-6 py-3 bg-white text-brand-black text-sm font-bold rounded-lg hover:bg-brand-gray-100 active:scale-[0.97] transition-all duration-200"
+                    >
                       Schedule a Free Consultation
                       <ArrowRight size={15} className="group-hover:translate-x-1 transition-transform duration-200" />
-                    </Link>
+                    </button>
                     <Link to="/work" className="inline-flex items-center gap-2 px-6 py-3 border border-brand-gray-700 text-white text-sm font-semibold rounded-lg hover:border-brand-gray-500 active:scale-[0.97] transition-all duration-200">
                       See our work
                     </Link>

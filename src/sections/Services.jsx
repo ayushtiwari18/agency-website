@@ -5,6 +5,7 @@ import { Reveal } from '../components/ui/Reveal'
 import { RevealText } from '../components/ui/RevealText'
 import { services } from '../data/services'
 import ServicesMockup from '../components/ui/ServicesMockup'
+import { useCal } from '../hooks/useCal'
 
 const colorDot = {
   emerald: 'bg-emerald-400',
@@ -14,6 +15,8 @@ const colorDot = {
 }
 
 export default function ServicesSection() {
+  const openBooking = useCal()
+
   return (
     <section className="section-pad bg-white">
       <div className="container-content">
@@ -95,12 +98,12 @@ export default function ServicesSection() {
               <p className="text-white font-semibold text-[16px]">Not sure which fits your project?</p>
               <p className="text-brand-gray-500 text-sm mt-0.5">A 30-minute discovery call. No pitch deck, no pressure.</p>
             </div>
-            <Link
-              to="/contact"
+            <button
+              onClick={openBooking}
               className="group flex-shrink-0 inline-flex items-center gap-1.5 px-5 py-2.5 bg-white text-brand-black text-sm font-semibold rounded-lg hover:bg-brand-gray-100 active:scale-[0.97] transition-all duration-200"
             >
               Book a discovery call <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform duration-200" />
-            </Link>
+            </button>
           </div>
         </Reveal>
       </div>

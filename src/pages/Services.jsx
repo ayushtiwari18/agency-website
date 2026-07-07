@@ -5,6 +5,7 @@ import { FadeIn } from '../components/ui/FadeIn'
 import { services } from '../data/services'
 import SchemaOrg from '../components/seo/SchemaOrg'
 import { breadcrumbSchema } from '../data/schema'
+import { useCal } from '../hooks/useCal'
 
 const SITE = 'https://tnj-solutions.vercel.app'
 const OG_IMAGE = `${SITE}/og.png`
@@ -46,6 +47,7 @@ const colorMap = {
 }
 
 export default function Services() {
+  const openBooking = useCal()
   const crumbs = breadcrumbSchema([
     { name: 'Home', url: SITE },
     { name: 'Services', url: `${SITE}/services` },
@@ -89,12 +91,12 @@ export default function Services() {
                 </p>
               </FadeIn>
               <FadeIn delay={0.2}>
-                <Link
-                  to="/contact"
+                <button
+                  onClick={openBooking}
                   className="inline-flex items-center gap-2 px-6 py-3 bg-brand-black text-white text-sm font-semibold rounded-lg hover:bg-brand-gray-800 active:scale-[0.97] transition-all duration-200"
                 >
                   Book a Free Consultation <ArrowUpRight size={14} />
-                </Link>
+                </button>
               </FadeIn>
             </div>
 
@@ -271,12 +273,12 @@ export default function Services() {
                 <h2 className="text-2xl font-extrabold tracking-tight mb-3">Ready to Build Your Next Digital Solution?</h2>
                 <p className="text-brand-gray-400 text-[15px] leading-relaxed">Book a free 30-minute consultation. We’ll understand your goals and propose the right solution.</p>
               </div>
-              <Link
-                to="/contact"
+              <button
+                onClick={openBooking}
                 className="inline-flex items-center gap-2 px-7 py-3.5 bg-white text-brand-black text-sm font-bold rounded-lg hover:bg-brand-gray-100 active:scale-[0.97] transition-all duration-200 flex-shrink-0"
               >
                 Schedule a Free Consultation <ArrowUpRight size={15} />
-              </Link>
+              </button>
             </div>
           </FadeIn>
         </div>

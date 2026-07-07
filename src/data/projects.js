@@ -23,9 +23,9 @@ export const projects = [
     github: null,
 
     // ── VISUAL ──
-    image: '/projects/shreephal/shreephal-1.png',
+    image: '/projects/mockups/Shreefal.png',
     images: [
-      { url: '/projects/shreephal/shreephal-1.png', caption: 'Hero Banner — Celebrate Your Achievements in Style' },
+      { url: '/projects/mockups/Shreefal.png', caption: 'Hero Banner — Celebrate Your Achievements in Style' },
       { url: '/projects/shreephal/shreephal-2.png', caption: 'Product Categories — Custom Awards, Medals, Trophies & Memorials' },
       { url: '/projects/shreephal/shreephal-3.png', caption: 'Interactive Shopping Cart & Real-time Order Summary' },
       { url: '/projects/shreephal/shreephal-4.png', caption: 'Checkout Integration — Secured by Razorpay' },
@@ -233,9 +233,14 @@ export const projects = [
     live: 'https://thepreceptorglobal.com',
     github: 'https://github.com/thepreceptor1111/the-prceptor',
 
-    // ── VISUAL ──
-    image: null,
-    images: [],
+    image: '/projects/mockups/preceptor.png',
+    images: [
+      { url: '/projects/mockups/preceptor.png', caption: 'Hero Landing page — A modern astrologer for a modern world' },
+      { url: '/projects/the-preceptor/preceptor-2.png', caption: 'Cosmic Astrological Wheel Showcase & Statistics' },
+      { url: '/projects/the-preceptor/preceptor-3.png', caption: 'Vedic Consultation Bookings with Live Countdowns & Offers' },
+      { url: '/projects/the-preceptor/preceptor-4.png', caption: 'Cal.com Interactive Scheduling & Timezone Integration' },
+      { url: '/projects/the-preceptor/preceptor-5.png', caption: 'Cinematic About The Preceptor Founder Biography' },
+    ],
     color: 'gold',
 
     // ── HEADLINE ──

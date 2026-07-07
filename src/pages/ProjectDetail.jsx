@@ -71,12 +71,12 @@ function ProjectGalleryCarousel({ images, title }) {
   }, [items.length, isFullscreen, isHovered])
 
   return (
-    <div className="w-full mb-10">
+    <div className="w-full mb-12">
       {/* Main Full-Width Carousel Frame */}
       <div 
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
-        className="relative w-full rounded-3xl overflow-hidden bg-brand-black border border-brand-gray-200/20 shadow-2xl group"
+        className="relative w-full overflow-hidden bg-brand-black group"
       >
         <div className="relative w-full aspect-[16/9] min-h-[340px] sm:min-h-[460px] md:min-h-[540px] lg:min-h-[620px] flex items-center justify-center overflow-hidden bg-brand-black">
           <AnimatePresence mode="wait">
@@ -93,68 +93,76 @@ function ProjectGalleryCarousel({ images, title }) {
           </AnimatePresence>
 
           {/* Top Info Bar */}
-          <div className="absolute top-4 left-4 right-4 flex items-center justify-between pointer-events-none z-10">
-            <div className="flex items-center gap-2">
-              <span className="px-3.5 py-1.5 rounded-full bg-black/60 backdrop-blur-md text-white text-xs font-semibold border border-white/10 shadow-lg">
-                {currentIndex + 1} / {items.length}
-              </span>
-              <span className="hidden sm:inline-flex px-3 py-1 rounded-full bg-emerald-500/80 backdrop-blur-md text-white text-[11px] font-semibold tracking-wider uppercase">
-                Auto-Playing
-              </span>
+          <div className="absolute top-0 left-0 right-0 w-full z-10 p-4 sm:p-6">
+            <div className="max-w-5xl mx-auto px-6 lg:px-8 flex items-center justify-between pointer-events-none">
+              <div className="flex items-center gap-2">
+                <span className="px-3.5 py-1.5 rounded-full bg-black/60 backdrop-blur-md text-white text-xs font-semibold border border-white/10 shadow-lg">
+                  {currentIndex + 1} / {items.length}
+                </span>
+                <span className="hidden sm:inline-flex px-3 py-1 rounded-full bg-emerald-500/80 backdrop-blur-md text-white text-[11px] font-semibold tracking-wider uppercase">
+                  Auto-Playing
+                </span>
+              </div>
+              <button
+                onClick={() => setIsFullscreen(true)}
+                className="pointer-events-auto p-2.5 rounded-full bg-black/60 backdrop-blur-md text-white hover:bg-black/80 transition-all border border-white/10 hover:scale-105"
+                aria-label="Expand image to fullscreen"
+              >
+                <Maximize2 size={16} />
+              </button>
             </div>
-            <button
-              onClick={() => setIsFullscreen(true)}
-              className="pointer-events-auto p-2.5 rounded-full bg-black/60 backdrop-blur-md text-white hover:bg-black/80 transition-all border border-white/10 hover:scale-105"
-              aria-label="Expand image to fullscreen"
-            >
-              <Maximize2 size={16} />
-            </button>
           </div>
 
           {/* Navigation Controls */}
           {items.length > 1 && (
-            <>
-              <button
-                onClick={prevSlide}
-                className="absolute left-4 top-1/2 -translate-y-1/2 p-3.5 rounded-full bg-black/60 backdrop-blur-md text-white hover:bg-black/90 transition-all opacity-90 sm:opacity-0 group-hover:opacity-100 border border-white/15 hover:scale-105 shadow-xl"
-                aria-label="Previous image"
-              >
-                <ChevronLeft size={22} />
-              </button>
-              <button
-                onClick={nextSlide}
-                className="absolute right-4 top-1/2 -translate-y-1/2 p-3.5 rounded-full bg-black/60 backdrop-blur-md text-white hover:bg-black/90 transition-all opacity-90 sm:opacity-0 group-hover:opacity-100 border border-white/15 hover:scale-105 shadow-xl"
-                aria-label="Next image"
-              >
-                <ChevronRight size={22} />
-              </button>
-            </>
+            <div className="absolute inset-y-0 left-0 right-0 pointer-events-none flex items-center z-10">
+              <div className="max-w-5xl w-full mx-auto px-6 lg:px-8 flex justify-between">
+                <button
+                  onClick={prevSlide}
+                  className="pointer-events-auto p-3.5 rounded-full bg-black/60 backdrop-blur-md text-white hover:bg-black/90 transition-all opacity-90 sm:opacity-0 group-hover:opacity-100 border border-white/15 hover:scale-105 shadow-xl"
+                  aria-label="Previous image"
+                >
+                  <ChevronLeft size={22} />
+                </button>
+                <button
+                  onClick={nextSlide}
+                  className="pointer-events-auto p-3.5 rounded-full bg-black/60 backdrop-blur-md text-white hover:bg-black/90 transition-all opacity-90 sm:opacity-0 group-hover:opacity-100 border border-white/15 hover:scale-105 shadow-xl"
+                  aria-label="Next image"
+                >
+                  <ChevronRight size={22} />
+                </button>
+              </div>
+            </div>
           )}
 
           {/* Bottom Caption Bar */}
           {current.caption && (
-            <div className="absolute bottom-0 inset-x-0 p-5 sm:p-7 bg-gradient-to-t from-black/90 via-black/50 to-transparent text-white">
-              <p className="text-sm sm:text-base font-semibold tracking-wide drop-shadow-md">{current.caption}</p>
+            <div className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent text-white pt-12 pb-5 sm:pb-7 px-4">
+              <div className="max-w-5xl mx-auto px-6 lg:px-8">
+                <p className="text-sm sm:text-base font-semibold tracking-wide drop-shadow-md">{current.caption}</p>
+              </div>
             </div>
           )}
         </div>
 
         {/* Thumbnail Navigation Selector */}
         {items.length > 1 && (
-          <div className="p-4 bg-brand-black/95 border-t border-white/10 flex items-center justify-center gap-3 overflow-x-auto">
-            {items.map((img, idx) => (
-              <button
-                key={img.url + idx}
-                onClick={() => setCurrentIndex(idx)}
-                className={`relative shrink-0 w-20 sm:w-28 aspect-video rounded-xl overflow-hidden border-2 transition-all ${
-                  idx === currentIndex 
-                    ? 'border-white scale-105 shadow-lg ring-2 ring-white/30' 
-                    : 'border-transparent opacity-40 hover:opacity-100'
-                }`}
-              >
-                <img src={img.url} alt={`Thumbnail ${idx + 1}`} className="w-full h-full object-cover" />
-              </button>
-            ))}
+          <div className="bg-brand-black/95 border-t border-white/10 p-4">
+            <div className="max-w-5xl mx-auto px-6 lg:px-8 flex items-center justify-center gap-3 overflow-x-auto">
+              {items.map((img, idx) => (
+                <button
+                  key={img.url + idx}
+                  onClick={() => setCurrentIndex(idx)}
+                  className={`relative shrink-0 w-20 sm:w-28 aspect-video rounded-xl overflow-hidden border-2 transition-all ${
+                    idx === currentIndex 
+                      ? 'border-white scale-105 shadow-lg ring-2 ring-white/30' 
+                      : 'border-transparent opacity-40 hover:opacity-100'
+                  }`}
+                >
+                  <img src={img.url} alt={`Thumbnail ${idx + 1}`} className="w-full h-full object-cover" />
+                </button>
+              ))}
+            </div>
           </div>
         )}
       </div>
@@ -231,9 +239,9 @@ export default function ProjectDetail() {
       </Helmet>
 
       <div className="min-h-screen pt-28 pb-16 bg-brand-gray-50">
-        <div className="container-content max-w-5xl">
+        <div className="container-content max-w-5xl mb-6">
           {/* Back Navigation */}
-          <div className="mb-6">
+          <div>
             <Link
               to="/work"
               className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-brand-gray-500 hover:text-brand-black transition-colors"
@@ -241,12 +249,14 @@ export default function ProjectDetail() {
               <ArrowLeft size={14} /> Back to all work
             </Link>
           </div>
+        </div>
 
-          {/* 1. FIRST SECTION: Full-Width Auto-Playing Image Carousel */}
-          {galleryImages.length > 0 && (
-            <ProjectGalleryCarousel images={galleryImages} title={p.client?.name ?? p.headline} />
-          )}
+        {/* 1. FIRST SECTION: Full-Width Auto-Playing Image Carousel */}
+        {galleryImages.length > 0 && (
+          <ProjectGalleryCarousel images={galleryImages} title={p.client?.name ?? p.headline} />
+        )}
 
+        <div className="container-content max-w-5xl">
           {/* 2. SECOND SECTION: Main Case Study Details Header Card */}
           <div className="bg-white rounded-3xl border border-brand-gray-100 p-8 md:p-12 shadow-sm mb-8">
             {/* Badges & Status */}
