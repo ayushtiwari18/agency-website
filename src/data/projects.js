@@ -97,12 +97,12 @@ export const projects = [
     ],
 
     metrics: [
-      { label: 'Checkout crash rate',    value: '0%',     note: 'Was 15% before fix',       icon: 'check-circle' },
-      { label: 'Admin load time',        value: '0.5s',   note: 'Was 10s for 1000+ items',  icon: 'zap' },
-      { label: 'DB queries per session', value: '-93%',   note: 'From 15–20 down to 1',     icon: 'database' },
-      { label: 'Memory usage',           value: '-95%',   note: 'From 500MB to 25MB',       icon: 'cpu' },
-      { label: 'SEO score',              value: '92/100', note: 'Up from 65/100',           icon: 'trending-up' },
-      { label: 'Production readiness',   value: '98/100', note: 'Full audit score',         icon: 'award' },
+      { label: 'Checkout crash rate', value: '0%', note: 'Was 15% before fix', icon: 'check-circle' },
+      { label: 'Admin load time', value: '0.5s', note: 'Was 10s for 1000+ items', icon: 'zap' },
+      { label: 'DB queries per session', value: '-93%', note: 'From 15–20 down to 1', icon: 'database' },
+      { label: 'Memory usage', value: '-95%', note: 'From 500MB to 25MB', icon: 'cpu' },
+      { label: 'SEO score', value: '92/100', note: 'Up from 65/100', icon: 'trending-up' },
+      { label: 'Production readiness', value: '98/100', note: 'Full audit score', icon: 'award' },
     ],
 
     testimonial: {
@@ -190,12 +190,12 @@ export const projects = [
     ],
 
     metrics: [
-      { label: 'Happy Clients',       value: '20K+',  note: 'Served globally',                      icon: 'users' },
-      { label: 'Consultations',       value: '17K+',  note: 'Delivered across platforms',           icon: 'message-circle' },
-      { label: 'Expertise Areas',     value: '15+',   note: 'Astrology, Reiki, Numerology & more',  icon: 'star' },
-      { label: 'Years Experience',    value: '8+',    note: 'Certified practice since 2016',        icon: 'award' },
-      { label: 'Corporate Partners',  value: '2+',    note: 'Accenture, Indian Air Force',          icon: 'briefcase' },
-      { label: 'Platform Partners',   value: '2+',    note: 'Astrotalk, Nebula',                    icon: 'globe' },
+      { label: 'Happy Clients', value: '20K+', note: 'Served globally', icon: 'users' },
+      { label: 'Consultations', value: '17K+', note: 'Delivered across platforms', icon: 'message-circle' },
+      { label: 'Expertise Areas', value: '15+', note: 'Astrology, Reiki, Numerology & more', icon: 'star' },
+      { label: 'Years Experience', value: '8+', note: 'Certified practice since 2016', icon: 'award' },
+      { label: 'Corporate Partners', value: '2+', note: 'Accenture, Indian Air Force', icon: 'briefcase' },
+      { label: 'Platform Partners', value: '2+', note: 'Astrotalk, Nebula', icon: 'globe' },
     ],
 
     testimonial: {
@@ -312,12 +312,12 @@ export const projects = [
     ],
 
     metrics: [
-      { label: 'Sessions Delivered',  value: '8,400+',  note: 'Across all consultation types',         icon: 'star' },
-      { label: 'Countries Served',    value: '47',       note: 'Global client base',                   icon: 'globe' },
-      { label: 'Average Rating',      value: '4.98',     note: 'Across all client reviews',            icon: 'award' },
-      { label: 'Years of Practice',   value: '7+',       note: 'Since August 2019',                   icon: 'clock' },
-      { label: 'Session Types',       value: '10',       note: 'From quick reads to deep dives',       icon: 'layers' },
-      { label: 'Content Areas',       value: '9+',       note: 'Home, About, Services, Book, Q&A…',   icon: 'layout' },
+      { label: 'Sessions Delivered', value: '8,400+', note: 'Across all consultation types', icon: 'star' },
+      { label: 'Countries Served', value: '47', note: 'Global client base', icon: 'globe' },
+      { label: 'Average Rating', value: '4.98', note: 'Across all client reviews', icon: 'award' },
+      { label: 'Years of Practice', value: '7+', note: 'Since August 2019', icon: 'clock' },
+      { label: 'Session Types', value: '10', note: 'From quick reads to deep dives', icon: 'layers' },
+      { label: 'Content Areas', value: '9+', note: 'Home, About, Services, Book, Q&A…', icon: 'layout' },
     ],
 
     testimonial: {
@@ -340,4 +340,101 @@ export const projects = [
       'Vercel',
     ],
   },
+
+  // ── AYUSH DEVFOLIO ───────────────────────────────────────────────────────────
+  {
+    id: 'ayush-devfolio',
+    slug: 'ayush-devfolio',
+    status: 'live',
+    featured: true,
+
+    // ── CLIENT ──
+    client: {
+      name: 'Ayush Tiwari',
+      industry: 'Developer Portfolio & Personal Brand Platform',
+      location: 'India',
+      size: 'Solo developer',
+      url: 'https://www.ayushtiwari.dev/',
+    },
+
+    // ── META ──
+    type: 'Web Development',
+    tags: ['Portfolio', 'Next.js 15', 'Tailwind CSS', 'Supabase', 'SEO-first', 'Mobile-first'],
+    duration: null,
+    year: 2026,
+    live: 'https://www.ayushtiwari.dev/',
+    github: 'https://github.com/ayushtiwari-dev/devfolio',
+
+    // ── VISUAL ──
+    image: '/projects/mockups/Portfolio.png',
+    images: [
+      { url: '/projects/mockups/Portfolio.png', caption: 'Ayush DevFolio — Developer Portfolio & Personal Brand Platform' },
+    ],
+    color: 'violet',
+
+    // ── HEADLINE ──
+    headline: 'A portfolio platform that turns projects, writing, and achievements into a single credible digital presence.',
+    summary:
+      'A full-featured developer portfolio for Ayush Tiwari to showcase projects, technical content, certifications, hackathons, and contact workflows through a polished, production-ready personal brand website.',
+
+    // ── THE STORY ──
+    context:
+      `Ayush needed more than a simple resume website. The goal was to create a personal platform that could present technical work, support long-form content, and grow over time as new projects, articles, and achievements were added. The portfolio had to feel modern and distinctive, while still staying fast, responsive, and SEO-friendly.`,
+
+    brief:
+      `We need a portfolio that feels modern and professional, highlights real work clearly, and gives projects, blogs, certifications, and achievements a proper home — not just a single scrolling page.`,
+
+    solution:
+      `We designed and structured a modern portfolio platform with a strong visual identity, mobile-first layouts, dedicated project pages, blog support, certification and hackathon sections, and a Supabase-backed contact workflow. The stack uses Next.js 15 for performance and SEO, Tailwind CSS for a scalable UI system, and a content architecture built to grow without redesigning the entire website later.`,
+
+    challenges: [
+      {
+        title: 'The site had to feel premium without becoming noisy',
+        detail:
+          'Portfolio websites often overuse motion and effects. This project balanced a dark purple theme, glassmorphism, hover glows, and smooth animations with strong layout hierarchy so the interface stays impressive without distracting from the work.',
+      },
+      {
+        title: 'Multiple credibility signals had to coexist cleanly',
+        detail:
+          'The site needed room for projects, blog content, certifications, hackathons, and contact flows. We solved this by treating each as a distinct proof layer, so visitors can quickly understand depth without the experience feeling cluttered.',
+      },
+      {
+        title: 'Performance and discoverability had to stay strong',
+        detail:
+          'Because the site includes multiple dynamic sections, SEO and structure had to be built in from the start. Next.js rendering, dynamic metadata, sitemap generation, robots support, and image optimization make the platform easier to discover and scale.',
+      },
+    ],
+
+    outcome:
+      `Ayush DevFolio becomes a polished digital home for personal branding — one place to present technical depth, proof of work, achievements, and written content in a cohesive experience. Instead of sending scattered links, the developer now has a single platform that communicates capability and credibility clearly.`,
+
+    features: [
+      'Next.js 15 portfolio architecture with SEO-focused rendering',
+      'Dedicated project pages with slug-based routing',
+      'Blog listing and blog post support',
+      'Certifications showcase',
+      'Hackathons section for achievements and participation',
+      'Supabase-backed contact form workflow',
+      'Responsive mobile-first design',
+      'Dynamic metadata, sitemap, and robots.txt support',
+      'Modern visual system with dark theme, glows, animations, and Three.js background',
+    ],
+
+    metrics: [
+      { label: 'Core Sections', value: '8+', note: 'Projects, blog, certifications, hackathons, contact, and more', icon: 'layers' },
+      { label: 'Content Types', value: '5+', note: 'Projects, blog posts, certifications, hackathons, contact', icon: 'star' },
+      { label: 'Tech Foundation', value: '3', note: 'Next.js 15, Tailwind CSS, Supabase', icon: 'cpu' },
+      { label: 'SEO Readiness', value: 'Built-in', note: 'Dynamic metadata, sitemap, robots.txt', icon: 'trending-up' },
+    ],
+
+    testimonial: {
+      quote: null,
+      author: null,
+      role: 'Client & Software Developer',
+      avatar: null,
+    },
+
+    stack: ['Next.js 15', 'Tailwind CSS', 'Supabase', 'Framer Motion', 'Three.js'],
+  },
 ]
+
