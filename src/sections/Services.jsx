@@ -9,9 +9,9 @@ import { useCal } from '../hooks/useCal'
 
 const colorDot = {
   emerald: 'bg-emerald-400',
-  blue:    'bg-blue-400',
-  purple:  'bg-purple-400',
-  orange:  'bg-orange-400',
+  blue: 'bg-blue-400',
+  purple: 'bg-purple-400',
+  orange: 'bg-orange-400',
 }
 
 export default function ServicesSection() {
@@ -31,7 +31,7 @@ export default function ServicesSection() {
               delay={80}
               className="text-display-lg font-extrabold text-brand-black tracking-tight max-w-[480px] mb-5"
             >
-              {'Outcomes we are\nengaged to deliver.'}
+              {'Outcomes We Are\nEngaged To Deliver.'}
             </RevealText>
             <Reveal delay={180}>
               <p className="text-sm text-brand-gray-500 max-w-[360px] leading-relaxed">

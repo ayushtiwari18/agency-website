@@ -1,6 +1,7 @@
 import { Helmet } from 'react-helmet-async'
 import { useForm } from 'react-hook-form'
 import { useState } from 'react'
+import { useLocation } from 'react-router-dom'
 import { CheckCircle, Send, MapPin, Mail, Clock } from 'lucide-react'
 import { FadeIn } from '../components/ui/FadeIn'
 import ContactMockup from '../components/ui/ContactMockup'
@@ -15,7 +16,12 @@ const SERVICE_OPTIONS  = ['Portfolio website','Business website','Growth website
 
 export default function Contact() {
   const [submitted, setSubmitted] = useState(false)
-  const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm()
+  const location = useLocation()
+  const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm({
+    defaultValues: {
+      message: location.state?.calculatorSummary || ''
+    }
+  })
 
   const onSubmit = async (data) => {
     try {

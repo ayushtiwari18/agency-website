@@ -4,6 +4,7 @@ import { CheckCircle } from 'lucide-react'
 import { FadeIn } from '../components/ui/FadeIn'
 import { pricing } from '../data/pricing'
 import { useCountdown } from '../hooks/useCountdown'
+import PricingCalculator from '../components/ui/PricingCalculator'
 
 const SITE          = 'https://tj-creates.vercel.app'
 const OG_IMAGE      = `${SITE}/og.png`
@@ -134,6 +135,13 @@ export default function Pricing() {
               </FadeIn>
             ))}
           </div>
+
+          {/* Pricing Calculator Widget */}
+          <FadeIn delay={0.24}>
+            <div className="mt-20">
+              <PricingCalculator />
+            </div>
+          </FadeIn>
 
           <FadeIn delay={0.3}>
             <div className="text-center max-w-2xl mx-auto mt-12 space-y-3">
