@@ -1,6 +1,8 @@
 import { useState, useEffect, useMemo } from 'react'
+import { createPortal } from 'react-dom'
 import { Link } from 'react-router-dom'
-import { Sun, Moon, RotateCcw, ArrowRight, Check, Info } from 'lucide-react'
+import { Sun, Moon, RotateCcw, ArrowRight, Check, Info, X, Loader2, Mail } from 'lucide-react'
+import { optionDetails } from '../../data/calculatorOptionsDetails'
 
 const PROJECT_TYPES = [
   { label: 'Simple/Portfolio', pts: 10, description: 'Basic layouts, static sites, personal portfolios.' },
@@ -68,6 +70,91 @@ export default function PricingCalculator() {
   const [timeline, setTimeline] = useState(0)
   const [rate] = useState(550)
   const [isFlashing, setIsFlashing] = useState(false)
+  const [selectedDetailOption, setSelectedDetailOption] = useState(null)
+
+  // Modal and Submission State
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [formData, setFormData] = useState({ name: '', email: '', phone: '' })
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [isSuccess, setIsSuccess] = useState(false)
+  const [error, setError] = useState('')
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false)
+    setIsSuccess(false)
+    setError('')
+    setFormData({ name: '', email: '', phone: '' })
+  }
+
+  // Prevent background scroll when modal is open
+  useEffect(() => {
+    if (isModalOpen || selectedDetailOption) {
+      document.body.style.overflow = 'hidden'
+    } else {
+      document.body.style.overflow = 'unset'
+    }
+    return () => {
+      document.body.style.overflow = 'unset'
+    }
+  }, [isModalOpen, selectedDetailOption])
+
+  // Escape key handler to close modals
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') {
+        setSelectedDetailOption(null)
+        setIsModalOpen(false)
+      }
+    }
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [])
+
+  const handleFormSubmit = async (e) => {
+    e.preventDefault()
+    setIsSubmitting(true)
+    setError('')
+
+    if (!formData.name.trim() || !formData.email.trim() || !formData.phone.trim()) {
+      setError('Please fill in all fields.')
+      setIsSubmitting(false)
+      return
+    }
+
+    const payload = {
+      name: formData.name,
+      email: formData.email,
+      phone: formData.phone,
+      estimatedCost: formatCurrency(quote),
+      projectType: PROJECT_TYPES.find(p => p.pts === projectType)?.label || '',
+      designStyle: DESIGN_STYLES.find(d => d.pts === designStyle)?.label || '',
+      pages: PAGE_RANGES.find(pr => pr.pts === pages)?.label || '',
+      contentOwnership: CONTENT_OWNERSHIP_OPTIONS.find(c => c.pts === contentOwnership)?.label || '',
+      seoScope: SEO_SCOPE_OPTIONS.find(s => s.pts === seoScope)?.label || '',
+      deployment: DEPLOYMENT_OPTIONS.find(d => d.pts === deployment)?.label || '',
+      selectedFeatures: features.map(fid => FEATURES_LIST.find(f => f.id === fid)?.label).filter(Boolean).join(', '),
+      timeline: TIMELINES.find(t => t.pts === timeline)?.label || '',
+      totalPoints,
+      source: 'Pricing Calculator Quote Request'
+    }
+
+    try {
+      const response = await fetch('https://formspree.io/f/mnjyewlo', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify(payload),
+      })
+      if (response.ok) {
+        setIsSuccess(true)
+      } else {
+        setError('Something went wrong. Please try again.')
+      }
+    } catch (err) {
+      setError('Network error. Please check your connection and try again.')
+    } finally {
+      setIsSubmitting(false)
+    }
+  }
 
   const toggleFeature = (id) => {
     if (features.includes(id)) {
@@ -124,6 +211,82 @@ export default function PricingCalculator() {
     return '₹' + val.toLocaleString('en-IN')
   }
 
+  const getOptionSelectionInfo = (label) => {
+    // 1. Project Type
+    const pt = PROJECT_TYPES.find(p => p.label === label)
+    if (pt) {
+      return {
+        isSelected: projectType === pt.pts,
+        onSelect: () => setProjectType(pt.pts),
+        type: 'select'
+      }
+    }
+    // 2. Design Style
+    const ds = DESIGN_STYLES.find(d => d.label === label)
+    if (ds) {
+      return {
+        isSelected: designStyle === ds.pts,
+        onSelect: () => setDesignStyle(ds.pts),
+        type: 'select'
+      }
+    }
+    // 3. Pages
+    const pg = PAGE_RANGES.find(p => p.label === label)
+    if (pg) {
+      return {
+        isSelected: pages === pg.pts,
+        onSelect: () => setPages(pg.pts),
+        type: 'select'
+      }
+    }
+    // 4. Content Ownership
+    const co = CONTENT_OWNERSHIP_OPTIONS.find(c => c.label === label)
+    if (co) {
+      return {
+        isSelected: contentOwnership === co.pts,
+        onSelect: () => setContentOwnership(co.pts),
+        type: 'select'
+      }
+    }
+    // 5. SEO Scope
+    const seo = SEO_SCOPE_OPTIONS.find(s => s.label === label)
+    if (seo) {
+      return {
+        isSelected: seoScope === seo.pts,
+        onSelect: () => setSeoScope(seo.pts),
+        type: 'select'
+      }
+    }
+    // 6. Deployment
+    const dep = DEPLOYMENT_OPTIONS.find(d => d.label === label)
+    if (dep) {
+      return {
+        isSelected: deployment === dep.pts,
+        onSelect: () => setDeployment(dep.pts),
+        type: 'select'
+      }
+    }
+    // 7. Feature
+    const feat = FEATURES_LIST.find(f => f.label === label)
+    if (feat) {
+      return {
+        isSelected: features.includes(feat.id),
+        onSelect: () => toggleFeature(feat.id),
+        type: 'toggle'
+      }
+    }
+    // 8. Timeline
+    const tl = TIMELINES.find(t => t.label === label)
+    if (tl) {
+      return {
+        isSelected: timeline === tl.pts,
+        onSelect: () => setTimeline(tl.pts),
+        type: 'select'
+      }
+    }
+    return null
+  }
+
   return (
     <div className={`transition-colors duration-300 w-full mx-auto rounded-3xl border shadow-xl ${
       isDark 
@@ -154,12 +317,9 @@ export default function PricingCalculator() {
         </button>
       </div>
 
-      {/* Main Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-5 gap-0">
-        {/* Left Side: Selectors */}
-        <div className={`p-6 md:p-8 lg:col-span-3 space-y-6 ${
-          isDark ? 'border-b lg:border-b-0 lg:border-r border-brand-gray-800' : 'border-b lg:border-b-0 lg:border-r border-brand-gray-100'
-        }`}>
+      {/* Main Content Area */}
+      <div className="w-full">
+        <div className="p-6 md:p-8 space-y-6">
           {/* 1. Project Type */}
           <div>
             <label className={`block text-xs font-semibold uppercase tracking-wider mb-2.5 ${
@@ -190,9 +350,8 @@ export default function PricingCalculator() {
                         ? 'bg-brand-gray-900 text-brand-gray-200 border-brand-gray-700 shadow-brand-black/50' 
                         : 'bg-brand-black text-brand-gray-100 border-brand-gray-800 shadow-brand-black/10'
                     }`}>
-                      <div className="font-bold text-[11px] mb-1 text-teal-400 flex justify-between items-center">
-                        <span>{type.label}</span>
-                        <span className="text-[9px] font-mono text-brand-gray-400">{type.pts} pts</span>
+                      <div className="font-bold text-[11px] mb-1 text-teal-400">
+                        {type.label}
                       </div>
                       <p className="text-[10px] leading-relaxed text-brand-gray-300">{type.description}</p>
                       <div className={`absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent ${
@@ -200,13 +359,18 @@ export default function PricingCalculator() {
                       }`} />
                     </div>
 
-                    <div className="font-bold flex items-center justify-between">
+                    <div className="font-bold flex items-center justify-between w-full">
                       <span>{type.label}</span>
-                      <span className={`text-[10px] px-1.5 py-0.5 rounded font-mono ${
-                        active 
-                          ? 'bg-teal-500/10 text-teal-400' 
-                          : isDark ? 'bg-brand-gray-800 text-brand-gray-400' : 'bg-brand-gray-100 text-brand-gray-500'
-                      }`}>{type.pts} pts</span>
+                      <span
+                        onClick={(e) => {
+                          e.stopPropagation()
+                          setSelectedDetailOption(type.label)
+                        }}
+                        className="p-1 -mr-1 rounded-full hover:bg-teal-500/10 transition-colors flex items-center justify-center cursor-pointer"
+                        title="Click for detailed description"
+                      >
+                        <Info size={13} className="text-teal-500 hover:text-teal-400" />
+                      </span>
                     </div>
                     <p className={`mt-1.5 leading-snug font-normal ${
                       isDark ? 'text-brand-gray-400' : 'text-brand-gray-500'
@@ -247,9 +411,8 @@ export default function PricingCalculator() {
                         ? 'bg-brand-gray-900 text-brand-gray-200 border-brand-gray-700 shadow-brand-black/50' 
                         : 'bg-brand-black text-brand-gray-100 border-brand-gray-800 shadow-brand-black/10'
                     }`}>
-                      <div className="font-bold text-[11px] mb-1 text-teal-400 flex justify-between items-center">
-                        <span>{style.label}</span>
-                        <span className="text-[9px] font-mono text-brand-gray-400">+{style.pts} pts</span>
+                      <div className="font-bold text-[11px] mb-1 text-teal-400">
+                        {style.label}
                       </div>
                       <p className="text-[10px] leading-relaxed text-brand-gray-300">{style.description}</p>
                       <div className={`absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent ${
@@ -257,13 +420,18 @@ export default function PricingCalculator() {
                       }`} />
                     </div>
 
-                    <div className="font-bold flex items-center justify-between">
+                    <div className="font-bold flex items-center justify-between w-full">
                       <span>{style.label}</span>
-                      <span className={`text-[10px] px-1.5 py-0.5 rounded font-mono ${
-                        active 
-                          ? 'bg-teal-500/10 text-teal-400' 
-                          : isDark ? 'bg-brand-gray-800 text-brand-gray-400' : 'bg-brand-gray-100 text-brand-gray-500'
-                      }`}>{style.pts} pts</span>
+                      <span
+                        onClick={(e) => {
+                          e.stopPropagation()
+                          setSelectedDetailOption(style.label)
+                        }}
+                        className="p-1 -mr-1 rounded-full hover:bg-teal-500/10 transition-colors flex items-center justify-center cursor-pointer"
+                        title="Click for detailed description"
+                      >
+                        <Info size={13} className="text-teal-500 hover:text-teal-400" />
+                      </span>
                     </div>
                     <p className={`mt-1.5 leading-snug font-normal ${
                       isDark ? 'text-brand-gray-400' : 'text-brand-gray-500'
@@ -288,7 +456,7 @@ export default function PricingCalculator() {
                   <button
                     key={range.label}
                     onClick={() => setPages(range.pts)}
-                    className={`group relative px-4 py-2 rounded-full border text-xs font-medium transition-all ${
+                    className={`group relative px-4 py-2 rounded-full border text-xs font-medium transition-all flex items-center gap-1.5 ${
                       active
                         ? isDark
                           ? 'border-teal-500 bg-teal-950/30 text-teal-300'
@@ -304,9 +472,8 @@ export default function PricingCalculator() {
                         ? 'bg-brand-gray-900 text-brand-gray-200 border-brand-gray-700 shadow-brand-black/50' 
                         : 'bg-brand-black text-brand-gray-100 border-brand-gray-800 shadow-brand-black/10'
                     }`}>
-                      <div className="font-bold text-[11px] mb-1 text-teal-400 flex justify-between items-center">
-                        <span>{range.label}</span>
-                        <span className="text-[9px] font-mono text-brand-gray-400">+{range.pts} pts</span>
+                      <div className="font-bold text-[11px] mb-1 text-teal-400">
+                        {range.label}
                       </div>
                       <p className="text-[10px] leading-relaxed text-brand-gray-300">{range.description}</p>
                       <div className={`absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent ${
@@ -314,7 +481,17 @@ export default function PricingCalculator() {
                       }`} />
                     </div>
 
-                    {range.label} <span className="text-[10px] opacity-75 font-mono ml-0.5">({range.pts} pts)</span>
+                    <span>{range.label}</span>
+                    <span
+                      onClick={(e) => {
+                        e.stopPropagation()
+                        setSelectedDetailOption(range.label)
+                      }}
+                      className="p-0.5 rounded-full hover:bg-teal-500/10 transition-colors flex items-center justify-center cursor-pointer"
+                      title="Click for detailed description"
+                    >
+                      <Info size={11} className="text-teal-500" />
+                    </span>
                   </button>
                 )
               })}
@@ -351,9 +528,8 @@ export default function PricingCalculator() {
                         ? 'bg-brand-gray-900 text-brand-gray-200 border-brand-gray-700 shadow-brand-black/50' 
                         : 'bg-brand-black text-brand-gray-100 border-brand-gray-800 shadow-brand-black/10'
                     }`}>
-                      <div className="font-bold text-[11px] mb-1 text-teal-400 flex justify-between items-center">
-                        <span>{opt.label}</span>
-                        <span className="text-[9px] font-mono text-brand-gray-400">+{opt.pts} pts</span>
+                      <div className="font-bold text-[11px] mb-1 text-teal-400">
+                        {opt.label}
                       </div>
                       <p className="text-[10px] leading-relaxed text-brand-gray-300">{opt.description}</p>
                       <div className={`absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent ${
@@ -361,13 +537,18 @@ export default function PricingCalculator() {
                       }`} />
                     </div>
 
-                    <div className="font-bold flex items-center justify-between">
+                    <div className="font-bold flex items-center justify-between w-full">
                       <span>{opt.label}</span>
-                      <span className={`text-[10px] px-1.5 py-0.5 rounded font-mono ${
-                        active 
-                          ? 'bg-teal-500/10 text-teal-400' 
-                          : isDark ? 'bg-brand-gray-800 text-brand-gray-400' : 'bg-brand-gray-100 text-brand-gray-500'
-                      }`}>{opt.pts} pts</span>
+                      <span
+                        onClick={(e) => {
+                          e.stopPropagation()
+                          setSelectedDetailOption(opt.label)
+                        }}
+                        className="p-1 -mr-1 rounded-full hover:bg-teal-500/10 transition-colors flex items-center justify-center cursor-pointer"
+                        title="Click for detailed description"
+                      >
+                        <Info size={13} className="text-teal-500 hover:text-teal-400" />
+                      </span>
                     </div>
                     <p className={`mt-1.5 leading-snug font-normal ${
                       isDark ? 'text-brand-gray-400' : 'text-brand-gray-500'
@@ -408,9 +589,8 @@ export default function PricingCalculator() {
                         ? 'bg-brand-gray-900 text-brand-gray-200 border-brand-gray-700 shadow-brand-black/50' 
                         : 'bg-brand-black text-brand-gray-100 border-brand-gray-800 shadow-brand-black/10'
                     }`}>
-                      <div className="font-bold text-[11px] mb-1 text-teal-400 flex justify-between items-center">
-                        <span>{opt.label}</span>
-                        <span className="text-[9px] font-mono text-brand-gray-400">+{opt.pts} pts</span>
+                      <div className="font-bold text-[11px] mb-1 text-teal-400">
+                        {opt.label}
                       </div>
                       <p className="text-[10px] leading-relaxed text-brand-gray-300">{opt.description}</p>
                       <div className={`absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent ${
@@ -420,11 +600,16 @@ export default function PricingCalculator() {
 
                     <div className="font-bold flex items-center justify-between w-full">
                       <span className="truncate pr-1">{opt.label}</span>
-                      <span className={`text-[10px] px-1.5 py-0.5 rounded font-mono flex-shrink-0 ${
-                        active 
-                          ? 'bg-teal-500/10 text-teal-400' 
-                          : isDark ? 'bg-brand-gray-800 text-brand-gray-400' : 'bg-brand-gray-100 text-brand-gray-500'
-                      }`}>{opt.pts} pts</span>
+                      <span
+                        onClick={(e) => {
+                          e.stopPropagation()
+                          setSelectedDetailOption(opt.label)
+                        }}
+                        className="p-1 -mr-1 rounded-full hover:bg-teal-500/10 transition-colors flex items-center justify-center cursor-pointer flex-shrink-0"
+                        title="Click for detailed description"
+                      >
+                        <Info size={13} className="text-teal-500 hover:text-teal-400" />
+                      </span>
                     </div>
                     <p className={`mt-1.5 leading-snug font-normal text-[10px] ${
                       isDark ? 'text-brand-gray-400' : 'text-brand-gray-500'
@@ -465,9 +650,8 @@ export default function PricingCalculator() {
                         ? 'bg-brand-gray-900 text-brand-gray-200 border-brand-gray-700 shadow-brand-black/50' 
                         : 'bg-brand-black text-brand-gray-100 border-brand-gray-800 shadow-brand-black/10'
                     }`}>
-                      <div className="font-bold text-[11px] mb-1 text-teal-400 flex justify-between items-center">
-                        <span>{opt.label}</span>
-                        <span className="text-[9px] font-mono text-brand-gray-400">+{opt.pts} pts</span>
+                      <div className="font-bold text-[11px] mb-1 text-teal-400">
+                        {opt.label}
                       </div>
                       <p className="text-[10px] leading-relaxed text-brand-gray-300">{opt.description}</p>
                       <div className={`absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent ${
@@ -475,13 +659,18 @@ export default function PricingCalculator() {
                       }`} />
                     </div>
 
-                    <div className="font-bold flex items-center justify-between">
+                    <div className="font-bold flex items-center justify-between w-full">
                       <span>{opt.label}</span>
-                      <span className={`text-[10px] px-1.5 py-0.5 rounded font-mono ${
-                        active 
-                          ? 'bg-teal-500/10 text-teal-400' 
-                          : isDark ? 'bg-brand-gray-800 text-brand-gray-400' : 'bg-brand-gray-100 text-brand-gray-500'
-                      }`}>{opt.pts} pts</span>
+                      <span
+                        onClick={(e) => {
+                          e.stopPropagation()
+                          setSelectedDetailOption(opt.label)
+                        }}
+                        className="p-1 -mr-1 rounded-full hover:bg-teal-500/10 transition-colors flex items-center justify-center cursor-pointer"
+                        title="Click for detailed description"
+                      >
+                        <Info size={13} className="text-teal-500 hover:text-teal-400" />
+                      </span>
                     </div>
                     <p className={`mt-1.5 leading-snug font-normal ${
                       isDark ? 'text-brand-gray-400' : 'text-brand-gray-500'
@@ -522,9 +711,8 @@ export default function PricingCalculator() {
                         ? 'bg-brand-gray-900 text-brand-gray-200 border-brand-gray-700 shadow-brand-black/50' 
                         : 'bg-brand-black text-brand-gray-100 border-brand-gray-800 shadow-brand-black/10'
                     }`}>
-                      <div className="font-bold text-[11px] mb-1 text-teal-400 flex justify-between items-center">
-                        <span>{feat.label}</span>
-                        <span className="text-[9px] font-mono text-brand-gray-400">+{feat.pts} pts</span>
+                      <div className="font-bold text-[11px] mb-1 text-teal-400">
+                        {feat.label}
                       </div>
                       <p className="text-[10px] leading-relaxed text-brand-gray-300">{feat.description}</p>
                       <div className={`absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent ${
@@ -532,11 +720,20 @@ export default function PricingCalculator() {
                       }`} />
                     </div>
 
-                    <span className="truncate pr-1">{feat.label}</span>
+                    <span className="truncate pr-1 flex items-center gap-1.5 w-full">
+                      <span className="truncate">{feat.label}</span>
+                      <span
+                        onClick={(e) => {
+                          e.stopPropagation()
+                          setSelectedDetailOption(feat.label)
+                        }}
+                        className="p-1 -my-1 rounded-full hover:bg-teal-500/10 transition-colors flex items-center justify-center cursor-pointer flex-shrink-0"
+                        title="Click for detailed description"
+                      >
+                        <Info size={11} className="text-teal-500 hover:text-teal-400" />
+                      </span>
+                    </span>
                     <div className="flex items-center gap-1.5 flex-shrink-0">
-                      <span className={`text-[10px] font-mono ${
-                        active ? 'text-teal-400' : isDark ? 'text-brand-gray-500' : 'text-brand-gray-400'
-                      }`}>+{feat.pts}</span>
                       <div className={`w-3.5 h-3.5 rounded flex items-center justify-center border transition-all ${
                         active 
                           ? 'bg-teal-500 border-teal-500 text-white' 
@@ -581,9 +778,8 @@ export default function PricingCalculator() {
                         ? 'bg-brand-gray-900 text-brand-gray-200 border-brand-gray-700 shadow-brand-black/50' 
                         : 'bg-brand-black text-brand-gray-100 border-brand-gray-800 shadow-brand-black/10'
                     }`}>
-                      <div className="font-bold text-[11px] mb-1 text-teal-400 flex justify-between items-center">
-                        <span>{t.label}</span>
-                        <span className="text-[9px] font-mono text-brand-gray-400">{t.pts === 0 ? '0 pts' : `+${t.pts} pts`}</span>
+                      <div className="font-bold text-[11px] mb-1 text-teal-400">
+                        {t.label}
                       </div>
                       <p className="text-[10px] leading-relaxed text-brand-gray-300">{t.description}</p>
                       <div className={`absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent ${
@@ -591,160 +787,367 @@ export default function PricingCalculator() {
                       }`} />
                     </div>
 
-                    <span>{t.label}</span>
-                    {t.modifier && (
-                      <span className={`text-[10px] font-mono px-1 rounded ${
-                        active ? 'bg-teal-500/10 text-teal-400' : isDark ? 'bg-brand-gray-800 text-brand-gray-400' : 'bg-brand-gray-100 text-brand-gray-500'
-                      }`}>{t.modifier}</span>
-                    )}
+                    <div className="font-bold flex items-center justify-between w-full">
+                      <span>{t.label}</span>
+                      <span
+                        onClick={(e) => {
+                          e.stopPropagation()
+                          setSelectedDetailOption(t.label)
+                        }}
+                        className="p-1 -mr-1 rounded-full hover:bg-teal-500/10 transition-colors flex items-center justify-center cursor-pointer"
+                        title="Click for detailed description"
+                      >
+                        <Info size={13} className="text-teal-500 hover:text-teal-400" />
+                      </span>
+                    </div>
                   </button>
                 )
               })}
             </div>
           </div>
 
-          {/* Rate Display */}
-          <div className={`p-4 rounded-xl border flex items-center justify-between ${
-            isDark 
-              ? 'bg-brand-gray-900/30 border-brand-gray-800' 
-              : 'bg-brand-gray-50/50 border-brand-gray-100'
+          {/* Submit / CTA Footer */}
+          <div className={`pt-6 border-t flex flex-col sm:flex-row items-center justify-between gap-4 ${
+            isDark ? 'border-brand-gray-800' : 'border-brand-gray-150'
           }`}>
             <div>
-              <span className={`block text-xs font-semibold uppercase tracking-wider ${
-                isDark ? 'text-brand-gray-400' : 'text-brand-gray-500'
-              }`}>
-                Rate per Point
-              </span>
-              <p className={`text-[10px] mt-0.5 ${isDark ? 'text-brand-gray-500' : 'text-brand-gray-400'}`}>
-                Fixed standard pricing rate
+              <h4 className="text-sm font-bold">Ready to get your price estimate?</h4>
+              <p className={`text-xs mt-0.5 ${isDark ? 'text-brand-gray-400' : 'text-brand-gray-500'}`}>
+                We'll calculate the cost details and send them instantly to your inbox.
               </p>
             </div>
-            <span className="text-base font-extrabold text-teal-500 font-mono">
-              {formatCurrency(rate)}
-            </span>
-          </div>
-        </div>
-
-        {/* Right Side: Results Panel */}
-        <div className={`p-6 md:p-8 lg:col-span-2 flex flex-col justify-between rounded-b-[22px] lg:rounded-b-none lg:rounded-br-[22px] ${
-          isDark ? 'bg-brand-gray-900/40' : 'bg-brand-gray-50/50'
-        }`}>
-          <div className="space-y-6">
-            <h3 className={`text-xs font-bold uppercase tracking-wider ${
-              isDark ? 'text-brand-gray-400' : 'text-brand-gray-500'
-            }`}>
-              Estimated Pricing
-            </h3>
-
-            {/* Calculations Breakdown */}
-            <div className="space-y-3">
-              <div className="flex justify-between items-center text-xs">
-                <span className={isDark ? 'text-brand-gray-400' : 'text-brand-gray-500'}>Total Points</span>
-                <span className="font-bold font-mono">{totalPoints} pts</span>
-              </div>
-              <div className="flex justify-between items-center text-xs">
-                <span className={isDark ? 'text-brand-gray-400' : 'text-brand-gray-500'}>Rate per Point</span>
-                <span className="font-bold font-mono">{formatCurrency(rate)}</span>
-              </div>
-              <div className="flex justify-between items-center text-xs">
-                <span className={isDark ? 'text-brand-gray-400' : 'text-brand-gray-500'}>Base Price</span>
-                <span className="font-bold font-mono">{formatCurrency(basePrice)}</span>
-              </div>
+            <div className="flex items-center gap-3 w-full sm:w-auto">
+              <button
+                type="button"
+                onClick={handleReset}
+                className={`px-4.5 py-3 rounded-xl text-xs font-semibold border transition-all flex items-center gap-1.5 ${
+                  isDark
+                    ? 'border-brand-gray-800 hover:bg-brand-gray-900 text-brand-gray-400'
+                    : 'border-brand-gray-200 hover:bg-brand-gray-100 text-brand-gray-650'
+                }`}
+              >
+                <RotateCcw size={13} /> Reset Options
+              </button>
+              <button
+                type="button"
+                onClick={() => setIsModalOpen(true)}
+                className="flex-1 sm:flex-none inline-flex items-center justify-center gap-2 px-6 py-3 bg-teal-600 hover:bg-teal-500 text-white rounded-xl text-sm font-bold shadow-md active:scale-[0.98] transition-all"
+              >
+                Get Price Quote <ArrowRight size={15} />
+              </button>
             </div>
-
-            <div className={`h-px ${isDark ? 'bg-brand-gray-800' : 'bg-brand-gray-200'}`} />
-
-            {/* Final Quote display with color flash */}
-            <div className="text-center py-4">
-              <p className={`text-[10px] font-bold uppercase tracking-widest ${
-                isDark ? 'text-brand-gray-400' : 'text-brand-gray-500'
-              }`}>
-                Your Estimated Quote
-              </p>
-              <div className={`text-3xl md:text-4xl font-extrabold tracking-tight mt-1 transition-all duration-300 font-mono ${
-                isFlashing 
-                  ? 'text-teal-400 scale-105' 
-                  : isDark ? 'text-white' : 'text-brand-black'
-              }`}>
-                {formatCurrency(quote)}
-              </div>
-              <p className={`text-[10px] mt-1.5 italic ${isDark ? 'text-brand-gray-500' : 'text-brand-gray-400'}`}>
-                (rounded to the nearest ₹100)
-              </p>
-            </div>
-
-            {/* Negotiation Range Slider / Bar */}
-            <div className="space-y-2">
-              <div className="flex justify-between items-center text-[10px] uppercase font-bold tracking-wider">
-                <span className={isDark ? 'text-brand-gray-500' : 'text-brand-gray-400'}>Negotiation Range (±20%)</span>
-              </div>
-              
-              {/* Visual Range bar */}
-              <div className="relative pt-1">
-                <div className={`h-2 rounded-full relative w-full ${isDark ? 'bg-brand-gray-800' : 'bg-brand-gray-200'}`}>
-                  {/* Central highlighted range */}
-                  <div 
-                    className="absolute h-full rounded-full bg-teal-500/80 left-[20%] right-[20%]" 
-                  />
-                  {/* Highlight indicator for actual quote */}
-                  <div 
-                    className="absolute w-3 h-3 rounded-full bg-teal-400 border border-white -top-0.5 left-[50%] -translate-x-1/2 shadow-sm"
-                  />
-                </div>
-              </div>
-
-              <div className="flex justify-between text-[11px] font-bold font-mono">
-                <div className="text-left">
-                  <span className={`block text-[8px] uppercase font-bold tracking-wider ${isDark ? 'text-brand-gray-500' : 'text-brand-gray-400'}`}>Low (-20%)</span>
-                  <span className={isDark ? 'text-brand-gray-300' : 'text-brand-gray-600'}>{formatCurrency(rangeLow)}</span>
-                </div>
-                <div className="text-center">
-                  <span className={`block text-[8px] uppercase font-bold tracking-wider ${isDark ? 'text-brand-gray-500' : 'text-brand-gray-400'}`}>Quote</span>
-                  <span className="text-teal-500">{formatCurrency(quote)}</span>
-                </div>
-                <div className="text-right">
-                  <span className={`block text-[8px] uppercase font-bold tracking-wider ${isDark ? 'text-brand-gray-500' : 'text-brand-gray-400'}`}>High (+20%)</span>
-                  <span className={isDark ? 'text-brand-gray-300' : 'text-brand-gray-600'}>{formatCurrency(rangeHigh)}</span>
-                </div>
-              </div>
-            </div>
-
-            {/* Negotiation Note */}
-            <div className={`p-3 rounded-xl border flex items-start gap-2.5 text-[11px] leading-relaxed ${
-              isDark 
-                ? 'bg-teal-950/10 border-teal-500/20 text-brand-gray-300' 
-                : 'bg-teal-50/40 border-teal-100 text-brand-gray-600'
-            }`}>
-              <Info size={14} className="text-teal-500 flex-shrink-0 mt-0.5" />
-              <span>
-                Final quotes depend on exact features. We offer flexible budgets and ranges are negotiable.
-              </span>
-            </div>
-          </div>
-
-          {/* Bottom Action buttons */}
-          <div className="pt-6 sm:pt-4 space-y-3">
-            <Link
-              to="/contact"
-              state={{ calculatorSummary: getCalculatorSummary() }}
-              className="w-full inline-flex items-center justify-center gap-2 py-3 bg-teal-600 text-white rounded-xl text-sm font-bold shadow-md hover:bg-teal-500 active:scale-[0.98] transition-all"
-            >
-              Get Full Quote <ArrowRight size={15} />
-            </Link>
-
-            <button
-              onClick={handleReset}
-              className={`w-full inline-flex items-center justify-center gap-2 py-2.5 rounded-xl text-xs font-semibold border transition-all ${
-                isDark
-                  ? 'border-brand-gray-800 hover:bg-brand-gray-900 text-brand-gray-400'
-                  : 'border-brand-gray-200 hover:bg-brand-gray-100 text-brand-gray-600'
-              }`}
-            >
-              <RotateCcw size={13} /> Reset Calculator
-            </button>
           </div>
         </div>
       </div>
+
+      {/* Modal Dialog */}
+      {isModalOpen && createPortal(
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-brand-black/75 backdrop-blur-sm transition-all duration-350">
+          <div 
+            className={`w-full max-w-md max-h-[85vh] overflow-y-auto scrollbar-thin p-6 rounded-2xl border shadow-2xl transition-all transform duration-300 scale-100 ${
+              isDark 
+                ? 'bg-brand-gray-950 border-brand-gray-850 text-white' 
+                : 'bg-white border-brand-gray-200 text-brand-black'
+            }`}
+          >
+            {isSuccess ? (
+              <div className="text-center py-6">
+                <div className="w-16 h-16 bg-emerald-500/10 text-emerald-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <Check size={32} strokeWidth={3} />
+                </div>
+                <h3 className="text-lg font-bold mb-2">Quote Request Sent!</h3>
+                <p className={`text-xs leading-relaxed mb-6 ${isDark ? 'text-brand-gray-400' : 'text-brand-gray-500'}`}>
+                  Thank you, <span className="font-semibold text-teal-400">{formData.name}</span>. We've received your configuration details. 
+                  A copy of your estimated quote (based on your options) has been prepared and sent to <span className="font-semibold text-teal-400">{formData.email}</span>. 
+                  We'll get in touch with you shortly!
+                </p>
+                <button
+                  type="button"
+                  onClick={handleCloseModal}
+                  className="w-full py-3 bg-teal-600 hover:bg-teal-500 text-white font-bold rounded-xl text-sm transition-all"
+                >
+                  Done
+                </button>
+              </div>
+            ) : (
+              <form onSubmit={handleFormSubmit} className="space-y-4">
+                <div className="flex justify-between items-center pb-3 border-b border-brand-gray-150 dark:border-brand-gray-850">
+                  <h3 className="font-bold text-base flex items-center gap-2">
+                    <Mail size={18} className="text-teal-500" />
+                    Get Your Price Estimate
+                  </h3>
+                  <button
+                    type="button"
+                    onClick={handleCloseModal}
+                    className={`p-1.5 rounded-lg border transition-all ${
+                      isDark 
+                        ? 'border-brand-gray-800 hover:bg-brand-gray-800 text-brand-gray-400' 
+                        : 'border-brand-gray-200 hover:bg-brand-gray-100 text-brand-gray-650'
+                    }`}
+                  >
+                    <X size={16} />
+                  </button>
+                </div>
+                
+                <p className={`text-xs leading-relaxed ${isDark ? 'text-brand-gray-400' : 'text-brand-gray-500'}`}>
+                  Please enter your details below. We'll send your customized estimate to your email immediately.
+                </p>
+
+                {error && (
+                  <div className="p-3 bg-red-500/10 border border-red-500/20 text-red-500 rounded-lg text-xs">
+                    {error}
+                  </div>
+                )}
+
+                <div className="space-y-3.5">
+                  <div>
+                    <label className="block text-[10px] font-bold uppercase tracking-wider mb-1.5 opacity-75">
+                      Full Name
+                    </label>
+                    <input
+                      type="text"
+                      required
+                      value={formData.name}
+                      onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                      placeholder="e.g. John Doe"
+                      className={`w-full px-3.5 py-2.5 rounded-xl border text-xs outline-none transition-all ${
+                        isDark 
+                          ? 'bg-brand-gray-900 border-brand-gray-850 focus:border-teal-500 text-white' 
+                          : 'bg-white border-brand-gray-200 focus:border-teal-600 text-brand-black'
+                      }`}
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-[10px] font-bold uppercase tracking-wider mb-1.5 opacity-75">
+                      Email Address
+                    </label>
+                    <input
+                      type="email"
+                      required
+                      value={formData.email}
+                      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                      placeholder="e.g. john@example.com"
+                      className={`w-full px-3.5 py-2.5 rounded-xl border text-xs outline-none transition-all ${
+                        isDark 
+                          ? 'bg-brand-gray-900 border-brand-gray-850 focus:border-teal-500 text-white' 
+                          : 'bg-white border-brand-gray-200 focus:border-teal-600 text-brand-black'
+                      }`}
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-[10px] font-bold uppercase tracking-wider mb-1.5 opacity-75">
+                      Phone Number
+                    </label>
+                    <input
+                      type="tel"
+                      required
+                      value={formData.phone}
+                      onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                      placeholder="e.g. +91 98765 43210"
+                      className={`w-full px-3.5 py-2.5 rounded-xl border text-xs outline-none transition-all ${
+                        isDark 
+                          ? 'bg-brand-gray-900 border-brand-gray-850 focus:border-teal-500 text-white' 
+                          : 'bg-white border-brand-gray-200 focus:border-teal-600 text-brand-black'
+                      }`}
+                    />
+                  </div>
+                </div>
+
+                <button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className="w-full inline-flex items-center justify-center gap-2 py-3 bg-teal-600 hover:bg-teal-500 disabled:bg-teal-800 text-white rounded-xl text-sm font-bold shadow-md active:scale-[0.98] transition-all mt-4"
+                >
+                  {isSubmitting ? (
+                    <>
+                      <Loader2 className="animate-spin" size={16} /> Submitting...
+                    </>
+                  ) : (
+                    'Send Estimate'
+                  )}
+                </button>
+              </form>
+            )}
+          </div>
+        </div>,
+        document.body
+      )}
+
+      {/* Detailed Info Modal */}
+      {selectedDetailOption && (() => {
+        const details = optionDetails[selectedDetailOption]
+        if (!details) return null
+        const selectionInfo = getOptionSelectionInfo(selectedDetailOption)
+        
+        return createPortal(
+          <div 
+            onClick={() => setSelectedDetailOption(null)}
+            className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-brand-black/75 backdrop-blur-sm transition-all duration-350"
+          >
+            <div 
+              onClick={(e) => e.stopPropagation()}
+              className={`w-full max-w-xl max-h-[85vh] md:max-h-[80vh] flex flex-col p-6 md:p-8 rounded-2xl border shadow-2xl transition-all transform duration-300 scale-100 text-left ${
+                isDark 
+                  ? 'bg-brand-gray-950 border-brand-gray-850 text-white' 
+                  : 'bg-white border-brand-gray-200 text-brand-black'
+              }`}
+            >
+              {/* Header */}
+              <div className="flex justify-between items-center pb-4 border-b border-brand-gray-150 dark:border-brand-gray-850 flex-shrink-0">
+                <h3 className="font-bold text-lg md:text-xl text-teal-500">
+                  {details.title}
+                </h3>
+                <button
+                  type="button"
+                  onClick={() => setSelectedDetailOption(null)}
+                  className={`p-1.5 rounded-lg border transition-all ${
+                    isDark 
+                      ? 'border-brand-gray-800 hover:bg-brand-gray-850 text-brand-gray-400' 
+                      : 'border-brand-gray-200 hover:bg-brand-gray-100 text-brand-gray-600'
+                  }`}
+                >
+                  <X size={18} />
+                </button>
+              </div>
+
+              {/* Body Content */}
+              <div className="mt-6 space-y-6 text-sm overflow-y-auto pr-2 scrollbar-thin flex-1">
+                {/* What is it? */}
+                <div>
+                  <h4 className="font-bold text-[11px] uppercase tracking-wider text-teal-500 mb-1.5">
+                    What is it?
+                  </h4>
+                  <p className={isDark ? 'text-brand-gray-300 leading-relaxed' : 'text-brand-gray-600 leading-relaxed'}>
+                    {details.whatIsIt}
+                  </p>
+                </div>
+
+                {/* Why need it? */}
+                {details.whyNeed && (
+                  <div>
+                    <h4 className="font-bold text-[11px] uppercase tracking-wider text-teal-500 mb-1.5">
+                      Why does your site need this?
+                    </h4>
+                    <p className={isDark ? 'text-brand-gray-300 leading-relaxed' : 'text-brand-gray-600 leading-relaxed'}>
+                      {details.whyNeed}
+                    </p>
+                  </div>
+                )}
+
+                {/* Examples */}
+                {details.examples && details.examples.length > 0 && (
+                  <div>
+                    <h4 className="font-bold text-[11px] uppercase tracking-wider text-teal-500 mb-2">
+                      Examples & Use Cases
+                    </h4>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                      {details.examples.map((ex, idx) => (
+                        <div key={idx} className={`p-3 rounded-xl border ${
+                          isDark ? 'bg-brand-gray-900/50 border-brand-gray-800' : 'bg-brand-gray-50 border-brand-gray-150'
+                        }`}>
+                          <p className="font-semibold text-xs text-teal-500 mb-1">{ex.name}</p>
+                          <p className={`text-[11px] leading-relaxed ${isDark ? 'text-brand-gray-400' : 'text-brand-gray-500'}`}>{ex.desc}</p>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* What you get */}
+                {details.whatYouGet && details.whatYouGet.length > 0 && (
+                  <div>
+                    <h4 className="font-bold text-[11px] uppercase tracking-wider text-teal-500 mb-2">
+                      What you get
+                    </h4>
+                    <ul className="space-y-2">
+                      {details.whatYouGet.map((item, idx) => (
+                        <li key={idx} className="flex items-start gap-2 text-[12px] leading-relaxed">
+                          <Check size={14} className="text-emerald-500 mt-0.5 flex-shrink-0" />
+                          <span className={isDark ? 'text-brand-gray-350' : 'text-brand-gray-600'}>{item}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+
+                {/* FAQ */}
+                {details.faq && details.faq.length > 0 && (
+                  <div className="pt-4 border-t border-brand-gray-150 dark:border-brand-gray-850">
+                    <h4 className="font-bold text-[11px] uppercase tracking-wider text-teal-500 mb-2">
+                      FAQ
+                    </h4>
+                    {details.faq.map((f, idx) => (
+                      <div key={idx} className="space-y-1">
+                        <p className="font-semibold text-xs">{f.q}</p>
+                        <p className={`text-[11px] leading-relaxed ${isDark ? 'text-brand-gray-400' : 'text-brand-gray-500'}`}>{f.a}</p>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              {/* Action Footer */}
+              {selectionInfo && (
+                <div className="mt-6 pt-4 border-t border-brand-gray-150 dark:border-brand-gray-850 flex justify-end gap-3 flex-shrink-0">
+                  <button
+                    type="button"
+                    onClick={() => setSelectedDetailOption(null)}
+                    className={`px-4 py-2.5 rounded-xl text-xs font-semibold border transition-all ${
+                      isDark
+                        ? 'border-brand-gray-850 hover:bg-brand-gray-900 text-brand-gray-400'
+                        : 'border-brand-gray-200 hover:bg-brand-gray-100 text-brand-gray-600'
+                    }`}
+                  >
+                    Close
+                  </button>
+                  
+                  {selectionInfo.type === 'toggle' ? (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        selectionInfo.onSelect()
+                        setSelectedDetailOption(null)
+                      }}
+                      className={`px-5 py-2.5 rounded-xl text-xs font-bold transition-all ${
+                        selectionInfo.isSelected
+                          ? 'bg-red-650 hover:bg-red-600 text-white shadow-md'
+                          : 'bg-teal-600 hover:bg-teal-500 text-white shadow-md'
+                      }`}
+                    >
+                      {selectionInfo.isSelected ? 'Remove Feature' : 'Add Feature'}
+                    </button>
+                  ) : (
+                    <button
+                      type="button"
+                      disabled={selectionInfo.isSelected}
+                      onClick={() => {
+                        selectionInfo.onSelect()
+                        setSelectedDetailOption(null)
+                      }}
+                      className={`px-5 py-2.5 rounded-xl text-xs font-bold transition-all shadow-md ${
+                        selectionInfo.isSelected
+                          ? 'bg-emerald-600 text-white cursor-default opacity-90'
+                          : 'bg-teal-600 hover:bg-teal-500 text-white'
+                      }`}
+                    >
+                      {selectionInfo.isSelected ? (
+                        <span className="flex items-center gap-1.5">
+                          <Check size={12} strokeWidth={3} /> Currently Selected
+                        </span>
+                      ) : (
+                        'Select this Option'
+                      )}
+                    </button>
+                  )}
+                </div>
+              )}
+            </div>
+          </div>,
+          document.body
+        )
+      })()}
     </div>
   )
 }
