@@ -17,5 +17,7 @@ sketch
 .env
 .env.local
 .env.production
+.env.example
+.env.sample
 
 dist

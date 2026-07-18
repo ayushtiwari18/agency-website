@@ -3,6 +3,8 @@ import { createPortal } from 'react-dom'
 import { Link } from 'react-router-dom'
 import { Sun, Moon, RotateCcw, ArrowRight, Check, Info, X, Loader2, Mail } from 'lucide-react'
 import { optionDetails } from '../../data/calculatorOptionsDetails'
+import { supabase } from '../../lib/supabase'
+import emailjs from '@emailjs/browser'
 
 const PROJECT_TYPES = [
   { label: 'Simple/Portfolio', pts: 10, description: 'Basic layouts, static sites, personal portfolios.' },
@@ -121,35 +123,86 @@ export default function PricingCalculator() {
       return
     }
 
-    const payload = {
-      name: formData.name,
-      email: formData.email,
-      phone: formData.phone,
-      estimatedCost: formatCurrency(quote),
-      projectType: PROJECT_TYPES.find(p => p.pts === projectType)?.label || '',
-      designStyle: DESIGN_STYLES.find(d => d.pts === designStyle)?.label || '',
-      pages: PAGE_RANGES.find(pr => pr.pts === pages)?.label || '',
-      contentOwnership: CONTENT_OWNERSHIP_OPTIONS.find(c => c.pts === contentOwnership)?.label || '',
-      seoScope: SEO_SCOPE_OPTIONS.find(s => s.pts === seoScope)?.label || '',
-      deployment: DEPLOYMENT_OPTIONS.find(d => d.pts === deployment)?.label || '',
-      selectedFeatures: features.map(fid => FEATURES_LIST.find(f => f.id === fid)?.label).filter(Boolean).join(', '),
-      timeline: TIMELINES.find(t => t.pts === timeline)?.label || '',
-      totalPoints,
-      source: 'Pricing Calculator Quote Request'
-    }
+    const selectedFeaturesString = features
+      .map(fid => FEATURES_LIST.find(f => f.id === fid)?.label)
+      .filter(Boolean)
+      .join(', ')
+
+    const pType = PROJECT_TYPES.find(p => p.pts === projectType)?.label || ''
+    const dStyle = DESIGN_STYLES.find(d => d.pts === designStyle)?.label || ''
+    const pRange = PAGE_RANGES.find(pr => pr.pts === pages)?.label || ''
+    const cOwnership = CONTENT_OWNERSHIP_OPTIONS.find(c => c.pts === contentOwnership)?.label || ''
+    const seo = SEO_SCOPE_OPTIONS.find(s => s.pts === seoScope)?.label || ''
+    const dep = DEPLOYMENT_OPTIONS.find(d => d.pts === deployment)?.label || ''
+    const tLine = TIMELINES.find(t => t.pts === timeline)?.label || ''
+    const estCost = formatCurrency(quote)
 
     try {
-      const response = await fetch('https://formspree.io/f/mnjyewlo', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-        body: JSON.stringify(payload),
-      })
-      if (response.ok) {
-        setIsSuccess(true)
-      } else {
+      const { error: dbError } = await supabase
+        .from('pricing_submissions')
+        .insert([
+          {
+            name: formData.name,
+            email: formData.email,
+            phone: formData.phone,
+            estimated_cost: estCost,
+            project_type: pType,
+            design_style: dStyle,
+            pages: pRange,
+            content_ownership: cOwnership,
+            seo_scope: seo,
+            deployment: dep,
+            selected_features: selectedFeaturesString || 'None',
+            timeline: tLine,
+            total_points: totalPoints,
+            source: 'Pricing Calculator Quote Request'
+          }
+        ])
+
+      if (dbError) {
+        console.error('Database insertion error:', dbError)
         setError('Something went wrong. Please try again.')
+      } else {
+        // Send email via EmailJS
+        const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID
+        const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID
+        const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY
+
+        if (serviceId && templateId && publicKey) {
+          try {
+            await emailjs.send(
+              serviceId,
+              templateId,
+              {
+                to_name: formData.name,
+                to_email: formData.email,
+                name: formData.name,
+                email: formData.email,
+                phone: formData.phone,
+                estimatedCost: estCost,
+                projectType: pType,
+                designStyle: dStyle,
+                pages: pRange,
+                contentOwnership: cOwnership,
+                seoScope: seo,
+                deployment: dep,
+                selectedFeatures: selectedFeaturesString || 'None',
+                timeline: tLine,
+                totalPoints: totalPoints
+              },
+              publicKey
+            )
+          } catch (emailErr) {
+            console.error('Failed to send email:', emailErr)
+          }
+        } else {
+          console.warn('EmailJS environment variables are not set. Email not sent.')
+        }
+
+        setIsSuccess(true)
       }
     } catch (err) {
+      console.error('Error during form submission:', err)
       setError('Network error. Please check your connection and try again.')
     } finally {
       setIsSubmitting(false)

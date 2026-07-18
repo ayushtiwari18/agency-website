@@ -5,6 +5,7 @@ import { useLocation } from 'react-router-dom'
 import { CheckCircle, Send, MapPin, Mail, Clock } from 'lucide-react'
 import { FadeIn } from '../components/ui/FadeIn'
 import ContactMockup from '../components/ui/ContactMockup'
+import { supabase } from '../lib/supabase'
 
 const SITE          = 'https://tj-creates.vercel.app'
 const OG_IMAGE      = `${SITE}/og.png`
@@ -25,13 +26,27 @@ export default function Contact() {
 
   const onSubmit = async (data) => {
     try {
-      await fetch('https://formspree.io/f/mnjyewlo', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-        body: JSON.stringify(data),
-      })
-    } catch (_) {}
-    setSubmitted(true)
+      const { error } = await supabase
+        .from('contact_submissions')
+        .insert([
+          {
+            name: data.name,
+            email: data.email,
+            business: data.business || '',
+            service: data.service,
+            budget: data.budget || '',
+            timeline: data.timeline || '',
+            message: data.message || ''
+          }
+        ])
+      if (error) {
+        console.error('Error submitting form to Supabase:', error)
+      } else {
+        setSubmitted(true)
+      }
+    } catch (err) {
+      console.error('Error during form submission:', err)
+    }
   }
 
   const inputCls = (err) =>
